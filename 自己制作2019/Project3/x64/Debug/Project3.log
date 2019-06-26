@@ -1,0 +1,11 @@
+﻿  BaseScene.cpp
+  ImageMng.cpp
+c:\users\1816019\desktop\自己制作2019\project3\common\imagemng.cpp(1): fatal error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+  main.cpp
+c:\users\1816019\desktop\自己制作2019\project3\main.cpp(1): fatal error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+  Obj.cpp
+c:\users\1816019\desktop\自己制作2019\project3\obj.cpp(2): fatal error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+  VECTOR2.cpp
+  SceneMng.cpp
+c:\users\1816019\desktop\自己制作2019\project3\scenemng.cpp(2): fatal error C1083: include ファイルを開けません。'DxLib.h':No such file or directory
+  コードを生成中...
