@@ -4,10 +4,12 @@
 
 Enemy::Enemy()
 {
+	Init();
 }
 
 Enemy::Enemy(const Vector2& pos)
 {
+	Init();
 	_pos = pos;
 }
 
@@ -24,4 +26,18 @@ void Enemy::Draw(void)
 UNIT Enemy::GetUnit(void)
 {
 	return UNIT::ENEMY;
+}
+
+void Enemy::Init(void)
+{
+	AnimVector data;
+
+	data.reserve(2);
+	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
+
+	// 上記のpush_backと同じ処理
+	data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+	data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+
+	SetAnim(ANIM::NORMAL, data);
 }

@@ -9,5 +9,7 @@ public:
 	~Enemy();
 	void Draw(void) override;	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
 	UNIT GetUnit(void) override;
+private:
+	void Init(void);
 };
 

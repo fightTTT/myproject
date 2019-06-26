@@ -28,13 +28,18 @@ class Obj
 public:
 	Obj();
 	virtual ~Obj();
-	virtual void Draw(void) = 0;
+	virtual void Draw(void);
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
 protected:
-	bool SetAnim(const ANIM key, const AnimVector &data);	// アニメーション情報をセットする
+	bool SetAnim(const ANIM key, AnimVector &data);	// アニメーション情報をセットする
 	Vector2 _pos;
+	ANIM _animKey;
+	int _animFram;
+	int _animCnt;
+
 private:
+	int cnt;
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };
 
