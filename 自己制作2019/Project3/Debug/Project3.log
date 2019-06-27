@@ -1,0 +1,11 @@
+﻿  BaseScene.cpp
+  ImageMng.cpp
+c:\users\1816019\desktop\自己制作2019\project3\common\imagemng.cpp(33): warning C4227: 旧形式が使用されています: 参照の修飾子は無視されます。
+  main.cpp
+c:\users\1816019\desktop\自己制作2019\project3\main.cpp(5): warning C4007: 'WinMain': '__stdcall' でなければなりません。
+  Obj.cpp
+  VECTOR2.cpp
+  SceneMng.cpp
+  コードを生成中...
+c:\users\1816019\desktop\自己制作2019\project3\scenemng.cpp(36): warning C4715: 'SceneMng::Init': 値を返さないコントロール パスがあります。
+  Project3.vcxproj -> C:\Users\1816019\Desktop\自己制作2019\Debug\Project3.exe
