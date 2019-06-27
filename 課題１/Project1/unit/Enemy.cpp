@@ -28,7 +28,7 @@ UNIT Enemy::GetUnit(void)
 	return UNIT::ENEMY;
 }
 
-void Enemy::Init(void)
+bool Enemy::Init(void)
 {
 	AnimVector data;
 
@@ -40,4 +40,6 @@ void Enemy::Init(void)
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[11], 60);
 
 	SetAnim(ANIM::NORMAL, data);
+
+	return true;
 }

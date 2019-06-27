@@ -31,15 +31,22 @@ public:
 	virtual void Draw(void);
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
+
+	// _animkeyを取得
+	const ANIM AnimKey()const;			
+	// _animKeyにアニメーションタイプをセットする
+	bool AnimKey(const ANIM animkey);	
+
+	const Vector2 Pos()const;
+	void Pos(const Vector2 &pos);
 protected:
 	bool SetAnim(const ANIM key, AnimVector &data);	// アニメーション情報をセットする
-	Vector2 _pos;
-	ANIM _animKey;
-	int _animFram;
-	int _animCnt;
-
+	Vector2 _pos;		// 座標
 private:
-	int cnt;
+	ANIM _animKey;		// アニメーションタイプ
+	int _animFram;		// アニメーションのフレーム数
+	int _animCnt;		// アニメーションカウンター
+
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };
 

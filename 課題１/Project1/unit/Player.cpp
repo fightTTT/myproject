@@ -12,6 +12,7 @@ Player::Player(const Vector2& pos)
 {
 	Init();
 	_pos = pos;
+	
 	TRASCE("%d",_pos.x);
 }
 
@@ -41,7 +42,14 @@ bool Player::Init(void)
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[0], 30);
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[1], 60);
 
-	SetAnim(ANIM::NORMAL,data);
+	SetAnim(ANIM::NORMAL, data);
+
+	data.reserve(1);
+	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[2], 60);
+
+	SetAnim(ANIM::EX,data);
+
+	_animKey = ANIM::EX;
 
 	return true;
 }

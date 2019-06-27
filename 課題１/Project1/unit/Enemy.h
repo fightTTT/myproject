@@ -7,9 +7,11 @@ public:
 	Enemy();
 	Enemy(const Vector2& pos);
 	~Enemy();
-	void Draw(void) override;	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
+
+	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
+	void Draw(void) override;	
 	UNIT GetUnit(void) override;
 private:
-	void Init(void);
+	bool Init(void);
 };
 
