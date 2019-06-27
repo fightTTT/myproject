@@ -16,6 +16,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 {
 	for(auto &data: _objList)
 	{
+		data->SetMove();
 		data->Obj::Draw();
 	}
 	return std::move(own);

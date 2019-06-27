@@ -50,6 +50,10 @@ void Obj::Draw(int id)
 	DrawGraph(_pos.x, _pos.y, id, true);
 }
 
+void Obj::SetMove()
+{
+}
+
 const ANIM Obj::AnimKey()const 
 {
 	return _animKey;
