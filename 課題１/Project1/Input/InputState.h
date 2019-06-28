@@ -24,7 +24,6 @@ public:
 	virtual ~InputState();
 
 	virtual void Update() = 0;
-	virtual void GetState() = 0;
 	const KeyPair state(INPUT_ID key)const;
 	const KeyMap& state()const;
 private:

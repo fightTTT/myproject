@@ -14,8 +14,3 @@ void KeyState::Update()
 {
 	GetHitKeyStateAll(_buf);
 }
-
-void KeyState::GetState()
-{
-
-}

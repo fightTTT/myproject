@@ -8,7 +8,6 @@ public:
 	KeyState();
 	~KeyState();
 	void Update(void)override;
-	void GetState(void)override;
 
 private:
 	char _buf[256];
