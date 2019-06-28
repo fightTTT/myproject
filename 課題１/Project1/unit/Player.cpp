@@ -35,19 +35,19 @@ UNIT Player::GetUnit(void)
 void Player::SetMove()
 {
 	inputState->Update();
-	if (inputState->state(INPUT_ID::LEFT).first && inputState->state(INPUT_ID::LEFT).second)
+	if (inputState->state(INPUT_ID::LEFT).first)
 	{
 		_pos.x -= 2;
 	}
-	if (inputState->state(INPUT_ID::RIGHT).first && inputState->state(INPUT_ID::RIGHT).second)
+	if (inputState->state(INPUT_ID::RIGHT).first)
 	{
 		_pos.x += 2;
 	}
-	if (inputState->state(INPUT_ID::UP).first && inputState->state(INPUT_ID::UP).second)
+	if (inputState->state(INPUT_ID::UP).first)
 	{
 		_pos.y -= 2;
 	}
-	if (inputState->state(INPUT_ID::DOWN).first && inputState->state(INPUT_ID::DOWN).second)
+	if (inputState->state(INPUT_ID::DOWN).first)
 	{
 		_pos.y += 2;
 	}

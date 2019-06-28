@@ -2,7 +2,7 @@
 #ifdef _DEBUG
 #include <memory>
 
-#define TRASCE(fmt,...) printf(fmt,__VA_ARGS__)
+#define TRASCE(fmt,...) printf(fmt,__VA_ARGS__)		// (...)...‰Â•Ïˆø”
 
 class _DebugConOut
 {

@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Input\InputState.cpp" />
     <ClCompile Include="Input\KeyState.cpp" />
+    <ClCompile Include="INPUT_ID.cpp" />
     <ClCompile Include="SceneMng.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="unit\Enemy.cpp" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="Input\InputState.h" />
     <ClInclude Include="Input\KeyState.h" />
+    <ClInclude Include="INPUT_ID.h" />
     <ClInclude Include="SceneMng.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\BaseScene.h" />

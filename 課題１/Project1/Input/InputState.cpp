@@ -4,10 +4,9 @@
 
 InputState::InputState()
 {
-	for (int i = 0; INPUT_ID(i) <= INPUT_ID::MAX; i++)
+	for (auto key:INPUT_ID())
 	{
-		_state[INPUT_ID(i)].first = 0;
-		_state[INPUT_ID(i)].second = 1;
+		_state.try_emplace(key, KeyPair{ 0,1 });
 	}
 
 }
@@ -18,6 +17,15 @@ InputState::~InputState()
 
 const KeyPair InputState::state(INPUT_ID key)const
 {
+	try
+	{
+		return _state.at(key);
+	}
+	catch (...)
+	{
+		throw;
+	}
+
 	if (_state.find(key) != _state.end())
 	{
 		return _state.at(key);
@@ -31,9 +39,28 @@ const KeyMap& InputState::state()const
 	return _state;
 }
 
-bool InputState::state(const INPUT_ID key, const KeyPair pair)
+bool InputState::state(const INPUT_ID key, const int pair)
 {
-	_state[key] = pair;
+	if (_state.find(key) != _state.end())
+	{
+		_state[key].first = pair;
+		return true;
+	}
+	
+	return false;
+}
 
-	return true;
+void InputState::SetOld(void)
+{
+	for (auto key : INPUT_ID())
+	{
+		try
+		{
+			_state[key].second = _state[key].first;
+		}
+		catch(...)
+		{
+			_state.emplace(key, KeyPair{ 0,1 });
+		}
+	}
 }
