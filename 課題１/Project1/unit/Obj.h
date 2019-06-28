@@ -20,7 +20,7 @@ enum class UNIT
 
 class Obj;
 using Shared_Obj = std::shared_ptr<Obj>;
-using AnimVector = std::vector<std::pair<int, int>>;
+using AnimVector = std::vector<std::pair<int, int>>;	// first...現在の入力状態  second...1フレーム前の入力状態
 
 
 class Obj
@@ -31,7 +31,7 @@ public:
 	virtual void Draw(void);
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
-
+	virtual void SetMove();
 	// _animkeyを取得
 	const ANIM AnimKey()const;			
 	// _animKeyにアニメーションタイプをセットする
@@ -46,6 +46,7 @@ private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
 	int _animCnt;		// アニメーションカウンター
+	
 
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };

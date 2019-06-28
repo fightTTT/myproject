@@ -26,8 +26,8 @@ public:
 	virtual void Update() = 0;
 	const KeyPair state(INPUT_ID key)const;
 	const KeyMap& state()const;
+	bool state(const INPUT_ID key, const KeyPair pair);
 private:
 	KeyMap _state;		// ƒL[‚Ì“ü—Íó‘Ô‚ğŠi”[
 
 };
-

@@ -28,6 +28,10 @@ UNIT Enemy::GetUnit(void)
 	return UNIT::ENEMY;
 }
 
+void Enemy::SetMove()
+{
+}
+
 bool Enemy::Init(void)
 {
 	AnimVector data;

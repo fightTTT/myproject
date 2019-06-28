@@ -11,5 +11,6 @@ public:
 
 private:
 	char _buf[256];
+	
 };
 

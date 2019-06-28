@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "../common/ImageMng.h"
 #include "../_DebugConOut.h"
+#include "../Input/KeyState.h"
 
 Player::Player()
 {
@@ -31,6 +32,27 @@ UNIT Player::GetUnit(void)
 	return UNIT::PLAYER;
 }
 
+void Player::SetMove()
+{
+	inputState->Update();
+	if (inputState->state(INPUT_ID::LEFT).first && inputState->state(INPUT_ID::LEFT).second)
+	{
+		_pos.x -= 2;
+	}
+	if (inputState->state(INPUT_ID::RIGHT).first && inputState->state(INPUT_ID::RIGHT).second)
+	{
+		_pos.x += 2;
+	}
+	if (inputState->state(INPUT_ID::UP).first && inputState->state(INPUT_ID::UP).second)
+	{
+		_pos.y -= 2;
+	}
+	if (inputState->state(INPUT_ID::DOWN).first && inputState->state(INPUT_ID::DOWN).second)
+	{
+		_pos.y += 2;
+	}
+}
+
 bool Player::Init(void)
 {
 	AnimVector data;
@@ -49,7 +71,9 @@ bool Player::Init(void)
 
 	SetAnim(ANIM::EX,data);
 
-	_animKey = ANIM::EX;
+	inputState = std::make_unique<KeyState>();
+
+	//_animKey = ANIM::EX;
 
 	return true;
 }

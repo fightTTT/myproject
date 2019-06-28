@@ -11,6 +11,7 @@ public:
 	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
 	void Draw(void) override;	
 	UNIT GetUnit(void) override;
+	void SetMove();
 private:
 	bool Init(void);
 };
