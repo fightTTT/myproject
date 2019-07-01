@@ -4,14 +4,26 @@
 
 KeyState::KeyState()
 {
-	keyVector.emplace_back();
-	keyVector.emplace_back(KEY_INPUT_RIGHT);
-	keyVector.emplace_back(KEY_INPUT_UP);
-	keyVector.emplace_back(KEY_INPUT_DOWN);
-	keyVector.emplace_back(KEY_INPUT_Z);
-	keyVector.emplace_back(KEY_INPUT_X);
-	keyVector.emplace_back(KEY_INPUT_A);
-	keyVector.emplace_back(KEY_INPUT_S);
+
+	// size_t...sizeof演算子によって返される符号なし整数型
+	_keyCon.reserve(static_cast<size_t>(end(INPUT_ID())));
+	
+	_keyCon.emplace_back(KEY_INPUT_LEFT);
+	_keyCon.emplace_back(KEY_INPUT_RIGHT);
+	_keyCon.emplace_back(KEY_INPUT_UP);
+	_keyCon.emplace_back(KEY_INPUT_DOWN);
+	_keyCon.emplace_back(KEY_INPUT_Z);
+	_keyCon.emplace_back(KEY_INPUT_X);
+	_keyCon.emplace_back(KEY_INPUT_A);
+	_keyCon.emplace_back(KEY_INPUT_S);
+
+	// RefKeyDataのポインタを渡す→名前空間を指定する必要がある
+	func = &KeyState::RefkeyData;
+
+	//begin(INPUT_ID());
+	//INPUT_ID num;
+	//// 前演算のオーバーロード
+	//++num;
 }
 
 KeyState::~KeyState()
@@ -27,13 +39,45 @@ void KeyState::Update()
 	state(INPUT_ID::RIGHT,{ _buf[KEY_INPUT_RIGHT], state(INPUT_ID::RIGHT).first });
 	state(INPUT_ID::UP,   { _buf[KEY_INPUT_UP] ,   state(INPUT_ID::UP).first });
 	state(INPUT_ID::DOWN, { _buf[KEY_INPUT_DOWN] , state(INPUT_ID::DOWN).first });*/
+
+
+	(this->*func)();
+
+	if (_buf[KEY_INPUT_F1])
+	{		
+		_keyCon.clear();
+		func = &KeyState::SetKeyConfig;
+	}
+	/*
+	if (configFlag)
+	{
+		_keyCon.emplace_back(WaitKey());
+		if (_keyCon.size() >= static_cast<size_t>(end(INPUT_ID())))
+		{
+			configFlag = false;
+		}
+	}
+	
+	if (!configFlag)
+	{
+		RefkeyData();
+	}*/
+}
+
+void KeyState::RefkeyData(void)
+{
 	for (auto key : INPUT_ID())
 	{
-		state(key, _buf[keyVector[0].second]);
+		state(key, _buf[_keyCon[static_cast<int>(key)]]);
 	}
-	state(INPUT_ID::LEFT, _buf[KEY_INPUT_LEFT]);
-	state(INPUT_ID::RIGHT, _buf[KEY_INPUT_RIGHT]);
-	state(INPUT_ID::UP, _buf[KEY_INPUT_UP]);
+}
 
-
+void KeyState::SetKeyConfig(void)
+{
+	_keyCon.emplace_back(WaitKey());
+	if (_keyCon.size() >= static_cast<size_t>(end(INPUT_ID())))
+	{
+		
+		func = &KeyState::RefkeyData;
+	}
 }
