@@ -43,11 +43,7 @@ void KeyState::Update()
 
 	(this->*func)();
 
-	if (_buf[KEY_INPUT_F1])
-	{		
-		_keyCon.clear();
-		func = &KeyState::SetKeyConfig;
-	}
+	
 	/*
 	if (configFlag)
 	{
@@ -70,14 +66,23 @@ void KeyState::RefkeyData(void)
 	{
 		state(key, _buf[_keyCon[static_cast<int>(key)]]);
 	}
+
+	if (_buf[KEY_INPUT_F1])
+	{
+		_keyCon.clear();
+		func = &KeyState::SetKeyConfig;
+	}
 }
 
 void KeyState::SetKeyConfig(void)
 {
-	_keyCon.emplace_back(WaitKey());
-	if (_keyCon.size() >= static_cast<size_t>(end(INPUT_ID())))
+	if (CheckHitKeyAll())
 	{
-		
+		_keyCon.emplace_back(WaitKey());
+	}
+	
+	if (_keyCon.size() > static_cast<size_t>(end(INPUT_ID())))
+	{
 		func = &KeyState::RefkeyData;
 	}
 }
