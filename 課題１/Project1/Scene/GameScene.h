@@ -9,7 +9,7 @@ public:
 	GameScene();
 	~GameScene();
 	Unique_Base UpDate(Unique_Base own) override;
-	SCN_ID GetScnID(void) override;
+	SCN_ID GetScnID(void) override;		// ©g‚ÌƒV[ƒ“‚Ìí—Ş‚ğ•Ô‚·
 protected:
 	void Init(void)override;
 private:

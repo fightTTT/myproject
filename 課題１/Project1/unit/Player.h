@@ -16,6 +16,6 @@ public:
 	void SetMove();
 private:
 	bool Init(void);
-	std::unique_ptr<InputState> inputState;
+	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
 };
 

@@ -32,15 +32,19 @@ public:
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
 	virtual void SetMove();
+
 	// _animkeyを取得
-	const ANIM AnimKey()const;			
+	const ANIM AnimKey()const;		
+
 	// _animKeyにアニメーションタイプをセットする
 	bool AnimKey(const ANIM animkey);	
 
 	const Vector2 Pos()const;
 	void Pos(const Vector2 &pos);
 protected:
-	bool SetAnim(const ANIM key, AnimVector &data);	// アニメーション情報をセットする
+
+	// アニメーション情報をセットする
+	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2 _pos;		// 座標
 private:
 	ANIM _animKey;		// アニメーションタイプ
