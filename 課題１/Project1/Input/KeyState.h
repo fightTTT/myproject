@@ -18,9 +18,15 @@ private:
 	void (KeyState::*func)(void);	// キーコンフィグとプレイヤー操作の切り替え
 	
 	// キー入力更新
-	void RefkeyData(void);			
+	void RefkeyData(void);	
+	void confSave(void);
+	void ConfLoad(void);
 
 	// キーコンフィグを行う
 	void SetKeyConfig(void);
+	
+
+	INPUT_ID confID;
+	int lastKeyID;
 };
 
