@@ -6,7 +6,7 @@
 using IntVec = std::vector<int>;
 
 #define IMAGE_ID(KEY) (ImageMng::GetInstance().GetID(KEY))
-#define Set_IMAGE_ID(KEY,F_NAME) (ImageMng::GetInstance().GetID(KEY,F_NAME))
+#define SET_IMAGE_ID(KEY,F_NAME) (ImageMng::GetInstance().GetID(KEY,F_NAME))
 
 class Vector2;
 

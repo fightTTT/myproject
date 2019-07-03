@@ -11,8 +11,6 @@ std::unique_ptr<SceneMng, SceneMng::SceneMngDeleter> SceneMng::s_Instance(new Sc
 void SceneMng::Run(void)
 {
 	
-
-	
 	ImageMng::GetInstance().GetID("ƒLƒƒƒ‰", "image/char.png", { 10,10 }, { 30,30 });
 
 	_DebugConOut::GetInstance();
@@ -21,26 +19,54 @@ void SceneMng::Run(void)
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-		ClsDrawScreen();
+		drawList.clear();
 		_activeScene = _activeScene->UpDate(std::move(_activeScene));
-		ScreenFlip();
+		AddDrawQue({ IMAGE_ID("˜g")[0],0,0 });
+		Draw();
 	}
 
 }
 
+bool SceneMng::AddDrawQue(DrawQueT dQue)
+{
+	if (std::get<static_cast<int>(DRAW_QUE::IMAGE)>(dQue) == -1)	// std::get<0>(dQue)‚Æ‘‚­‚±‚Æ‚É‚æ‚Á‚Ätuple‚Ì0”Ô–Ú‚Ì—v‘f‚ğŒ©‚é‚±‚Æ‚ª‚Å‚«‚é
+	{
+		return false;
+	}
+	drawList.emplace_back(dQue);
+	return true;
+}
+
 bool SceneMng::Init(void)
 {
-	SetGraphMode(800, 600, 16);		// 65536FÓ°ÄŞ‚Éİ’è
+	SetGraphMode(screenSize.x, screenSize.y, 16);		// 65536FÓ°ÄŞ‚Éİ’è
 	ChangeWindowMode(true);				// true:window@false:ÌÙ½¸Ø°İ
 	SetWindowText("ƒMƒƒƒ‰ƒK");
 	if (DxLib_Init() == -1) return false;	// DX×²ÌŞ×Ø‰Šú‰»ˆ—
 	TRASCE("DXLIB‰Šú‰»Š®—¹\n");
 	SetDrawScreen(DX_SCREEN_BACK);		// ‚Ğ‚Æ‚Ü‚¸ÊŞ¯¸ÊŞ¯Ì§‚É•`‰æ
 
-	return false;
+	SET_IMAGE_ID("˜g", "image/frame.png");
+
+	return true;
 }
 
-SceneMng::SceneMng()
+void SceneMng::Draw(void)
+{
+	SetDrawScreen(DX_SCREEN_BACK);		// ‚Ğ‚Æ‚Ü‚¸ÊŞ¯¸ÊŞ¯Ì§‚É•`‰æ
+	ClsDrawScreen();
+
+	for (auto _dQue : drawList)
+	{
+		DrawGraph(std::get<static_cast<int>(DRAW_QUE::X)>(_dQue),
+				  std::get<static_cast<int>(DRAW_QUE::Y)>(_dQue),
+				  std::get<static_cast<int>(DRAW_QUE::IMAGE)>(_dQue), true);
+	}
+
+	ScreenFlip();
+}
+
+SceneMng::SceneMng() :screenSize{ 800,600 }, gameScreenSize{ 500,390 }, gameScreenPos{(800-500)/2,(600-390)/2}
 {
 	Init();
 }

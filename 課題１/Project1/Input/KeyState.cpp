@@ -18,6 +18,7 @@ KeyState::KeyState()
 	_keyCondef.emplace_back(KEY_INPUT_A);
 	_keyCondef.emplace_back(KEY_INPUT_S);
 
+
 	ConfLoad();
 
 	// RefKeyDataのポインタを渡す→名前空間を指定する必要がある
@@ -49,9 +50,9 @@ void KeyState::RefkeyData(void)
 	{
 		//_keyCon.clear();
 		func = &KeyState::SetKeyConfig;
-		TRASCE("キーコンフィグ開始");
+		TRASCE("キーコンフィグ開始\n");
 		confID = begin(INPUT_ID());
-		TRASCE("設定キー:%d\n",confID);
+		//TRASCE("設定キー:%d\n",confID);
 		return;
 	}
 
@@ -67,7 +68,8 @@ void KeyState::confSave(void)
 	fopen_s(&file, "data/key.dat", "wb");
 	if (file != nullptr)
 	{
-		fwrite(_keyCon.data(), sizeof(_keyCon), static_cast<size_t>(end(INPUT_ID())), file);			// fwrite(渡すデータの先頭ﾎﾟｲﾝﾀ、ﾊﾞｲﾄ数、書き込む回数、書き込むべきﾌｧｲﾙの場所)
+		// fwrite(渡すデータの先頭ﾎﾟｲﾝﾀ、総ﾊﾞｲﾄ数、書き込む回数、書き込むべきﾌｧｲﾙの場所)
+		fwrite(_keyCon.data(), _keyCon.size() * sizeof(_keyCon[0]), 1, file);			
 		fclose(file);
 	}
 }
@@ -75,22 +77,23 @@ void KeyState::confSave(void)
 void KeyState::ConfLoad(void)
 {
 	_keyCon.resize(static_cast<size_t>(end(INPUT_ID())));
+
 	FILE *file;
 	fopen_s(&file, "data/key.dat", "rb");
 	if (file == nullptr)
-	{
+	{	
 		_keyCon = _keyCondef;
 	}
 	else
 	{
-		fread_s(_keyCon.data(), sizeof(_keyCon), sizeof(begin(INPUT_ID())), static_cast<size_t>(end(INPUT_ID())), file);
+		fread(_keyCon.data(), _keyCon.size() * sizeof(_keyCon[0]), 1, file);
 		fclose(file);
 	}
 }
 
 void KeyState::SetKeyConfig(void)
 {
-	/*if (CheckHitKeyAll())
+	/*if (CheckHitKeyAll() == 0)
 	{
 		_keyCon.emplace_back(WaitKey());
 	}*/
@@ -115,7 +118,7 @@ void KeyState::SetKeyConfig(void)
 	if (confID >= end(INPUT_ID()))
 	{
 		confSave();
-		TRASCE("キーコンフィグ終了");
+		TRASCE("キーコンフィグ終了\n");
 		func = &KeyState::RefkeyData;
 	}
 }

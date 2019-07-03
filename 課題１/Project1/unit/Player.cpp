@@ -13,6 +13,7 @@ Player::Player(const Vector2& pos)
 {
 	Init();
 	_pos = pos;
+
 	
 	TRASCE("%d",_pos.x);
 }

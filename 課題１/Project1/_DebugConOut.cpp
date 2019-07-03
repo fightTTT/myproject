@@ -9,10 +9,13 @@ _DebugConOut::_DebugConOut()
 	// これで確実にコンソールよりも手前に表示させる
 	HWND hwnd = GetForegroundWindow();
 	// これでコンソールを開く
-	AllocConsole();
-	freopen_s(&_debugFp, "CONOUT$", "w", stdout);
-	freopen_s(&_debugFp, "CONIN$", "r", stdin);
-	SetForegroundWindow(hwnd);
+	if (AllocConsole())
+	{
+		freopen_s(&_debugFp, "CONOUT$", "w", stdout);
+		freopen_s(&_debugFp, "CONIN$", "r", stdin);
+		SetForegroundWindow(hwnd);
+	}
+	
 }
 
 _DebugConOut::~_DebugConOut()
