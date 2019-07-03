@@ -21,7 +21,9 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		data->SetMove();
 		data->Obj::Draw();
 	}
+	
 	Draw();
+
 	return std::move(own);
 }
 
@@ -32,6 +34,7 @@ SCN_ID GameScene::GetScnID(void)
 
 void GameScene::Draw(void)
 {
+	int 
 	SetDrawScreen(_ghGameScreen);
 
 	ClsDrawScreen();

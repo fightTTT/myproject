@@ -11,7 +11,7 @@ class BaseScene
 public:
 	virtual ~BaseScene();		// 仮想デストラクタ
 
-	virtual unique_Base UpDate(unique_Base own, GameCtrl &controller) = 0;
+	virtual unique_Base UpDate(GameCtrl &controller) = 0;
 
 private:
 	virtual void Init() = 0;

@@ -9,7 +9,6 @@ void SceneMng::Run()
 {
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-
 		ClsDrawScreen();
 		ScreenFlip();
 	}
