@@ -1,4 +1,5 @@
 #include <DxLib.h>
+#include <stdio.h>
 #include "KeyState.h"
 #include "../_DebugConOut.h"
 
@@ -6,16 +7,18 @@ KeyState::KeyState()
 {
 
 	// size_t...sizeof演算子によって返される符号なし整数型
-	_keyCon.reserve(static_cast<size_t>(end(INPUT_ID())));
+	_keyCondef.reserve(static_cast<size_t>(end(INPUT_ID())));
 	
-	_keyCon.emplace_back(KEY_INPUT_LEFT);
-	_keyCon.emplace_back(KEY_INPUT_RIGHT);
-	_keyCon.emplace_back(KEY_INPUT_UP);
-	_keyCon.emplace_back(KEY_INPUT_DOWN);
-	_keyCon.emplace_back(KEY_INPUT_Z);
-	_keyCon.emplace_back(KEY_INPUT_X);
-	_keyCon.emplace_back(KEY_INPUT_A);
-	_keyCon.emplace_back(KEY_INPUT_S);
+	_keyCondef.emplace_back(KEY_INPUT_LEFT);
+	_keyCondef.emplace_back(KEY_INPUT_RIGHT);
+	_keyCondef.emplace_back(KEY_INPUT_UP);
+	_keyCondef.emplace_back(KEY_INPUT_DOWN);
+	_keyCondef.emplace_back(KEY_INPUT_Z);
+	_keyCondef.emplace_back(KEY_INPUT_X);
+	_keyCondef.emplace_back(KEY_INPUT_A);
+	_keyCondef.emplace_back(KEY_INPUT_S);
+
+	ConfLoad();
 
 	// RefKeyDataのポインタを渡す→名前空間を指定する必要がある
 	func = &KeyState::RefkeyData;
@@ -60,15 +63,29 @@ void KeyState::RefkeyData(void)
 
 void KeyState::confSave(void)
 {
-	//FILE *file;
-	//fopen_s(&file, "data/confData.map", "wb");
-	//fwrite(&_keyCon, sizeof(_keyCon.capacity()), 1, file);			// fwrite(渡すデータの先頭ﾎﾟｲﾝﾀ、ﾊﾞｲﾄ数、書き込む回数、書き込むべきﾌｧｲﾙの場所)
-
+	FILE *file;
+	fopen_s(&file, "data/key.dat", "wb");
+	if (file != nullptr)
+	{
+		fwrite(_keyCon.data(), sizeof(_keyCon), static_cast<size_t>(end(INPUT_ID())), file);			// fwrite(渡すデータの先頭ﾎﾟｲﾝﾀ、ﾊﾞｲﾄ数、書き込む回数、書き込むべきﾌｧｲﾙの場所)
+		fclose(file);
+	}
 }
 
 void KeyState::ConfLoad(void)
 {
-
+	_keyCon.resize(static_cast<size_t>(end(INPUT_ID())));
+	FILE *file;
+	fopen_s(&file, "data/key.dat", "rb");
+	if (file == nullptr)
+	{
+		_keyCon = _keyCondef;
+	}
+	else
+	{
+		fread_s(_keyCon.data(), sizeof(_keyCon), sizeof(begin(INPUT_ID())), static_cast<size_t>(end(INPUT_ID())), file);
+		fclose(file);
+	}
 }
 
 void KeyState::SetKeyConfig(void)
@@ -97,7 +114,7 @@ void KeyState::SetKeyConfig(void)
 
 	if (confID >= end(INPUT_ID()))
 	{
-
+		confSave();
 		TRASCE("キーコンフィグ終了");
 		func = &KeyState::RefkeyData;
 	}

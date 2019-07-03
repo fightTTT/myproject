@@ -13,7 +13,7 @@ public:
 private:
 	char _buf[256];					// キーボードのすべてのキーの押下状態を格納している配列
 	std::vector<int> _keyCon;		// キー情報を管理しているvector
-
+	std::vector<int> _keyCondef;	// キーコンフィグのデフォルト
 	// メンバ関数ポインタ...名前空間を指定する
 	void (KeyState::*func)(void);	// キーコンフィグとプレイヤー操作の切り替え
 	
