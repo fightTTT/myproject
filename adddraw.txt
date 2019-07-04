@@ -1,0 +1,26 @@
+それぞれdefineしている
+statrdrawdebug   clsScreenするために
+セットアップ　デバッグ用のスクリーンを作る　引数一つ受け取る　アルファ地
+
+setalqh　アルファ地を設定　引数で受け取るアフタ値
+
+デバッグスクリーンを必ず-1にする　作ってないとき
+
+
+setupはコンストラクタでは呼ばない　sysinitで呼ぶ
+
+
+adddrawは新マネージャんクラスのdらwで呼んでいる
+
+
+
+あｄｄｄらｗ　デバッグ用のｓせねｍんｇのあっどｄらｗくえを読んでいる
+
+
+drawFormatStringとDrawStringもラッパーする
+
+va_arg
+valist
+
+vastart
+vaend
