@@ -1,5 +1,6 @@
 #include "Obj.h"
 #include "Player.h"
+#include "../_DebugDispOut.h"
 #include <DxLib.h>
 
 
@@ -41,6 +42,8 @@ void Obj::Draw(void)
 	{
 		DrawGraph(_pos.x, _pos.y, _animMap[_animKey][_animFram].first, true);
 	}
+
+	_DbgDrawBox(_pos.x, _pos.y, _pos.x + 20, _pos.y + 20, 0xff0000, 1);
 
 	_animCnt++;
 }

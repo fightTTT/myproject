@@ -19,7 +19,6 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	for(auto &data: _objList)
 	{
 		data->SetMove();
-		data->Obj::Draw();
 	}
 	
 	Draw();
@@ -34,7 +33,8 @@ SCN_ID GameScene::GetScnID(void)
 
 void GameScene::Draw(void)
 {
-	int 
+	int ghBefor;
+	ghBefor = GetDrawScreen();
 	SetDrawScreen(_ghGameScreen);
 
 	ClsDrawScreen();
@@ -43,6 +43,8 @@ void GameScene::Draw(void)
 		data->Obj::Draw();
 	}
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
+	SetDrawScreen(ghBefor);
+	
 }
 
 void GameScene::Init(void)
