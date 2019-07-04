@@ -58,8 +58,9 @@ bool SceneMng::Init(void)
 void SceneMng::Draw(void)
 {
 	_DbgAddDraw;
+	auto debug = GetDrawScreen();
 	SetDrawScreen(DX_SCREEN_BACK);		// ‚Ð‚Æ‚Ü‚¸ÊÞ¯¸ÊÞ¯Ì§‚É•`‰æ
-	
+	debug = GetDrawScreen();
 	ClsDrawScreen();
 	
 	for (auto _dQue : drawList)

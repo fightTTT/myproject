@@ -19,8 +19,6 @@ bool _DebugDispOut::StartDrawDbug()
 
 bool _DebugDispOut::AddDrawDbug()
 {
-
-
 	if (dbugFlag)
 	{
 		lpSceneMng.AddDrawQue({ _dbgScreen,0,0 });
@@ -41,11 +39,12 @@ bool _DebugDispOut::SetAlpha(int alpha)
 
 bool _DebugDispOut::SetUp(int alpha)
 {
-	if (_dbgScreen == -1)
+	if (_dbgScreen < 0)
 	{
-		_dbgScreen = MakeScreen(lpSceneMng.GetInstance().screenSize.x, lpSceneMng.GetInstance().screenSize.y, alpha);
+		_dbgScreen = MakeScreen(lpSceneMng.screenSize.x, lpSceneMng.screenSize.y, true);
 	}
 	dbugFlag = true;
+	SetAlpha(alpha);
 	return true;
 }
 
@@ -62,11 +61,13 @@ int _DebugDispOut::DrawGraph(int x, int y, int GrHandle, int TransFlag)
 
 int _DebugDispOut::DrawBox(int x1, int y1, int x2, int y2,unsigned int Color, int FillFlag)
 {
-	int retFlag;
+	int retFlag = 0;
 	int ghBefor;
 	ghBefor = GetDrawScreen();
 	SetDrawScreen(_dbgScreen);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	retFlag = DxLib::DrawBox(x1 + lpSceneMng.gameScreenPos.x, y1 + lpSceneMng.gameScreenPos.y, x2 + lpSceneMng.gameScreenPos.x, y2 + lpSceneMng.gameScreenPos.y, Color, FillFlag);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 	SetDrawScreen(ghBefor);
 	return retFlag;
 }
