@@ -9,11 +9,11 @@
 
 using DrawQueT = std::tuple<int, int, int>;		// グラフィックハンドル、X座標、Y座標
 
-enum class DRAW_QUE
+enum class DRAW_QUE		// MakeScreenで生成したスクリーンを管理する要素
 {
-	IMAGE,
-	X,
-	Y
+	IMAGE,		// グラフィックハンドル
+	X,			// X座標
+	Y			// Y座標
 };
 
 class SceneMng
@@ -26,6 +26,7 @@ public:
 
 	void Run(void);
 
+	// drawListにそれぞれのスクリーンを追加する
 	bool AddDrawQue(DrawQueT dQue);
 
 	const Vector2 screenSize;			// 画面全体のサイズ

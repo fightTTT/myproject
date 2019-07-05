@@ -39,13 +39,17 @@ public:
 	// _animKeyにアニメーションタイプをセットする
 	bool AnimKey(const ANIM animkey);	
 
+	// pos情報取得
 	const Vector2 Pos()const;
+
+	// 
 	void Pos(const Vector2 &pos);
 protected:
 
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2 _pos;		// 座標
+	Vector2 _size;		// キャラの大きさ
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数

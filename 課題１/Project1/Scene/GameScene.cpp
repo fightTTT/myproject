@@ -33,8 +33,8 @@ SCN_ID GameScene::GetScnID(void)
 
 void GameScene::Draw(void)
 {
-	//int ghBefor;
-	//ghBefor = GetDrawScreen();
+	int ghBefor;
+	ghBefor = GetDrawScreen();
 	SetDrawScreen(_ghGameScreen);
 
 	ClsDrawScreen();
@@ -43,14 +43,14 @@ void GameScene::Draw(void)
 		data->Obj::Draw();
 	}
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
-	/*SetDrawScreen(ghBefor)*/;
+	SetDrawScreen(ghBefor);
 	
 }
 
 void GameScene::Init(void)
 {
-	_objList.emplace_back(std::make_shared<Enemy>(Vector2(20, 20)));
-	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100)));
+	_objList.emplace_back(std::make_shared<Enemy>(Vector2(20, 20), Vector2(30, 32)));
+	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }

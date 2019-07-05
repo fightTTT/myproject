@@ -5,7 +5,7 @@ class Enemy :
 {
 public:
 	Enemy();
-	Enemy(const Vector2& pos);
+	Enemy(const Vector2& pos, const Vector2& size);
 	~Enemy();
 
 	// overrideと書くことによってオーバーライドし忘れによるバグを防止する

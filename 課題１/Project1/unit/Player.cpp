@@ -2,6 +2,7 @@
 #include <DxLib.h>
 #include "../common/ImageMng.h"
 #include "../_DebugConOut.h"
+#include "../_DebugDispOut.h"
 #include "../Input/KeyState.h"
 
 Player::Player()
@@ -9,10 +10,11 @@ Player::Player()
 	Init();
 }
 
-Player::Player(const Vector2& pos)
+Player::Player(const Vector2& pos, const Vector2& size)
 {
 	Init();
 	_pos = pos;
+	_size = size;
 
 	
 	TRASCE("%d",_pos.x);
@@ -52,6 +54,8 @@ void Player::SetMove()
 	{
 		_pos.y += 2;
 	}
+
+	_DbgDrawFormatString(0, 0, 0xff00ff, "playerPos:%d,%d", _pos.x,_pos.y);
 }
 
 bool Player::Init(void)

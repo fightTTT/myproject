@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include <DxLib.h>
+#include "../_DebugDispOut.h"
 #include "../common/ImageMng.h"
 
 Enemy::Enemy()
@@ -7,10 +8,11 @@ Enemy::Enemy()
 	Init();
 }
 
-Enemy::Enemy(const Vector2& pos)
+Enemy::Enemy(const Vector2& pos, const Vector2& size)
 {
 	Init();
 	_pos = pos;
+	_size = size;
 }
 
 
@@ -30,6 +32,7 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
+	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
 bool Enemy::Init(void)
