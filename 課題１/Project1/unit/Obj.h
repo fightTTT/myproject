@@ -42,7 +42,7 @@ public:
 	// posî•ñæ“¾
 	const Vector2 Pos()const;
 
-	// 
+	// posƒZƒbƒg
 	void Pos(const Vector2 &pos);
 protected:
 

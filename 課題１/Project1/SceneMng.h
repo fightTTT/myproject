@@ -48,7 +48,7 @@ private:
 	static std::unique_ptr<SceneMng, SceneMngDeleter> s_Instance;
 	Unique_Base _activeScene;
 	
-	std::vector<DrawQueT> drawList;
+	std::vector<DrawQueT> drawList;		// スクリーンバッファを管理しているList
 
 	bool Init(void);
 	void Draw(void);

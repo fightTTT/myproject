@@ -5,6 +5,16 @@
 
 std::unique_ptr<_DebugDispOut, _DebugDispOut::_DebugDispOutDeletor> _DebugDispOut::s_Instance(new _DebugDispOut);
 
+_DebugDispOut::_DebugDispOut()
+{
+	_dbgScreen = -1;
+}
+
+
+_DebugDispOut::~_DebugDispOut()
+{
+}
+
 bool _DebugDispOut::StartDrawDbug()
 {
 	SetScreen();
@@ -60,10 +70,12 @@ void _DebugDispOut::SetScreen()
 {
 	ghBefor = GetDrawScreen();
 	SetDrawScreen(_dbgScreen);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 }
 
 void _DebugDispOut::RevScreen()
 {
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	SetDrawScreen(ghBefor);
 }
 
@@ -81,10 +93,8 @@ int _DebugDispOut::DrawBox(int x1, int y1, int x2, int y2,unsigned int Color, in
 {
 	int retFlag = 0;
 	SetScreen();
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	retFlag = DxLib::DrawBox(x1 + lpSceneMng.gameScreenPos.x, y1 + lpSceneMng.gameScreenPos.y, 
 							 x2 + lpSceneMng.gameScreenPos.x, y2 + lpSceneMng.gameScreenPos.y, Color, FillFlag);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND,0);
 	RevScreen();
 
 	return retFlag;
@@ -94,9 +104,7 @@ int _DebugDispOut::DrawCircle(int x, int y, int r, unsigned int Color, int FillF
 {
 	int retFlag = 0;
 	SetScreen();
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
 	retFlag = DxLib::DrawCircle(x + lpSceneMng.gameScreenPos.x, y + lpSceneMng.gameScreenPos.y, r, Color, FillFlag);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	RevScreen();
 
 	return retFlag;
@@ -131,17 +139,6 @@ int _DebugDispOut::DrawString(int x, int y, const char * String, unsigned int Co
 	RevScreen();
 
 	return retFlag;
-}
-
-
-_DebugDispOut::_DebugDispOut()
-{
-	_dbgScreen = -1;
-}
-
-
-_DebugDispOut::~_DebugDispOut()
-{
 }
 
 #endif // _DEBUG
