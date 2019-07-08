@@ -10,9 +10,50 @@ _DebugDispOut::_DebugDispOut()
 	_dbgScreen = -1;
 }
 
-
 _DebugDispOut::~_DebugDispOut()
 {
+}
+
+bool _DebugDispOut::SetTime()
+{
+	if (CheckHitKey(KEY_INPUT_NUMPAD5))
+	{
+		if (CheckHitKey(KEY_INPUT_MULTIPLY))
+		{
+			waitTime += 100;
+		}
+		else if (CheckHitKey(KEY_INPUT_ADD))
+		{
+			waitTime++;
+		}
+
+		if(CheckHitKey(KEY_INPUT_DIVIDE))
+		{
+			waitTime -= 100;
+		}
+		else if (CheckHitKey(KEY_INPUT_SUBTRACT))
+		{
+			waitTime--;
+		}
+	}
+
+	if (waitTime < 0)
+	{
+		waitTime = 0;
+	}
+
+	startTime = std::chrono::system_clock::now();
+	do
+	{
+		endTime = std::chrono::system_clock::now();
+		if (ProcessMessage() || CheckHitKey(KEY_INPUT_ESCAPE))
+		{
+			break;
+		}
+	} while (std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() < waitTime);
+
+
+	return true;
 }
 
 bool _DebugDispOut::StartDrawDbug()
@@ -40,6 +81,8 @@ bool _DebugDispOut::AddDrawDbug()
 		lpSceneMng.AddDrawQue({ _dbgScreen,0,0 });
 	}
 
+	SetTime();
+
 	return true;
 }
 
@@ -62,6 +105,7 @@ bool _DebugDispOut::SetUp(int alpha)
 	}
 	dbugFlag = false;
 	SetAlpha(alpha);
+	waitTime = 0;
 
 	return true;
 }

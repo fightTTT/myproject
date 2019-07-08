@@ -19,7 +19,7 @@
 										DxLib::DrawFormatString(fmt,__VA_ARGS__);\
 										_DebugDispOut::GetInstance().RevScreen()
 
-using C
+using chronoSysTime = std::chrono::system_clock::time_point;
 
 class _DebugDispOut
 {
@@ -77,10 +77,16 @@ private:
 		}
 	};
 
+	bool SetTime();
+
 	int alpha;			// デバック画像の透過率
 	int _dbgScreen;		// デバック用のスクリーン
 	int ghBefor;		
 	bool dbugFlag;		// デバックするかしないか
+
+	chronoSysTime startTime;
+	chronoSysTime endTime;
+	double waitTime;
 
 	static std::unique_ptr<_DebugDispOut, _DebugDispOutDeletor> s_Instance;
 };
