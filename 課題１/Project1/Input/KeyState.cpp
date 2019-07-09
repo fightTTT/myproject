@@ -115,6 +115,21 @@ void KeyState::SetKeyConfig(void)
 		}
 	}
 
+	if (_buf[KEY_INPUT_F3])
+	{
+		_keyCon = _keyCondef;
+		TRASCE("キーコンフィグ終了\n");
+		func = &KeyState::RefkeyData;
+	}
+
+	if (_buf[KEY_INPUT_DELETE])
+	{
+		ConfLoad();
+		TRASCE("キーコンフィグ終了\n");
+		func = &KeyState::RefkeyData;
+	}
+
+
 	if (confID >= end(INPUT_ID()))
 	{
 		confSave();

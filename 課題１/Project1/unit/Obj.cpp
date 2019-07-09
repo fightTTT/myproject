@@ -85,6 +85,11 @@ void Obj::Pos(const Vector2 &pos)
 	_pos = pos;
 }
 
+const int Obj::Key()
+{
+	return key;
+}
+
 bool Obj::SetAnim(const ANIM key, AnimVector &data)
 {
 	// key‚ğŒ©‚Ä“™‰¿‚Ìkey‚ğ‚Â—v‘f‚ªŠù‚É‘¶İ‚·‚éê‡‚Ímove‚³‚ê‚È‚¢

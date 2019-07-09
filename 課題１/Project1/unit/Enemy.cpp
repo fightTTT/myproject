@@ -8,11 +8,12 @@ Enemy::Enemy()
 	Init();
 }
 
-Enemy::Enemy(const Vector2& pos, const Vector2& size)
+Enemy::Enemy(const Vector2& pos, const Vector2& size, int keyData)
 {
 	Init();
 	_pos = pos;
 	_size = size;
+	key = keyData;
 }
 
 
@@ -32,6 +33,11 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
+	if (CheckHitKey(key))
+	{
+		_active = true;
+	}
+
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
@@ -47,6 +53,7 @@ bool Enemy::Init(void)
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[11], 60);
 
 	SetAnim(ANIM::NORMAL, data);
+	_active = false;
 
 	return true;
 }

@@ -47,6 +47,7 @@ public:
 
 	// 生存確認
 	const bool IsAlive() { return _active; };
+	const int Key();
 protected:
 
 	// アニメーション情報をセットする
@@ -54,6 +55,7 @@ protected:
 	Vector2 _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
 	bool _active;
+	int key;
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
