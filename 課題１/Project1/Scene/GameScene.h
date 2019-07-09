@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseScene.h"
 #include "../unit/Obj.h"
-#include <list>
+#include <vector>
 class GameScene :
 	public BaseScene
 {
@@ -14,7 +14,7 @@ public:
 protected:
 	void Init(void)override;
 private:
-	std::list<Shared_Obj> _objList;
+	std::vector<Shared_Obj> _objList;
 	int _ghGameScreen;
 };
 

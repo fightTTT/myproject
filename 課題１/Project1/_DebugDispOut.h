@@ -65,6 +65,8 @@ public:
 	// 文字描画
 	int DrawString(int x, int y, const char *String, unsigned int Color);	
 
+	void SetWait(double waitTime);
+
 private:
 	_DebugDispOut();
 	~_DebugDispOut();
@@ -77,7 +79,7 @@ private:
 		}
 	};
 
-	bool SetTime();
+	bool WaitMode();
 
 	int alpha;			// デバック画像の透過率
 	int _dbgScreen;		// デバック用のスクリーン

@@ -44,12 +44,16 @@ public:
 
 	// posセット
 	void Pos(const Vector2 &pos);
+
+	// 生存確認
+	const bool IsAlive() { return _active; };
 protected:
 
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2 _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
+	bool _active;
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数

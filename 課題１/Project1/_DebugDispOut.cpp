@@ -14,7 +14,7 @@ _DebugDispOut::~_DebugDispOut()
 {
 }
 
-bool _DebugDispOut::SetTime()
+bool _DebugDispOut::WaitMode()
 {
 	if (CheckHitKey(KEY_INPUT_NUMPAD5))
 	{
@@ -35,23 +35,30 @@ bool _DebugDispOut::SetTime()
 		{
 			waitTime--;
 		}
+
+		if (waitTime < 0)
+		{
+			waitTime = 0;
+		}
 	}
 
-	if (waitTime < 0)
+	if (CheckHitKey(KEY_INPUT_DELETE))
 	{
-		waitTime = 0;
+		waitTime = 0.0;
 	}
 
 	startTime = std::chrono::system_clock::now();
-	do
+	if (waitTime)
 	{
-		endTime = std::chrono::system_clock::now();
-		if (ProcessMessage() || CheckHitKey(KEY_INPUT_ESCAPE))
+		do
 		{
-			break;
-		}
-	} while (std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() < waitTime);
-
+			endTime = std::chrono::system_clock::now();
+			if (ProcessMessage() == -1 || CheckHitKey(KEY_INPUT_ESCAPE))
+			{
+				break;
+			}
+		} while (std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count() < waitTime);
+	}
 
 	return true;
 }
@@ -81,7 +88,7 @@ bool _DebugDispOut::AddDrawDbug()
 		lpSceneMng.AddDrawQue({ _dbgScreen,0,0 });
 	}
 
-	SetTime();
+	WaitMode();
 
 	return true;
 }
@@ -183,6 +190,11 @@ int _DebugDispOut::DrawString(int x, int y, const char * String, unsigned int Co
 	RevScreen();
 
 	return retFlag;
+}
+
+void _DebugDispOut::SetWait(double waitTime)
+{
+	this->waitTime = waitTime;
 }
 
 #endif // _DEBUG

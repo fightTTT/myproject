@@ -67,7 +67,6 @@ bool IsHit(const Capsule& cap, const Circle& cc) {
 	float dot = Dot(vecL, vecT) / Dot(vecL, vecL);
 
 	dot = min(max(0.0f, dot), 1.0f);
-	//Position2 pos = cap.posA + vecL * dot;
 	Position2 M = { (cap.posA + vecL * dot) };
 	float len = Vector2(cc.pos - M ).Magnitude();
 
