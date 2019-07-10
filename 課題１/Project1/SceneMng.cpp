@@ -14,6 +14,7 @@ void SceneMng::Run(void)
 	Init();
 	
 	ImageMng::GetInstance().GetID("ƒLƒƒƒ‰", "image/char.png", { 10,10 }, { 30,30 });
+	ImageMng::GetInstance().GetID("”š”j", "image/en_blast.png", { 5,1 }, { 64,64 });
 
 	_DebugConOut::GetInstance();
 

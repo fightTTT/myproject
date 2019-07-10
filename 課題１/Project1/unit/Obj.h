@@ -20,7 +20,7 @@ enum class UNIT
 
 class Obj;
 using Shared_Obj = std::shared_ptr<Obj>;
-using AnimVector = std::vector<std::pair<int, int>>;	// first...現在の入力状態  second...1フレーム前の入力状態
+using AnimVector = std::vector<std::pair<int, int>>;	// 
 
 
 class Obj
@@ -42,24 +42,28 @@ public:
 	// pos情報取得
 	const Vector2 Pos()const;
 
+	bool IsAnimEnd();
+
 	// posセット
 	void Pos(const Vector2 &pos);
 
 	// 生存確認
 	const bool IsAlive() { return _active; };
-	const int Key();
+	const bool IsDeath() { return _death; };
 protected:
 
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2 _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
-	bool _active;
-	int key;
+	bool _active;		
+	bool _death;
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
 	int _animCnt;		// アニメーションカウンター
+
+	
 	
 
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap

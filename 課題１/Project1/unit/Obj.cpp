@@ -9,6 +9,8 @@ Obj::Obj()
 	_animKey = ANIM::NORMAL;
 	_animCnt = 0;
 	_animFram = 0;
+	_death = false;
+	_active = true;
 }
 
 
@@ -35,18 +37,24 @@ void Obj::Draw(void)
 		{
 			_animFram = 0;
 			_animCnt = 0;
+
+			if (_animKey == ANIM::EX)
+			{
+				_death = true;
+			}
 		}
 	}
 
 	if (_animCnt <= _animMap[_animKey][_animFram].second)
 	{
-		DrawGraph(_pos.x, _pos.y, _animMap[_animKey][_animFram].first, true);
+		DrawRotaGraph(_pos.x, _pos.y,1.0,0.0, _animMap[_animKey][_animFram].first, true,false);
 	}
 
 	_DbgDrawBox(_pos.x, _pos.y, _pos.x + _size.x, _pos.y + _size.y, 0xff0000, 1);
 	_DbgDrawString(_pos.x, _pos.y, "Œ©‚¦‚Ü‚·‚©H", 0xff00ff);
 	
 	_animCnt++;
+
 }
 
 void Obj::Draw(int id)
@@ -80,14 +88,30 @@ const Vector2 Obj::Pos() const
 	return _pos;
 }
 
+bool Obj::IsAnimEnd()
+{
+	if (_animMap.find(_animKey) == _animMap.end())
+	{
+		return false;
+	}
+
+	if (_animMap[_animKey].size() <= _animFram)
+	{
+		return false;
+	}
+
+	if (_animFram >= _animMap[_animKey].size())
+	{
+		_death = true;
+
+	}
+
+	return true;
+}
+
 void Obj::Pos(const Vector2 &pos)
 {
 	_pos = pos;
-}
-
-const int Obj::Key()
-{
-	return key;
 }
 
 bool Obj::SetAnim(const ANIM key, AnimVector &data)
