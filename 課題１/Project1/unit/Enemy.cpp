@@ -34,20 +34,14 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
-	if (!_active)
+	if (Active())
 	{
 		return;
 	}
-
 	if (rand()%1200 == 0)
 	{
 		_active = false;
-		AnimKey(ANIM::EX);
-	}
-
-	if (!_active)
-	{
-		//_death = true;
+		AnimKey(ANIM::DEATH);
 	}
 
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
@@ -67,14 +61,14 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::NORMAL, data);
 
 	data.reserve(5);
-	data.emplace_back(IMAGE_ID("”š”j")[0], 20);
-	data.emplace_back(IMAGE_ID("”š”j")[1], 40);
-	data.emplace_back(IMAGE_ID("”š”j")[2], 60);
-	data.emplace_back(IMAGE_ID("”š”j")[3],80);
-	data.emplace_back(IMAGE_ID("”š”j")[4], 100);
-	data.emplace_back(-1, 45);
+	data.emplace_back(IMAGE_ID("”š”j")[0], 5);
+	data.emplace_back(IMAGE_ID("”š”j")[1], 15);
+	data.emplace_back(IMAGE_ID("”š”j")[2], 25);
+	data.emplace_back(IMAGE_ID("”š”j")[3],35);
+	data.emplace_back(IMAGE_ID("”š”j")[4], 45);
+	data.emplace_back(-1, 50);
 	
-	SetAnim(ANIM::EX, data);
+	SetAnim(ANIM::DEATH, data);
 	_active = true;
 
 	return true;

@@ -1,7 +1,8 @@
 #pragma once
+#include <vector>
 #include "BaseScene.h"
 #include "../unit/Obj.h"
-#include <vector>
+
 class GameScene :
 	public BaseScene
 {

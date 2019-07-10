@@ -38,10 +38,6 @@ void Obj::Draw(void)
 			_animFram = 0;
 			_animCnt = 0;
 
-			if (_animKey == ANIM::EX)
-			{
-				_death = true;
-			}
 		}
 	}
 
@@ -78,6 +74,12 @@ bool Obj::AnimKey(const ANIM animKey)
 		return false;
 	}
 
+	
+
+	if (_animKey != animKey)
+	{
+		_animCnt = 0;
+	}
 	_animKey = animKey;
 
 	return true;
@@ -100,10 +102,20 @@ bool Obj::IsAnimEnd()
 		return false;
 	}
 
-	if (_animFram >= _animMap[_animKey].size())
+
+	return _animMap[_animKey][_animFram].first == -1? true:false;
+}
+
+bool Obj::Active()
+{
+	if (_active)
+	{
+		return false;
+	}
+
+	if (IsAnimEnd())
 	{
 		_death = true;
-
 	}
 
 	return true;

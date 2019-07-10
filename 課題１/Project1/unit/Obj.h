@@ -8,6 +8,7 @@ enum class ANIM	// アニメーションタイプ
 {
 	NORMAL,		// 通常
 	EX,			// 特殊
+	DEATH,		// 爆破
 	MAX
 };
 
@@ -43,7 +44,7 @@ public:
 	const Vector2 Pos()const;
 
 	bool IsAnimEnd();
-
+	bool Active();
 	// posセット
 	void Pos(const Vector2 &pos);
 

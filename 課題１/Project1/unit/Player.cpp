@@ -37,6 +37,18 @@ UNIT Player::GetUnit(void)
 
 void Player::SetMove()
 {
+	if (Active())
+	{
+		return;
+	}
+
+	if (rand() % 10 == 0)
+	{
+		_active = false;
+		AnimKey(ANIM::DEATH);
+	}
+
+
 	inputState->Update();
 	if (inputState->state(INPUT_ID::LEFT).first)
 	{
@@ -75,6 +87,15 @@ bool Player::Init(void)
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[2], 60);
 
 	SetAnim(ANIM::EX,data);
+
+	data.reserve(4);
+	data.emplace_back(IMAGE_ID("PL”š”j")[0],  5);
+	data.emplace_back(IMAGE_ID("PL”š”j")[1], 15);
+	data.emplace_back(IMAGE_ID("PL”š”j")[2], 25);
+	data.emplace_back(IMAGE_ID("PL”š”j")[3], 35);
+	data.emplace_back(-1, 50);
+
+	SetAnim(ANIM::DEATH, data);
 
 	inputState = std::make_unique<KeyState>();
 
