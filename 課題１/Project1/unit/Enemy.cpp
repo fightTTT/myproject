@@ -10,11 +10,12 @@ Enemy::Enemy()
 	Init();
 }
 
-Enemy::Enemy(const Vector2& pos, const Vector2& size)
+Enemy::Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size)
 {
 	Init();
 	_pos = pos;
 	_size = size;
+	_type = type;
 }
 
 
@@ -38,11 +39,11 @@ void Enemy::SetMove()
 	{
 		return;
 	}
-	if (rand()%1200 == 0)
+	/*if (rand()%1200 == 0)
 	{
-		_active = false;
+		_alive = false;
 		AnimKey(ANIM::DEATH);
-	}
+	}*/
 
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
@@ -69,7 +70,7 @@ bool Enemy::Init(void)
 	data.emplace_back(-1, 50);
 	
 	SetAnim(ANIM::DEATH, data);
-	_active = true;
+	_alive = true;
 
 	return true;
 }

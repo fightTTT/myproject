@@ -45,11 +45,12 @@ public:
 
 	bool IsAnimEnd();
 	bool Active();
+
 	// posセット
 	void Pos(const Vector2 &pos);
 
 	// 生存確認
-	const bool IsAlive() { return _active; };
+	const bool IsAlive() { return _alive; };
 	const bool IsDeath() { return _death; };
 protected:
 
@@ -57,8 +58,8 @@ protected:
 	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2 _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
-	bool _active;		
-	bool _death;
+	bool _alive;		// 生きているか	true...生存　false...死亡
+	bool _death;		
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数

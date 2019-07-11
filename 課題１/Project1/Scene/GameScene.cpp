@@ -1,8 +1,8 @@
 #include <DxLib.h>
 #include <algorithm>
+#include <tuple>
 #include "GameScene.h"
 #include "../SceneMng.h"
-#include "../unit/Enemy.h"
 #include "../unit/Player.h"
 
 GameScene::GameScene()
@@ -17,10 +17,22 @@ GameScene::~GameScene()
 
 Unique_Base GameScene::UpDate(Unique_Base own)
 {
+	static int enemCount = 0;
 
 	for(auto &data: _objList)
 	{
 		data->SetMove();
+	}
+
+	if ()
+	{
+		if (enemCount >= 6)
+		{
+			enemCount = 0;
+		}
+
+		AddEnemy({ enemAppPos[enemCount], ENM_TYPE(rand()%3), {32,32} });
+		enemCount++;
 	}
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
@@ -35,6 +47,11 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 SCN_ID GameScene::GetScnID(void)
 {
 	return SCN_ID::GAME;
+}
+
+void GameScene::AddEnemy(EnemyData data)
+{
+	_objList.emplace_back(std::make_shared<Enemy>(std::get<0>(data), std::get<1>(data), std::get<2>(data)));
 }
 
 void GameScene::Draw(void)
@@ -56,13 +73,20 @@ void GameScene::Init(void)
 {
 
 	/*srand(1);*/
-	_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*2, 20*4), Vector2(30, 32)));
+	/*_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*2, 20*4), Vector2(30, 32)));
 	for (int i = 0; i < 9; i++)
 	{
 		_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*(i%3+1), 20 * (i / 3 + 1)), Vector2(30, 32)));
-	}
+	}*/
+	_objList.reserve(22);
 	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
 
-
+	enemAppPos = {
+		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
+		Vector2(-lpSceneMng.gameScreenPos.x+lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y+16),
+		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+		Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y+lpSceneMng.screenSize.y/2),
+		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
+		Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16)};
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }

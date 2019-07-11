@@ -44,7 +44,7 @@ void Player::SetMove()
 
 	if (rand() % 10 == 0)
 	{
-		_active = false;
+		_alive = false;
 		AnimKey(ANIM::DEATH);
 	}
 

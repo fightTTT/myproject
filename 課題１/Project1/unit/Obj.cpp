@@ -10,7 +10,7 @@ Obj::Obj()
 	_animCnt = 0;
 	_animFram = 0;
 	_death = false;
-	_active = true;
+	_alive = true;
 }
 
 
@@ -108,7 +108,7 @@ bool Obj::IsAnimEnd()
 
 bool Obj::Active()
 {
-	if (_active)
+	if (_alive)
 	{
 		return false;
 	}
