@@ -22,6 +22,6 @@ private:
 	std::vector<Shared_Obj> _objList;
 	int _ghGameScreen;
 	std::array<Vector2, 6> enemAppPos;
-	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
+	char key[256];
 };
 

@@ -24,14 +24,15 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		data->SetMove();
 	}
 
-	if ()
+	GetHitKeyStateAll(key);
+	if (key[KEY_INPUT_I])
 	{
 		if (enemCount >= 6)
 		{
 			enemCount = 0;
 		}
 
-		AddEnemy({ enemAppPos[enemCount], ENM_TYPE(rand()%3), {32,32} });
+		AddEnemy({ enemAppPos[enemCount], ENM_TYPE(rand() % 3), {32,32},{lpSceneMng.gameScreenSize.x/2,lpSceneMng.gameScreenSize.y / 2} });
 		enemCount++;
 	}
 
@@ -51,11 +52,12 @@ SCN_ID GameScene::GetScnID(void)
 
 void GameScene::AddEnemy(EnemyData data)
 {
-	_objList.emplace_back(std::make_shared<Enemy>(std::get<0>(data), std::get<1>(data), std::get<2>(data)));
+	_objList.emplace_back(std::make_shared<Enemy>(std::get<0>(data), std::get<1>(data), std::get<2>(data), std::get<3>(data)));
 }
 
 void GameScene::Draw(void)
 {
+
 	int ghBefor;
 	ghBefor = GetDrawScreen();
 	SetDrawScreen(_ghGameScreen);
@@ -78,6 +80,8 @@ void GameScene::Init(void)
 	{
 		_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*(i%3+1), 20 * (i / 3 + 1)), Vector2(30, 32)));
 	}*/
+
+	
 	_objList.reserve(22);
 	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
 

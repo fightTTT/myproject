@@ -10,12 +10,14 @@ Enemy::Enemy()
 	Init();
 }
 
-Enemy::Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size)
+Enemy::Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size, const Vector2& targetPos)
 {
-	Init();
 	_pos = pos;
 	_size = size;
 	_type = type;
+	_targetPos = targetPos;
+
+	Init();
 }
 
 
@@ -56,10 +58,28 @@ bool Enemy::Init(void)
 	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
 
 	// 上記のpush_backと同じ処理
-	data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-	data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+	/*data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+	data.emplace_back(IMAGE_ID("キャラ")[11], 60);*/
 
 	SetAnim(ANIM::NORMAL, data);
+
+	switch (_type)
+	{
+	case ENM_TYPE::A:
+		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+		break;
+	case ENM_TYPE::B:
+		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
+		break;
+	case ENM_TYPE::C:
+		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
+		break;
+	default:
+		break;
+	}
 
 	data.reserve(5);
 	data.emplace_back(IMAGE_ID("爆破")[0], 5);
