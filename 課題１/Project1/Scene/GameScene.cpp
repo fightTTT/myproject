@@ -25,7 +25,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 	GetHitKeyStateAll(key);
-	if (key[KEY_INPUT_I])
+	if (key[KEY_INPUT_I]&&!_objList.size())
 	{
 
 		AddEnemy({ enemAppPos[rand()%6], ENM_TYPE(rand() % 3), {32,32},{80+40 *( enemCount%7),80+40 * (enemCount % 3)} });

@@ -50,7 +50,7 @@ void KeyState::RefkeyData(void)
 	{
 		//_keyCon.clear();
 		func = &KeyState::SetKeyConfig;
-		TRASCE("キーコンフィグ開始\n");
+		TRACE("キーコンフィグ開始\n");
 		confID = begin(INPUT_ID());
 		//TRASCE("設定キー:%d\n",confID);
 		return;
@@ -118,14 +118,14 @@ void KeyState::SetKeyConfig(void)
 	if (_buf[KEY_INPUT_F3])
 	{
 		_keyCon = _keyCondef;
-		TRASCE("キーコンフィグ終了\n");
+		TRACE("キーコンフィグ終了\n");
 		func = &KeyState::RefkeyData;
 	}
 
 	if (_buf[KEY_INPUT_DELETE])
 	{
 		ConfLoad();
-		TRASCE("キーコンフィグ終了\n");
+		TRACE("キーコンフィグ終了\n");
 		func = &KeyState::RefkeyData;
 	}
 
@@ -133,7 +133,7 @@ void KeyState::SetKeyConfig(void)
 	if (confID >= end(INPUT_ID()))
 	{
 		confSave();
-		TRASCE("キーコンフィグ終了\n");
+		TRACE("キーコンフィグ終了\n");
 		func = &KeyState::RefkeyData;
 	}
 }

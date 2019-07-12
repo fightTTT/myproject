@@ -40,4 +40,10 @@ private:
 	int speed;
 	bool firstFlag;
 	int waitCnt;
+	Vector2 _posOld;
+
+	//-----------------
+	float X;
+	float Y;
+	//-----------------
 };

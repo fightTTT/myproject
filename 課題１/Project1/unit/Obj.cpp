@@ -46,8 +46,8 @@ void Obj::Draw(void)
 		DrawRotaGraph(_pos.x, _pos.y,1.0,0.0, _animMap[_animKey][_animFram].first, true,false);
 	}
 
-	_DbgDrawBox(_pos.x, _pos.y, _pos.x + _size.x, _pos.y + _size.y, 0xff0000, 1);
-	_DbgDrawString(_pos.x, _pos.y, "å©Ç¶Ç‹Ç∑Ç©ÅH", 0xff00ff);
+	//_DbgDrawBox(_pos.x, _pos.y, _pos.x + _size.x, _pos.y + _size.y, 0xff0000, 1);
+	//_DbgDrawString(_pos.x, _pos.y, "å©Ç¶Ç‹Ç∑Ç©ÅH", 0xff00ff);
 	
 	_animCnt++;
 

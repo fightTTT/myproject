@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Enemy.h"
 #include "../_DebugDispOut.h"
+#include "../_DebugConOut.h"
 #include "../common/ImageMng.h"
 
 
@@ -19,6 +20,11 @@ Enemy::Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size, const Vecto
 	_targetPos = targetPos;
 
 	Init();
+
+	//-----------------
+	X = pos.x;
+	Y = pos.y;
+	//-----------------
 }
 
 
@@ -38,6 +44,7 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
+	//Ž€‚ñ‚¾‚çtrue‚É‚È‚éŠÖ”
 	if (Active())
 	{
 		return;
@@ -47,17 +54,36 @@ void Enemy::SetMove()
 	//	_alive = false;
 	//	AnimKey(ANIM::DEATH);
 	//}
+
+	int color = 0x00ff00;
+	if (firstFlag == false)
+	{
+		color = 0xff0000;
+	}
+
+	_posOld = _pos;
+	_DbgDrawBox(_pos.x, _pos.y, _pos.x + 32, _pos.y + 32, color, true);
+
 	if (firstFlag)
 	{
+		auto a = abs(_firstTarget.x - _pos.x);
+		auto b = abs(_firstTarget.y - _pos.y);
 		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 		{
 			float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
-			_pos.x += (cos(angle)*speed);
-			_pos.y += (sin(angle)*speed);
+
+			X += (cos(angle)*speed);
+			Y += (sin(angle)*speed);
+
+			_pos.x = static_cast<int>(X);
+			_pos.y = static_cast<int>(Y);
 
 		}
 
-		if ((abs(_firstTarget.x - _pos.x) < speed && abs(_firstTarget.y - _pos.y) < speed))
+		auto c = abs(_firstTarget.x - _pos.x);
+		auto d = abs(_firstTarget.y - _pos.y);
+
+		if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
 		{
 			_pos = _firstTarget;
 			waitCnt++;
@@ -70,11 +96,17 @@ void Enemy::SetMove()
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
 		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
-		_pos.x += (cos(angle)*speed);
-		_pos.y += (sin(angle)*speed);
-	}
-	
 
+		X += (cos(angle)*speed);
+		Y += (sin(angle)*speed);
+
+		_pos.x = static_cast<int>(X);
+		_pos.y = static_cast<int>(Y);
+
+		//_pos.x += (cos(angle)*speed);
+		//_pos.y += (sin(angle)*speed);
+	}
+	TRACE("x%d:y%d\n", _pos.x - _posOld.x, _pos.y - _posOld.y);
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
@@ -120,7 +152,7 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::DEATH, data);
 
-	speed = 2;
+	speed = 10;
 
 	_alive = true;
 	firstFlag = true;

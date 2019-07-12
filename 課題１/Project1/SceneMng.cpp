@@ -20,9 +20,10 @@ void SceneMng::Run(void)
 	_DebugConOut::GetInstance();
 
 	_activeScene = std::make_unique<GameScene>();
-
+	
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
+		WaitTimer(240);
 		_DbgStartDraw;
 		drawList.clear();
 		_activeScene = _activeScene->UpDate(std::move(_activeScene));
@@ -48,7 +49,7 @@ bool SceneMng::Init(void)
 	ChangeWindowMode(true);				// true:window@false:ÌÙ½¸Ø°İ
 	SetWindowText("ƒMƒƒƒ‰ƒK");
 	if (DxLib_Init() == -1) return false;	// DX×²ÌŞ×Ø‰Šú‰»ˆ—
-	TRASCE("DXLIB‰Šú‰»Š®—¹\n");
+	TRACE("DXLIB‰Šú‰»Š®—¹\n");
 	SetDrawScreen(DX_SCREEN_BACK);		// ‚Ğ‚Æ‚Ü‚¸ÊŞ¯¸ÊŞ¯Ì§‚É•`‰æ
 
 	SET_IMAGE_ID("˜g", "image/frame.png");

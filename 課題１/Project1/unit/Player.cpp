@@ -17,7 +17,7 @@ Player::Player(const Vector2& pos, const Vector2& size)
 	_size = size;
 
 	
-	TRASCE("%d",_pos.x);
+	TRACE("%d",_pos.x);
 }
 
 
