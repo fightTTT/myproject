@@ -51,9 +51,9 @@ void Enemy::SetMove()
 	{
 		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 		{
-			float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
-			_pos.x += (cos(angle)*speed);
-			_pos.y += (sin(angle)*speed);
+			float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+			_pos.x += cos(angle)*speed;
+			_pos.y += sin(angle)*speed;
 
 		}
 
@@ -69,9 +69,13 @@ void Enemy::SetMove()
 	}
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
-		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
-		_pos.x += (cos(angle)*speed);
-		_pos.y += (sin(angle)*speed);
+		float angle = atan2(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
+		_pos.x += cos(angle)*speed;
+		_pos.y += sin(angle)*speed;
+	}
+	else
+	{
+
 	}
 	
 
@@ -120,7 +124,7 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::DEATH, data);
 
-	speed = 2;
+	speed = 3;
 
 	_alive = true;
 	firstFlag = true;
