@@ -71,6 +71,16 @@ void Enemy::SetMove()
 		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 		{
 			float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+	;
+<<<<<<< .mine
+			float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+
+
+=======
+			float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+			_pos.x += cos(angle)*speed;
+			_pos.y += sin(angle)*speed;
+>>>>>>> .theirs
 
 			X += (cos(angle)*speed);
 			Y += (sin(angle)*speed);
@@ -95,6 +105,7 @@ void Enemy::SetMove()
 	}
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
+<<<<<<< .mine
 		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
 
 		X += (cos(angle)*speed);
@@ -105,8 +116,34 @@ void Enemy::SetMove()
 
 		//_pos.x += (cos(angle)*speed);
 		//_pos.y += (sin(angle)*speed);
+=======
+		float angle = atan2(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
+		_pos.x += cos(angle)*speed;
+		_pos.y += sin(angle)*speed;
+
+
+
+
+
+
+
+>>>>>>> .theirs
 	}
+<<<<<<< .mine
 	TRACE("x%d:y%d\n", _pos.x - _posOld.x, _pos.y - _posOld.y);
+
+
+
+
+
+=======
+	else
+	{
+
+	}
+	
+
+>>>>>>> .theirs
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
@@ -152,7 +189,11 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::DEATH, data);
 
+<<<<<<< .mine
 	speed = 10;
+=======
+	speed = 3;
+>>>>>>> .theirs
 
 	_alive = true;
 	firstFlag = true;
