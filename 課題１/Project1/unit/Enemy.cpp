@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include <time.h>
+#include <cmath>
 #include "Enemy.h"
 #include "../_DebugDispOut.h"
 #include "../common/ImageMng.h"
@@ -41,11 +42,25 @@ void Enemy::SetMove()
 	{
 		return;
 	}
-	/*if (rand()%1200 == 0)
+	//if (rand()%1200 == 0)
+	//{
+	//	_alive = false;
+	//	AnimKey(ANIM::DEATH);
+	//}
+
+	if (firstFlag && (abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 	{
-		_alive = false;
-		AnimKey(ANIM::DEATH);
-	}*/
+		float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+		_pos.x += (cos(angle)*speed);
+		_pos.y += (sin(angle)*speed);
+	}
+	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
+	{
+		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
+		_pos.x += (cos(angle)*speed);
+		_pos.y += (sin(angle)*speed);
+	}
+	
 
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
@@ -54,15 +69,13 @@ bool Enemy::Init(void)
 {
 	AnimVector data;
 
-	data.reserve(2);
 	//data.push_back(std::make_pair(IMAGE_ID("ƒLƒƒƒ‰")[0],30));
 
 	// ã‹L‚Ìpush_back‚Æ“¯‚¶ˆ—
 	/*data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[10], 30);
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[11], 60);*/
 
-	SetAnim(ANIM::NORMAL, data);
-
+	data.reserve(2);
 	switch (_type)
 	{
 	case ENM_TYPE::A:
@@ -80,17 +93,24 @@ bool Enemy::Init(void)
 	default:
 		break;
 	}
+	SetAnim(ANIM::NORMAL, data);
+
+	_firstTarget = { 300,300 };
 
 	data.reserve(5);
 	data.emplace_back(IMAGE_ID("”š”j")[0], 5);
 	data.emplace_back(IMAGE_ID("”š”j")[1], 15);
 	data.emplace_back(IMAGE_ID("”š”j")[2], 25);
-	data.emplace_back(IMAGE_ID("”š”j")[3],35);
+	data.emplace_back(IMAGE_ID("”š”j")[3], 35);
 	data.emplace_back(IMAGE_ID("”š”j")[4], 45);
 	data.emplace_back(-1, 50);
-	
+
 	SetAnim(ANIM::DEATH, data);
+
+	speed = 2;
+
 	_alive = true;
+	firstFlag = true;
 
 	return true;
 }

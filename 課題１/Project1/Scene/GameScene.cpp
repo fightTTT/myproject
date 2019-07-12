@@ -27,12 +27,8 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	GetHitKeyStateAll(key);
 	if (key[KEY_INPUT_I])
 	{
-		if (enemCount >= 6)
-		{
-			enemCount = 0;
-		}
 
-		AddEnemy({ enemAppPos[enemCount], ENM_TYPE(rand() % 3), {32,32},{lpSceneMng.gameScreenSize.x/2,lpSceneMng.gameScreenSize.y / 2} });
+		AddEnemy({ enemAppPos[rand()%6], ENM_TYPE(rand() % 3), {32,32},{80+40 *( enemCount%7),80+40 * (enemCount % 3)} });
 		enemCount++;
 	}
 

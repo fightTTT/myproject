@@ -85,7 +85,6 @@ bool Player::Init(void)
 
 	data.reserve(1);
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[2], 60);
-
 	SetAnim(ANIM::EX,data);
 
 	data.reserve(4);

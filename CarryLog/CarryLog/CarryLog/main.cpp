@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	int frame = 0;
 	bool isLeft = false;
-	while (ProcessMessage() == 0) {
+	while (ProcessMessage() == 0&&keystate[KEY_INPUT_ESCAPE] != 1) {
 		ClearDrawScreen();
 		GetHitKeyStateAll(keystate);
 
@@ -145,6 +145,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawRectGraph(sw - 32, 0, 32, 0, 32, 32, chipH, true);
 		DrawRectGraph(0, 32, 96, 32, 32, 32, chipH, true);
 		DrawRectGraph(sw-32, 32, 32, 32, 32, 32, chipH, true);
+		//DrawRectExtendGraph
 		destY = 64;
 		while (destY < sh) {
 			DrawRectGraph(0, destY, 96, 64, 32, 32, chipH, true);

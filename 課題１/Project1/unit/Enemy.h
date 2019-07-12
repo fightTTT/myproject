@@ -36,4 +36,7 @@ private:
 	bool Init(void);
 	ENM_TYPE _type;
 	Vector2 _targetPos;
+	Vector2 _firstTarget;
+	int speed;
+	bool firstFlag;
 };
