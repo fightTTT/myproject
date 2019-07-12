@@ -66,10 +66,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GetGraphSize(woodH, &wdW, &wdH);
 	wdW = 200;
 
+	auto rockH = LoadGraph("img/rock.png");
 	auto cascadeH = LoadGraph("img/cascade_chip.png");
 	auto chipH = LoadGraph("img/atlas0.png");
 
 	Capsule cap(20,Position2((sw-wdW)/2,sh-100),Position2((sw - wdW) / 2+wdW,sh-100));
+	Circle cc(24, Position2((sw - wdW) / 2, 60));
 
 	char keystate[256];
 	
@@ -114,9 +116,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		//当たり判定を完成させて当たったときの反応を書いてください
-		//if(IsHit(cap,circle)){
-		//	反応をここに書いてください。
-		//}
+		if(IsHit(cap,cc))
+		{
+			break;
+		}
 
 		//カプセル回転
 		Matrix rotMat=RotatePosition(Position2(mx, my), angle);
@@ -153,9 +156,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			destY += dest_chip_size;
 		}
 
+		cc.pos.y += 1;
 
 		DrawWood(cap, woodH);
+		DrawRotaGraph(cc.pos.x, cc.pos.y, 2.0, 0.0, rockH, true, false);
 		DrawCircle(mx, my, 30, 0xff0000, false, 3);
+
+		DrawCircle(cc.pos.x, cc.pos.y, cc.radius, 0x00ff00, false, 5);
 		++frame;
 		
 		ScreenFlip();
