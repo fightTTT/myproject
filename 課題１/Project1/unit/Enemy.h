@@ -39,4 +39,5 @@ private:
 	Vector2 _firstTarget;
 	int speed;
 	bool firstFlag;
+	int waitCnt;
 };

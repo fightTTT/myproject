@@ -47,12 +47,25 @@ void Enemy::SetMove()
 	//	_alive = false;
 	//	AnimKey(ANIM::DEATH);
 	//}
-
-	if (firstFlag && (abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
+	if (firstFlag)
 	{
-		float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
-		_pos.x += (cos(angle)*speed);
-		_pos.y += (sin(angle)*speed);
+		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
+		{
+			float angle = atan2f(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+			_pos.x += (cos(angle)*speed);
+			_pos.y += (sin(angle)*speed);
+
+		}
+
+		if ((abs(_firstTarget.x - _pos.x) < speed && abs(_firstTarget.y - _pos.y) < speed))
+		{
+			_pos = _firstTarget;
+			waitCnt++;
+			if (waitCnt > 60)
+			{
+				firstFlag = false;
+			}
+		}
 	}
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
@@ -111,6 +124,7 @@ bool Enemy::Init(void)
 
 	_alive = true;
 	firstFlag = true;
+	waitCnt = 0;
 
 	return true;
 }
