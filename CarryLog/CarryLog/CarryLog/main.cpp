@@ -66,6 +66,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GetGraphSize(woodH, &wdW, &wdH);
 	wdW = 200;
 
+	auto explosionH = LoadGraph("img/explosion.png");
 	auto rockH = LoadGraph("img/rock.png");
 	auto cascadeH = LoadGraph("img/cascade_chip.png");
 	auto chipH = LoadGraph("img/atlas0.png");
@@ -73,6 +74,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Capsule cap(20,Position2((sw-wdW)/2,sh-100),Position2((sw - wdW) / 2+wdW,sh-100));
 	Circle cc(24, Position2((sw - wdW) / 2, 60));
 
+	Position2 explosionPos;
+	bool explosionFlag = false;
 	char keystate[256];
 	
 	float angle = 0.0f;
@@ -87,38 +90,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		int mx = 0, my = 0;
 
-		if (keystate[KEY_INPUT_LEFT]) {
-			isLeft = true;
-		}
-		else if (keystate[KEY_INPUT_RIGHT]) {
-			isLeft = false;
-		}
+		if (!explosionFlag)
+		{
+			if (keystate[KEY_INPUT_LEFT]) {
+				isLeft = true;
+			}
+			else if (keystate[KEY_INPUT_RIGHT]) {
+				isLeft = false;
+			}
 
-		if (isLeft) {
-			mx = cap.posA.x;
-			my = cap.posA.y;
-		}
-		else {
-			mx = cap.posB.x;
-			my = cap.posB.y;
-		}
+			if (isLeft) {
+				mx = cap.posA.x;
+				my = cap.posA.y;
+			}
+			else {
+				mx = cap.posB.x;
+				my = cap.posB.y;
+			}
 
-		if (keystate[KEY_INPUT_Z]) {
+			if (keystate[KEY_INPUT_Z]) {
 
-			angle = -0.05f;
-		}
-		else if (keystate[KEY_INPUT_X]) {
+				angle = -0.05f;
+			}
+			else if (keystate[KEY_INPUT_X]) {
 
-			angle = 0.05f;
-		}
-		else {
-			angle = 0.0f;
+				angle = 0.05f;
+			}
+			else {
+				angle = 0.0f;
+			}
 		}
 
 		//ìñÇΩÇËîªíËÇäÆê¨Ç≥ÇπÇƒìñÇΩÇ¡ÇΩÇ∆Ç´ÇÃîΩâûÇèëÇ¢ÇƒÇ≠ÇæÇ≥Ç¢
 		if(IsHit(cap,cc))
 		{
-			break;
+			explosionFlag = true;
+			explosionPos = 
 		}
 
 		//ÉJÉvÉZÉãâÒì]
@@ -161,8 +168,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawWood(cap, woodH);
 		DrawRotaGraph(cc.pos.x, cc.pos.y, 2.0, 0.0, rockH, true, false);
 		DrawCircle(mx, my, 30, 0xff0000, false, 3);
-
 		DrawCircle(cc.pos.x, cc.pos.y, cc.radius, 0x00ff00, false, 5);
+		if (explosionFlag)
+		{
+			DrawGraph(explosionPos.x, explosionPos.y, explosionH, false);
+		}
+
 		++frame;
 		
 		ScreenFlip();
