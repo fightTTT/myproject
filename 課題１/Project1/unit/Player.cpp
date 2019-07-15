@@ -42,11 +42,11 @@ void Player::SetMove()
 		return;
 	}
 
-	if (rand() % 10 == 0)
+	/*if (rand() % 10 == 0)
 	{
 		_alive = false;
 		AnimKey(ANIM::DEATH);
-	}
+	}*/
 
 
 	inputState->Update();

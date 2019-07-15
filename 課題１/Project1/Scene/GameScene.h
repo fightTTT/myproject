@@ -6,6 +6,7 @@
 #include "../unit/Enemy.h"
 #include "../Input/InputState.h"
 
+
 class GameScene :
 	public BaseScene
 {
@@ -21,7 +22,7 @@ protected:
 private:
 	std::vector<Shared_Obj> _objList;
 	int _ghGameScreen;
-	std::array<Vector2, 6> enemAppPos;
+	std::array<std::array<Vector2,3>, 6> enemAppPos;
 	char key[256];
 };
 

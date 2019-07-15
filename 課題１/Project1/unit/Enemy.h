@@ -17,8 +17,7 @@ enum class ENM_TYPE
 	C
 };
 
-using EnemyData = std::tuple<Vector2, ENM_TYPE, Vector2,Vector2>
-;
+using EnemyData = std::tuple<Vector2, ENM_TYPE, Vector2,Vector2>;
 
 class Enemy :
 	public Obj

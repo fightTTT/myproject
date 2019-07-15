@@ -25,11 +25,17 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 	GetHitKeyStateAll(key);
-	if (key[KEY_INPUT_I]&&!_objList.size())
+	if (key[KEY_INPUT_I])
 	{
-
-		AddEnemy({ enemAppPos[rand()%6], ENM_TYPE(rand() % 3), {32,32},{80+40 *( enemCount%7),80+40 * (enemCount % 3)} });
-		enemCount++;
+		int enemRand = rand();
+		for (int i = 0; i < 3; i++)
+		{
+			if (_objList.size() < 22)
+			{
+				AddEnemy({ enemAppPos[enemRand % 6][i], ENM_TYPE(enemRand % 3), {32,32},{80 + 40 * (enemCount % 7),80 + 40 * (enemCount / 7 % 3)} });
+				enemCount++;
+			}
+		}
 	}
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
@@ -70,7 +76,7 @@ void GameScene::Draw(void)
 void GameScene::Init(void)
 {
 
-	/*srand(1);*/
+	srand(1);
 	/*_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*2, 20*4), Vector2(30, 32)));
 	for (int i = 0; i < 9; i++)
 	{
@@ -81,12 +87,30 @@ void GameScene::Init(void)
 	_objList.reserve(22);
 	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
 
-	enemAppPos = {
-		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
-		Vector2(-lpSceneMng.gameScreenPos.x+lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y+16),
-		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-		Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y+lpSceneMng.screenSize.y/2),
-		Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
-		Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16)};
+	enemAppPos = { {
+	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15*3,-lpSceneMng.gameScreenPos.y + 16* 3),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15*6,-lpSceneMng.gameScreenPos.y + 16* 6)},
+
+	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + 16),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + 16 * 3),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + 16 * 6)},
+
+	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
+
+	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
+
+	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
+	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},
+
+	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
+	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},}
+	};
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }

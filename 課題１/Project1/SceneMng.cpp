@@ -23,7 +23,7 @@ void SceneMng::Run(void)
 	
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-		WaitTimer(240);
+		//WaitTimer(240);
 		_DbgStartDraw;
 		drawList.clear();
 		_activeScene = _activeScene->UpDate(std::move(_activeScene));
