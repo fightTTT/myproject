@@ -6,6 +6,7 @@
 #include "../_DebugConOut.h"
 #include "../common/ImageMng.h"
 
+int Enemy::animCnt = 0;
 
 Enemy::Enemy()
 {
@@ -13,20 +14,20 @@ Enemy::Enemy()
 	
 }
 
-Enemy::Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size, const Vector2& targetPos)
+Enemy::Enemy(EnemyData data)
 {
-	_pos = pos;
-	_size = size;
-	_type = type;
-	_targetPos = targetPos;
+	_pos = std::get<static_cast<int>(ENM_DATA::POS)>(data);
+	_size = std::get<static_cast<int>(ENM_DATA::SIZE)>(data);
+	_type = std::get<static_cast<int>(ENM_DATA::TYPE)>(data);
+	_targetPos = std::get<static_cast<int>(ENM_DATA::TARGTPOS)>(data);
 
 	Init();
 
 	
 
 	//-----------------
-	X = pos.x;
-	Y = pos.y;
+	X = _pos.x;
+	Y = _pos.y;
 	//-----------------
 }
 
@@ -47,8 +48,8 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
-	static int charCnt;
-	static int animCnt = 0;
+	//static int charCnt;
+	//static int animCnt = 0;
 
 	//Ž€‚ñ‚¾‚çtrue‚É‚È‚éŠÖ”
 	if (Active())
@@ -61,6 +62,8 @@ void Enemy::SetMove()
 		AnimKey(ANIM::DEATH);
 	}*/
 
+	animCnt++;
+
 	int color = 0x00ff00;
 	if (firstFlag == false)
 	{
@@ -72,23 +75,23 @@ void Enemy::SetMove()
 
 	if (firstFlag)
 	{
-		auto a = abs(_firstTarget.x - _pos.x);
-		auto b = abs(_firstTarget.y - _pos.y);
+	/*	auto a = abs(_firstTarget.x - _pos.x);
+		auto b = abs(_firstTarget.y - _pos.y);*/
 		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 		{
 
 			float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+			_angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x)+ (90 * (DX_PI / 180));
 
 			X += (cos(angle)*speed);
 			Y += (sin(angle)*speed);
 
 			_pos.x = static_cast<int>(X);
 			_pos.y = static_cast<int>(Y);
-
 		}
 
-		auto c = abs(_firstTarget.x - _pos.x);
-		auto d = abs(_firstTarget.y - _pos.y);
+	/*	auto c = abs(_firstTarget.x - _pos.x);
+		auto d = abs(_firstTarget.y - _pos.y);*/
 
 		if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
 		{
@@ -104,13 +107,14 @@ void Enemy::SetMove()
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
 		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
-		_angle = atan2f(_targetPos.y - _firstTarget.y, _targetPos.x - _firstTarget.x);
+		_angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
+		_angle += 90 * (DX_PI / 180);
 		X += (cos(angle)*speed);
 		Y += (sin(angle)*speed);
 
 		_pos.x = static_cast<int>(X);
 		_pos.y = static_cast<int>(Y);
-		if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
+		if ((abs(_targetPos.x - _pos.x) <= speed && abs(_targetPos.y - _pos.y) <= speed))
 		{
 			_angle = 0.0f;
 		}
@@ -118,9 +122,9 @@ void Enemy::SetMove()
 
 	}
 	TRACE("x%d:y%d\n", _pos.x - _posOld.x, _pos.y - _posOld.y);
-	_animCnt = animCnt / charCnt % 30;
+	//_animCnt = animCnt / charCnt % 30;
 
-	animCnt++;
+	//animCnt++;
 
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
@@ -168,8 +172,9 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 
-	speed = 3;
+	speed = 2;
 
+	_animCnt = animCnt % 30;
 
 	_alive = true;
 	firstFlag = true;

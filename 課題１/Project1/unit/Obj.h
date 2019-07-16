@@ -23,7 +23,6 @@ class Obj;
 using Shared_Obj = std::shared_ptr<Obj>;
 using AnimVector = std::vector<std::pair<int, int>>;	// 
 
-
 class Obj
 {
 public:
@@ -62,6 +61,7 @@ protected:
 	bool _death;	
 	float _angle;
 	int _animCnt;		// アニメーションカウンター
+	
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
@@ -71,4 +71,3 @@ private:
 
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };
-

@@ -24,7 +24,7 @@ class Enemy :
 {
 public:
 	Enemy();
-	Enemy(const Vector2& pos, ENM_TYPE type, const Vector2& size,const Vector2& targetPos);
+	Enemy(EnemyData data);
 	~Enemy();
 
 	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
@@ -40,7 +40,7 @@ private:
 	bool firstFlag;
 	int waitCnt;
 	Vector2 _posOld;
-	
+	static int animCnt;
 	//-----------------
 	float X;
 	float Y;

@@ -55,7 +55,7 @@ SCN_ID GameScene::GetScnID(void)
 
 void GameScene::AddEnemy(EnemyData data)
 {
-	_objList.emplace_back(std::make_shared<Enemy>(std::get<0>(data), std::get<1>(data), std::get<2>(data), std::get<3>(data)));
+	_objList.emplace_back(std::make_shared<Enemy>(data));
 }
 
 void GameScene::Draw(void)

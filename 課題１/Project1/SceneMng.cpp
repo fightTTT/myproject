@@ -9,6 +9,16 @@
 
 std::unique_ptr<SceneMng, SceneMng::SceneMngDeleter> SceneMng::s_Instance(new SceneMng);
 
+SceneMng::SceneMng() :screenSize{ 800,600 }, gameScreenSize{ 500,390 }, gameScreenPos{ (800 - 500) / 2,(600 - 390) / 2 }
+{
+
+}
+
+
+SceneMng::~SceneMng()
+{
+}
+
 void SceneMng::Run(void)
 {
 	Init();
@@ -77,12 +87,4 @@ void SceneMng::Draw(void)
 	
 }
 
-SceneMng::SceneMng() :screenSize{ 800,600 }, gameScreenSize{ 500,390 }, gameScreenPos{(800-500)/2,(600-390)/2}
-{
-	
-}
 
-
-SceneMng::~SceneMng()
-{
-}

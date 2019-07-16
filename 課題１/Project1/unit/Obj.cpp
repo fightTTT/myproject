@@ -4,13 +4,14 @@
 #include <DxLib.h>
 
 
+
 Obj::Obj()
 {
 	_animKey = ANIM::NORMAL;
 	_animFram = 0;
 	_death = false;
 	_alive = true;
-	_animCnt = 0;
+	//_animCnt = animCnt%30;
 
 }
 
@@ -43,13 +44,12 @@ void Obj::Draw(void)
 
 	if (_animCnt <= _animMap[_animKey][_animFram].second)
 	{
-		DrawRotaGraph(_pos.x, _pos.y,1.0,0.0, _animMap[_animKey][_animFram].first, true,false);
+		DrawRotaGraph(_pos.x, _pos.y,1.0,_angle, _animMap[_animKey][_animFram].first, true,false);
 	}
 
 	//_DbgDrawBox(_pos.x, _pos.y, _pos.x + _size.x, _pos.y + _size.y, 0xff0000, 1);
 	//_DbgDrawString(_pos.x, _pos.y, "Œ©‚¦‚Ü‚·‚©H", 0xff00ff);
 	_animCnt++;
-
 }
 
 void Obj::Draw(int id)
