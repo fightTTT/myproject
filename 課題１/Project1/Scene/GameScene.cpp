@@ -76,7 +76,6 @@ void GameScene::Draw(void)
 
 void GameScene::Init(void)
 {
-
 	srand(1);
 	/*_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*2, 20*4), Vector2(30, 32)));
 	for (int i = 0; i < 9; i++)
