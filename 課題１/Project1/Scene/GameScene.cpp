@@ -25,6 +25,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 	GetHitKeyStateAll(key);
+
 	if (key[KEY_INPUT_I])
 	{
 		int enemRand = rand();

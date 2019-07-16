@@ -59,14 +59,15 @@ protected:
 	Vector2 _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
 	bool _alive;		// 生きているか	true...生存　false...死亡
-	bool _death;		
+	bool _death;	
+	float _angle;
+	int _animCnt;		// アニメーションカウンター
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
-	int _animCnt;		// アニメーションカウンター
+	
+	
 
-	
-	
 
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };

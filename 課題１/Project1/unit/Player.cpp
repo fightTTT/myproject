@@ -15,7 +15,7 @@ Player::Player(const Vector2& pos, const Vector2& size)
 	Init();
 	_pos = pos;
 	_size = size;
-
+	_angle = 0.0f;
 	
 	TRACE("%d",_pos.x);
 }
