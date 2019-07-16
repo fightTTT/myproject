@@ -72,15 +72,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	auto chipH = LoadGraph("img/atlas0.png");
 
 	Capsule cap(20,Position2((sw-wdW)/2,sh-100),Position2((sw - wdW) / 2+wdW,sh-100));
-	Circle cc(24, Position2((sw - wdW) / 2, 60));
+	Circle cc(24, Position2(GetRand((sw - wdW))+ 100, 60));
 
 	Position2 explosionPos;
 	bool explosionFlag = false;
 	char keystate[256];
+	float vel = 1;
 	
 	float angle = 0.0f;
+	bool deathFlag = false;
 
 	int frame = 0;
+	int outFrame = 0;
 	bool isLeft = false;
 	while (ProcessMessage() == 0&&keystate[KEY_INPUT_ESCAPE] != 1) {
 		ClearDrawScreen();
@@ -90,8 +93,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		int mx = 0, my = 0;
 
-		if (!explosionFlag)
-		{
+		
 			if (keystate[KEY_INPUT_LEFT]) {
 				isLeft = true;
 			}
@@ -119,20 +121,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			else {
 				angle = 0.0f;
 			}
-		}
-
 		//“–‚½‚è”»’è‚ðŠ®¬‚³‚¹‚Ä“–‚½‚Á‚½‚Æ‚«‚Ì”½‰ž‚ð‘‚¢‚Ä‚­‚¾‚³‚¢
 		if(IsHit(cap,cc))
 		{
 			explosionFlag = true;
-			explosionPos = 
+			deathFlag = true;
+			cc.pos = Position2(GetRand((sw - wdW)) + 100, 60);
+			
+			//explosionPos = 
 		}
 
-		//ƒJƒvƒZƒ‹‰ñ“]
-		Matrix rotMat=RotatePosition(Position2(mx, my), angle);
-		cap.posA = MultipleVec(rotMat, cap.posA);
-		cap.posB = MultipleVec(rotMat, cap.posB);
-
+		if (cc.pos.y > sh)
+		{
+			cc.pos = Position2(GetRand((sw - wdW)) + 100, 60);
+		}
+		if (!explosionFlag)
+		{
+			//ƒJƒvƒZƒ‹‰ñ“]
+			Matrix rotMat = RotatePosition(Position2(mx, my), angle);
+			cap.posA = MultipleVec(rotMat, cap.posA);
+			cap.posB = MultipleVec(rotMat, cap.posB);
+		}
 		//”wŒi‚Ì•`‰æ
 		//‘ê
 		int chipIdx = (frame/4) % 3;
@@ -163,7 +172,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			destY += dest_chip_size;
 		}
 
-		cc.pos.y += 1;
+		if (explosionFlag)
+		{
+			
+			
+		
+		}
+
+		if (deathFlag)
+		{
+			outFrame++;
+			vel = -10 + 9.8f*outFrame / 15;
+			cap.posA = { cap.posA.x,cap.posA.y + vel * 1 };
+			cap.posB = { cap.posB.x,cap.posB.y + vel * 1 };
+			if (cap.posA.y > sh && cap.posB.y > sh)
+			{
+				deathFlag = false;
+				explosionFlag = false;
+				cap.posA = Position2((sw - wdW) / 2, sh - 100);
+				cap.posB = Position2((sw - wdW) / 2+ wdW, sh - 100);
+				outFrame = 0;
+			}
+		}
+
+		cc.pos.y += 3;
+		//cc.pos.y += vel*1;
 
 		DrawWood(cap, woodH);
 		DrawRotaGraph(cc.pos.x, cc.pos.y, 2.0, 0.0, rockH, true, false);
@@ -171,7 +204,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		DrawCircle(cc.pos.x, cc.pos.y, cc.radius, 0x00ff00, false, 5);
 		if (explosionFlag)
 		{
-			DrawGraph(explosionPos.x, explosionPos.y, explosionH, false);
+			DrawGraph(explosionPos.x, explosionPos.y, explosionH, true);
 		}
 
 		++frame;
