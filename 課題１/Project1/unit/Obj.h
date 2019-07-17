@@ -43,7 +43,7 @@ public:
 	const Vector2Dbl Pos()const;
 
 	bool IsAnimEnd();
-	bool Active();
+	bool DeathProc();
 
 	// posƒZƒbƒg
 	void Pos(const Vector2Dbl &pos);

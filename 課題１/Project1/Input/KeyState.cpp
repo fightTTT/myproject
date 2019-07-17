@@ -40,7 +40,7 @@ void KeyState::Update()
 	GetHitKeyStateAll(_buf);
 
 	// this->*funcに()をつける理由としては、つけなかった場合、コンパイルする際にthis->*func　()ではなく、
-	// this-> (*func())としてみられるから
+	// this-> (*func())としてみられるから。このように見られた場合、クラスのポインタと関数の実体がつながっていないため、エラーが起こる
 	(this->*func)();		
 }
 

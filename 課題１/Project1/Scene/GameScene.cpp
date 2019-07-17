@@ -33,7 +33,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		{
 			if (_objList.size() < 22)
 			{
-				AddEnemy({ enemAppPos[enemRand % 6][i], ENM_TYPE(enemRand % 3), {32,32},{80 + 40 * (enemCount % 7),80 + 40 * (enemCount / 7 % 3)} });
+				AddEnemy({ enemAppPos[enemRand % 6][i], ENM_TYPE(enemRand % 3), {32,32},Vector2Dbl(80 + 40 * (enemCount % 7),80 + 40 * (enemCount / 7 % 3) )});
 				enemCount++;
 			}
 		}
@@ -84,7 +84,7 @@ void GameScene::Init(void)
 
 	
 	_objList.reserve(22);
-	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
+	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2(30, 32)));
 
 	enemAppPos = { {
 	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),

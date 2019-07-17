@@ -104,7 +104,7 @@ bool Obj::IsAnimEnd()
 	return _animMap[_animKey][_animFram].first == -1? true:false;
 }
 
-bool Obj::Active()
+bool Obj::DeathProc()
 {
 	if (_alive)
 	{

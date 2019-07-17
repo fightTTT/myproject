@@ -23,18 +23,75 @@ Enemy::Enemy(EnemyData data)
 
 	Init();
 
-	
-
 	//-----------------
 	/*_floatPosX = _pos.x;
 	_floatPosY = _pos.y;*/
 	//-----------------
 }
 
-
 Enemy::~Enemy()
 {
 }
+
+bool Enemy::Init(void)
+{
+	AnimVector data;
+
+	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
+
+	// 上記のpush_backと同じ処理
+	/*data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+	data.emplace_back(IMAGE_ID("キャラ")[11], 60);*/
+
+	data.reserve(2);
+	switch (_type)
+	{
+	case ENM_TYPE::A:
+		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+		break;
+	case ENM_TYPE::B:
+		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
+		break;
+	case ENM_TYPE::C:
+		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
+		break;
+	default:
+		break;
+	}
+
+	SetAnim(ANIM::NORMAL, data);
+
+	_firstTarget = { 250,300 };
+
+	data.reserve(5);
+	data.emplace_back(IMAGE_ID("爆破")[0], 5);
+	data.emplace_back(IMAGE_ID("爆破")[1], 15);
+	data.emplace_back(IMAGE_ID("爆破")[2], 25);
+	data.emplace_back(IMAGE_ID("爆破")[3], 35);
+	data.emplace_back(IMAGE_ID("爆破")[4], 45);
+	data.emplace_back(-1, 50);
+
+	SetAnim(ANIM::DEATH, data);
+
+	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
+	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SIGMOID);
+	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::B);
+	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
+
+	speed = 2;
+
+	//_animCnt = animCnt % 30;
+
+	_alive = true;
+	firstFlag = true;
+	waitCnt = 0;
+
+	return true;
+}
+
 
 void Enemy::Draw(void)
 {
@@ -53,7 +110,7 @@ void Enemy::SetMove()
 	//static int animCnt = 0;
 
 	//死んだらtrueになる関数
-	if (Active())
+	if (DeathProc())
 	{
 		return;
 	}
@@ -118,63 +175,23 @@ void Enemy::SetMove()
 
 
 	}
+
+	(this->*move)();
+
 	TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
-
-	//animCnt++;
-
 	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
-bool Enemy::Init(void)
+
+void Enemy::MoveSigmoid(void)
 {
-	AnimVector data;
 
-	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
+}
 
-	// 上記のpush_backと同じ処理
-	/*data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-	data.emplace_back(IMAGE_ID("キャラ")[11], 60);*/
+void Enemy::MoveB(void)
+{
+}
 
-	data.reserve(2);
-	switch (_type)
-	{
-	case ENM_TYPE::A:
-		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
-		break;
-	case ENM_TYPE::B:
-		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
-		break;
-	case ENM_TYPE::C:
-		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
-		break;
-	default:
-		break;
-	}
-	SetAnim(ANIM::NORMAL, data);
-
-	_firstTarget = { 250,300 };
-
-	data.reserve(5);
-	data.emplace_back(IMAGE_ID("爆破")[0], 5);
-	data.emplace_back(IMAGE_ID("爆破")[1], 15);
-	data.emplace_back(IMAGE_ID("爆破")[2], 25);
-	data.emplace_back(IMAGE_ID("爆破")[3], 35);
-	data.emplace_back(IMAGE_ID("爆破")[4], 45);
-	data.emplace_back(-1, 50);
-
-	SetAnim(ANIM::DEATH, data);
-
-
-	speed = 2;
-
-	_animCnt = animCnt % 30;
-
-	_alive = true;
-	firstFlag = true;
-	waitCnt = 0;
-
-	return true;
+void Enemy::MoveLR(void)
+{
 }

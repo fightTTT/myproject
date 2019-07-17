@@ -17,7 +17,7 @@ Player::Player(const Vector2Dbl& pos, const Vector2& size)
 	_size = size;
 	_angle = 0.0f;
 	
-	TRACE("%d",_pos.x);
+	//TRACE("%d",_pos.x);
 }
 
 
@@ -37,7 +37,7 @@ UNIT Player::GetUnit(void)
 
 void Player::SetMove()
 {
-	if (Active())
+	if (DeathProc())
 	{
 		return;
 	}
