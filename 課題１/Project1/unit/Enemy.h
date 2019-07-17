@@ -17,7 +17,7 @@ enum class ENM_TYPE
 	C
 };
 
-using EnemyData = std::tuple<Vector2, ENM_TYPE, Vector2,Vector2>;
+using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl>;
 
 class Enemy :
 	public Obj
@@ -33,16 +33,16 @@ public:
 	void SetMove();
 private:
 	bool Init(void);
-	ENM_TYPE _type;
-	Vector2 _targetPos;
-	Vector2 _firstTarget;
+	ENM_TYPE _type;				// “G‚Ìí—Ş
+	Vector2Dbl _targetPos;			// “G‚ª•À‚ÔêŠ
+	Vector2Dbl _firstTarget;		// “G‚ªÅ‰‚ÉŒü‚©‚¤êŠ
 	int speed;
 	bool firstFlag;
 	int waitCnt;
-	Vector2 _posOld;
+	Vector2Dbl _posOld;
 	static int animCnt;
 	//-----------------
-	float X;
-	float Y;
+	float _floatPosX;
+	float _floatPosY;
 	//-----------------
 };

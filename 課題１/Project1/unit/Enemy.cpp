@@ -26,8 +26,8 @@ Enemy::Enemy(EnemyData data)
 	
 
 	//-----------------
-	X = _pos.x;
-	Y = _pos.y;
+	/*_floatPosX = _pos.x;
+	_floatPosY = _pos.y;*/
 	//-----------------
 }
 
@@ -38,7 +38,8 @@ Enemy::~Enemy()
 
 void Enemy::Draw(void)
 {
-	DrawGraph(_pos.x, _pos.y, ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[11], true);
+	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[11], true);
+
 }
 
 UNIT Enemy::GetUnit(void)
@@ -71,27 +72,22 @@ void Enemy::SetMove()
 	}
 
 	_posOld = _pos;
-	_DbgDrawBox(_pos.x, _pos.y, _pos.x + 32, _pos.y + 32, color, true);
+	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
 
 	if (firstFlag)
 	{
-	/*	auto a = abs(_firstTarget.x - _pos.x);
-		auto b = abs(_firstTarget.y - _pos.y);*/
 		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
 		{
 
 			float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
 			_angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x)+ (90 * (DX_PI / 180));
 
-			X += (cos(angle)*speed);
-			Y += (sin(angle)*speed);
+			_pos.x += (cos(angle)*speed);
+			_pos.y += (sin(angle)*speed);
 
-			_pos.x = static_cast<int>(X);
-			_pos.y = static_cast<int>(Y);
+			/*_pos.x = static_cast<int>(_floatPosX);
+			_pos.y = static_cast<int>(_floatPosY);*/
 		}
-
-	/*	auto c = abs(_firstTarget.x - _pos.x);
-		auto d = abs(_firstTarget.y - _pos.y);*/
 
 		if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
 		{
@@ -106,14 +102,15 @@ void Enemy::SetMove()
 	}
 	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
 	{
-		float angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
-		_angle = atan2f(_targetPos.y - _pos.y, _targetPos.x - _pos.x);
+		float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), 
+							 static_cast<float>(_targetPos.x - _pos.x));
+		_angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
 		_angle += 90 * (DX_PI / 180);
-		X += (cos(angle)*speed);
-		Y += (sin(angle)*speed);
+		_pos.x += (cos(angle)*speed);
+		_pos.y += (sin(angle)*speed);
 
-		_pos.x = static_cast<int>(X);
-		_pos.y = static_cast<int>(Y);
+		/*_pos.x = static_cast<int>(_floatPosX);
+		_pos.y = static_cast<int>(_floatPosY);*/
 		if ((abs(_targetPos.x - _pos.x) <= speed && abs(_targetPos.y - _pos.y) <= speed))
 		{
 			_angle = 0.0f;
@@ -121,8 +118,7 @@ void Enemy::SetMove()
 
 
 	}
-	TRACE("x%d:y%d\n", _pos.x - _posOld.x, _pos.y - _posOld.y);
-	//_animCnt = animCnt / charCnt % 30;
+	TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
 
 	//animCnt++;
 

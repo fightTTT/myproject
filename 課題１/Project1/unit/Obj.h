@@ -40,13 +40,13 @@ public:
 	bool AnimKey(const ANIM animkey);	
 
 	// pos情報取得
-	const Vector2 Pos()const;
+	const Vector2Dbl Pos()const;
 
 	bool IsAnimEnd();
 	bool Active();
 
 	// posセット
-	void Pos(const Vector2 &pos);
+	void Pos(const Vector2Dbl &pos);
 
 	// 生存確認
 	const bool IsAlive() { return _alive; };
@@ -55,7 +55,7 @@ protected:
 
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
-	Vector2 _pos;		// 座標
+	Vector2Dbl _pos;		// 座標
 	Vector2 _size;		// キャラの大きさ
 	bool _alive;		// 生きているか	true...生存　false...死亡
 	bool _death;	

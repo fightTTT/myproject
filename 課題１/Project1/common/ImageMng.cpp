@@ -1,6 +1,6 @@
 #include <DxLib.h>
 #include "ImageMng.h"
-#include "vector2.h"
+
 
 ImageMng* ImageMng::s_Instance = nullptr;
 

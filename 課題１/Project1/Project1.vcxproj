@@ -138,11 +138,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="unit\Obj.cpp" />
     <ClCompile Include="unit\Player.cpp" />
-    <ClCompile Include="common\Vector2.cpp" />
     <ClCompile Include="_DebugConOut.cpp" />
     <ClCompile Include="_DebugDispOut.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\details\Vector2.h" />
     <ClInclude Include="Input\InputState.h" />
     <ClInclude Include="Input\KeyState.h" />
     <ClInclude Include="INPUT_ID.h" />

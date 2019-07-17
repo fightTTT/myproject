@@ -4,7 +4,6 @@
 #include <DxLib.h>
 
 
-
 Obj::Obj()
 {
 	_animKey = ANIM::NORMAL;
@@ -44,7 +43,7 @@ void Obj::Draw(void)
 
 	if (_animCnt <= _animMap[_animKey][_animFram].second)
 	{
-		DrawRotaGraph(_pos.x, _pos.y,1.0,_angle, _animMap[_animKey][_animFram].first, true,false);
+		DrawRotaGraph(static_cast<int>(_pos.x),static_cast<int>( _pos.y),1.0,_angle, _animMap[_animKey][_animFram].first, true,false);
 	}
 
 	//_DbgDrawBox(_pos.x, _pos.y, _pos.x + _size.x, _pos.y + _size.y, 0xff0000, 1);
@@ -54,7 +53,7 @@ void Obj::Draw(void)
 
 void Obj::Draw(int id)
 {
-	DrawGraph(_pos.x, _pos.y, id, true);
+	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), id, true);
 }
 
 void Obj::SetMove()
@@ -84,7 +83,7 @@ bool Obj::AnimKey(const ANIM animKey)
 	return true;
 }
 
-const Vector2 Obj::Pos() const
+const Vector2Dbl Obj::Pos() const
 {
 	return _pos;
 }
@@ -120,7 +119,7 @@ bool Obj::Active()
 	return true;
 }
 
-void Obj::Pos(const Vector2 &pos)
+void Obj::Pos(const Vector2Dbl &pos)
 {
 	_pos = pos;
 }

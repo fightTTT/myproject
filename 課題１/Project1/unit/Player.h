@@ -9,7 +9,7 @@ class Player :
 {
 public:
 	Player();
-	Player(const Vector2& pos, const Vector2& size);
+	Player(const Vector2Dbl& pos, const Vector2& size);
 	~Player();
 	void Draw(void) override;
 	UNIT GetUnit(void) override;

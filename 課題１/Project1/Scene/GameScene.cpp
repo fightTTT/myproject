@@ -60,7 +60,6 @@ void GameScene::AddEnemy(EnemyData data)
 
 void GameScene::Draw(void)
 {
-
 	int ghBefor;
 	ghBefor = GetDrawScreen();
 	SetDrawScreen(_ghGameScreen);
@@ -88,29 +87,29 @@ void GameScene::Init(void)
 	_objList.emplace_back(std::make_shared<Player>(Vector2(100, 100), Vector2(30, 32)));
 
 	enemAppPos = { {
-	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15*3,-lpSceneMng.gameScreenPos.y + 16* 3),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15*6,-lpSceneMng.gameScreenPos.y + 16* 6)},
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15*3,-lpSceneMng.gameScreenPos.y + 16* 3),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15*6,-lpSceneMng.gameScreenPos.y + 16* 6)},
 
-	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + 16),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + 16 * 3),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + 16 * 6)},
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + 16),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + 16 * 3),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + 16 * 6)},
 
-	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
 
-	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
 
-	{Vector2(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
-	Vector2(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},
 
-	{Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
-	Vector2(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},}
+	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
+	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},}
 	};
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }

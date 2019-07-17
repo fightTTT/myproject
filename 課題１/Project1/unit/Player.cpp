@@ -10,7 +10,7 @@ Player::Player()
 	Init();
 }
 
-Player::Player(const Vector2& pos, const Vector2& size)
+Player::Player(const Vector2Dbl& pos, const Vector2& size)
 {
 	Init();
 	_pos = pos;
@@ -27,7 +27,7 @@ Player::~Player()
 
 void Player::Draw(void)
 {
-	DrawGraph(_pos.x, _pos.y, ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[0], true);
+	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[0], true);
 }
 
 UNIT Player::GetUnit(void)

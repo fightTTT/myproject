@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <vector>
+#include "vector2.h"
 
 #define lpImageMng ImageMng::GetInstance()
 using IntVec = std::vector<int>;
@@ -8,7 +9,6 @@ using IntVec = std::vector<int>;
 #define IMAGE_ID(KEY) (ImageMng::GetInstance().GetID(KEY))
 #define SET_IMAGE_ID(KEY,F_NAME) (ImageMng::GetInstance().GetID(KEY,F_NAME))
 
-class Vector2;
 
 class ImageMng
 {

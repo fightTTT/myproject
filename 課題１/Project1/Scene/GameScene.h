@@ -22,7 +22,7 @@ protected:
 private:
 	std::vector<Shared_Obj> _objList;
 	int _ghGameScreen;
-	std::array<std::array<Vector2,3>, 6> enemAppPos;
+	std::array<std::array<Vector2Dbl,3>, 6> enemAppPos;
 	char key[256];
 };
 
