@@ -78,16 +78,21 @@ bool Enemy::Init(void)
 
 	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
 	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SIGMOID);
-	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::B);
+	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
 	speed = 2;
 
-	//_animCnt = animCnt % 30;
+	
+	step = speed;
 
 	_alive = true;
 	firstFlag = true;
 	waitCnt = 0;
+
+	X = (_pos.x - std::get<0>(moveData[0]).x);
+
+	move = &Enemy::MoveSigmoid;
 
 	return true;
 }
@@ -131,64 +136,76 @@ void Enemy::SetMove()
 	_posOld = _pos;
 	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
 
-	if (firstFlag)
-	{
-		if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
-		{
+	//if (firstFlag)
+	//{
+	//	if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
+	//	{
 
-			float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
-			_angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x)+ (90 * (DX_PI / 180));
+	//		float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
+	//		_angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x)+ (90 * (DX_PI / 180));
 
-			_pos.x += (cos(angle)*speed);
-			_pos.y += (sin(angle)*speed);
+	//		_pos.x += (cos(angle)*speed);
+	//		_pos.y += (sin(angle)*speed);
 
-			/*_pos.x = static_cast<int>(_floatPosX);
-			_pos.y = static_cast<int>(_floatPosY);*/
-		}
+	//		/*_pos.x = static_cast<int>(_floatPosX);
+	//		_pos.y = static_cast<int>(_floatPosY);*/
+	//	}
 
-		if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
-		{
-			_angle = 0.0f;
-			_pos = _firstTarget;
-			waitCnt++;
-			if (waitCnt > 60)
-			{
-				firstFlag = false;
-			}
-		}
-	}
-	else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
-	{
-		float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), 
-							 static_cast<float>(_targetPos.x - _pos.x));
-		_angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
-		_angle += 90 * (DX_PI / 180);
-		_pos.x += (cos(angle)*speed);
-		_pos.y += (sin(angle)*speed);
+	//	if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
+	//	{
+	//		_angle = 0.0f;
+	//		_pos = _firstTarget;
+	//		waitCnt++;
+	//		if (waitCnt > 60)
+	//		{
+	//			firstFlag = false;
+	//		}
+	//	}
+	//}
+	//else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
+	//{
+	//	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), 
+	//						 static_cast<float>(_targetPos.x - _pos.x));
+	//	_angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
+	//	_angle += 90 * (DX_PI / 180);
+	//	_pos.x += (cos(angle)*speed);
+	//	_pos.y += (sin(angle)*speed);
 
-		/*_pos.x = static_cast<int>(_floatPosX);
-		_pos.y = static_cast<int>(_floatPosY);*/
-		if ((abs(_targetPos.x - _pos.x) <= speed && abs(_targetPos.y - _pos.y) <= speed))
-		{
-			_angle = 0.0f;
-		}
+	//	/*_pos.x = static_cast<int>(_floatPosX);
+	//	_pos.y = static_cast<int>(_floatPosY);*/
+	//	if ((abs(_targetPos.x - _pos.x) <= speed && abs(_targetPos.y - _pos.y) <= speed))
+	//	{
+	//		_angle = 0.0f;
+	//	}
 
-
-	}
+	//}
 
 	(this->*move)();
 
-	TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
-	_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
-}
+	/*for (auto &draw : drawPixel)
+	{
+		_DbgDrawPixel(draw.x, draw.y, 0xffffff);
+	}*/
 
+
+
+	//TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
+	//_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
+}
 
 void Enemy::MoveSigmoid(void)
 {
+	double sigmoid = 1.0 / (1.0 + exp(X*(-1.0)));
 
+	X += step;
+	
+	_pos.x = X;
+	_pos.y = (sigmoid);
+	drawPixel.emplace_back(_pos);
+	
 }
 
-void Enemy::MoveB(void)
+void Enemy::MoveSpiral(void)
 {
 }
 

@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="Input\InputState.cpp" />
     <ClCompile Include="Input\KeyState.cpp" />
     <ClCompile Include="INPUT_ID.cpp" />
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\details\Vector2.h" />
+    <ClInclude Include="EnemyMove.h" />
     <ClInclude Include="Input\InputState.h" />
     <ClInclude Include="Input\KeyState.h" />
     <ClInclude Include="INPUT_ID.h" />

@@ -1,6 +1,8 @@
 #pragma once
 #include <tuple>
 #include <vector>
+#include<list>
+#include <memory>
 #include "Obj.h"
 
 enum class ENM_DATA
@@ -23,7 +25,7 @@ enum class ENM_TYPE
 enum class MOVE_TYPE
 {
 	SIGMOID,
-	B,
+	SPIRAL,
 	LR,
 	MAX
 };
@@ -46,7 +48,7 @@ public:
 private:
 	bool Init(void);
 	void MoveSigmoid(void);
-	void MoveB(void);
+	void MoveSpiral(void);
 	void MoveLR(void);
 	void (Enemy::*move)(void);	// メンバ関数ポインタ
 	ENM_TYPE _type;				// 敵の種類
@@ -60,7 +62,11 @@ private:
 	static int animCnt;
 	std::vector<MoveType> moveData;
 	//-----------------
-	float _floatPosX;
-	float _floatPosY;
+	/*float _floatPosX;
+	float _floatPosY;*/
+	double X;
 	//-----------------
+	std::list<Vector2Dbl> drawPixel;
+
+	double step;
 };
