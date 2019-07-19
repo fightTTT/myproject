@@ -81,16 +81,19 @@ bool Enemy::Init(void)
 	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
-	speed = 2;
-
+	speed = 1;
+	X = (-10);
 	
-	step = speed;
+	step = X;
 
 	_alive = true;
 	firstFlag = true;
 	waitCnt = 0;
 
-	X = (_pos.x - std::get<0>(moveData[0]).x);
+	
+	lastX = 10;
+	//Y = (_pos.y- std::get<0>(moveData[0]).y);
+	//lastY = abs(Y);
 
 	move = &Enemy::MoveSigmoid;
 
@@ -135,6 +138,7 @@ void Enemy::SetMove()
 
 	_posOld = _pos;
 	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
+	_DbgDrawBox(static_cast<int>(std::get<0>(moveData[0]).x), static_cast<int>(std::get<0>(moveData[0]).y), static_cast<int>(std::get<0>(moveData[0]).x) + 32, static_cast<int>(std::get<0>(moveData[0]).y) + 32, color, true);
 
 	//if (firstFlag)
 	//{
@@ -177,17 +181,14 @@ void Enemy::SetMove()
 	//	{
 	//		_angle = 0.0f;
 	//	}
-
 	//}
 
 	(this->*move)();
 
-	/*for (auto &draw : drawPixel)
-	{
-		_DbgDrawPixel(draw.x, draw.y, 0xffffff);
-	}*/
-
-
+	//for (auto &draw : drawPixel)
+	//{
+	//	_DbgDrawPixel(draw.x, draw.y, 0xffff00);
+	//}
 
 	//TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
 	//_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
@@ -195,20 +196,31 @@ void Enemy::SetMove()
 
 void Enemy::MoveSigmoid(void)
 {
-	double sigmoid = 1.0 / (1.0 + exp(X*(-1.0)));
+	auto sigmoid = [&](double y) {return (y/ (1.0 + exp(step*(-0.05)))); };
 
-	X += step;
+	step++;
+
+	_pos.x += speed;
+	_pos.y = (sigmoid(Y));
+
+	if (step> lastX)
+	{
+		move = &Enemy::MoveSpiral;
+	}
+	/*if (animCnt % 5 == 0)
+	{
+		drawPixel.emplace_back(_pos);
+	}*/
 	
-	_pos.x = X;
-	_pos.y = (sigmoid);
-	drawPixel.emplace_back(_pos);
-	
+	//TRACE("%d\n", _pos.x);
 }
 
 void Enemy::MoveSpiral(void)
 {
+
 }
 
 void Enemy::MoveLR(void)
 {
+	_angle = 0.0f;
 }

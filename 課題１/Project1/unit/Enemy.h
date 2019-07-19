@@ -65,6 +65,9 @@ private:
 	/*float _floatPosX;
 	float _floatPosY;*/
 	double X;
+	double lastX;
+	double Y;
+	double lastY;
 	//-----------------
 	std::list<Vector2Dbl> drawPixel;
 
