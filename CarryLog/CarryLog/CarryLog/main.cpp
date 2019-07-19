@@ -72,7 +72,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	auto chipH = LoadGraph("img/atlas0.png");
 
 	Capsule cap(20,Position2((sw-wdW)/2,sh-100),Position2((sw - wdW) / 2+wdW,sh-100));
-	Circle cc(24, Position2(GetRand((sw - wdW))+ 100, 60));
+	Circle cc(24, Position2(GetRand((sw - wdW))+ 100, -70));
 
 	Position2 explosionPos;
 	bool explosionFlag = false;
@@ -119,6 +119,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				angle = 0.05f;
 			}
 			else {
+		
 				angle = 0.0f;
 			}
 		//“–‚½‚è”»’è‚ðŠ®¬‚³‚¹‚Ä“–‚½‚Á‚½‚Æ‚«‚Ì”½‰ž‚ð‘‚¢‚Ä‚­‚¾‚³‚¢
@@ -126,14 +127,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			explosionFlag = true;
 			deathFlag = true;
-			cc.pos = Position2(GetRand((sw - wdW)) + 100, 60);
+			//cc.pos = Position2(GetRand((sw - wdW)) + 100, 60);
 			
 			//explosionPos = 
 		}
 
+		if (cap.posA.x > cap.posB.x)
+		{
+			if (cap.posA.x - cap.posB.x > 60)
+			{
+				deathFlag = true;
+				explosionFlag = true;
+			}
+		}
+
 		if (cc.pos.y > sh)
 		{
-			cc.pos = Position2(GetRand((sw - wdW)) + 100, 60);
+			cc.pos = Position2(GetRand((sw - wdW)) + 100, -70);
 		}
 		if (!explosionFlag)
 		{
@@ -192,7 +202,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				cap.posA = Position2((sw - wdW) / 2, sh - 100);
 				cap.posB = Position2((sw - wdW) / 2+ wdW, sh - 100);
 				outFrame = 0;
+				
 			}
+			cc.pos = Position2(GetRand((sw - wdW)) + 100,-70);
+
 		}
 
 		cc.pos.y += 3;
