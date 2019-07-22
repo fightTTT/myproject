@@ -132,6 +132,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//explosionPos = 
 		}
 
+		if (cap.posA.x > sw - 32 || cap.posA.x < 32 || cap.posB.x > sw - 32 || cap.posB.x < 32)
+		{
+			deathFlag = true;
+			//explosionFlag = true;
+		}
+
 		if (cap.posA.x > cap.posB.x)
 		{
 			if (cap.posA.x - cap.posB.x > 60)
@@ -145,7 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			cc.pos = Position2(GetRand((sw - wdW)) + 100, -70);
 		}
-		if (!explosionFlag)
+		if (!explosionFlag && !deathFlag)
 		{
 			//ƒJƒvƒZƒ‹‰ñ“]
 			Matrix rotMat = RotatePosition(Position2(mx, my), angle);
@@ -184,9 +190,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (explosionFlag)
 		{
-			
-			
-		
+
 		}
 
 		if (deathFlag)
@@ -208,13 +212,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		}
 
-		cc.pos.y += 3;
+		cc.pos.y += 2;
+		cap.posA.y += 0.6;
+		cap.posB.y += 0.6;
 		//cc.pos.y += vel*1;
 
 		DrawWood(cap, woodH);
-		DrawRotaGraph(cc.pos.x, cc.pos.y, 2.0, 0.0, rockH, true, false);
+		DrawRotaGraph(cc.pos.x, cc.pos.y, 2.0, (frame/6), rockH, true, false);
 		DrawCircle(mx, my, 30, 0xff0000, false, 3);
-		DrawCircle(cc.pos.x, cc.pos.y, cc.radius, 0x00ff00, false, 5);
+		//DrawCircle(cc.pos.x, cc.pos.y, cc.radius, 0x00ff00, false, 5);
 		if (explosionFlag)
 		{
 			DrawGraph(explosionPos.x, explosionPos.y, explosionH, true);
@@ -224,8 +230,5 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		
 		ScreenFlip();
 	}
-
 	DxLib_End();
-
-
 }
