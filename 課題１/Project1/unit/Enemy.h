@@ -11,6 +11,7 @@ enum class ENM_DATA
 	TYPE,
 	SIZE,
 	TARGTPOS,
+	ENEMNUM,
 	MAX
 };
 
@@ -30,7 +31,7 @@ enum class MOVE_TYPE
 	MAX
 };
 
-using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl>;
+using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl,int>;
 using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
 
 class Enemy :
@@ -50,6 +51,7 @@ private:
 	void MoveSigmoid(void);
 	void MoveSpiral(void);
 	void MoveLR(void);
+	void MoveWait(void);
 	void (Enemy::*move)(void);	// メンバ関数ポインタ
 	ENM_TYPE _type;				// 敵の種類
 	Vector2Dbl _targetPos;			// 敵が並ぶ場所
@@ -57,6 +59,7 @@ private:
 	int speed;
 	bool firstFlag;
 	int waitCnt;
+	int _enemCnt;
 
 	Vector2Dbl _posOld;
 	static int animCnt;

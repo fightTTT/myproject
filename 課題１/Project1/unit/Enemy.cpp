@@ -20,7 +20,7 @@ Enemy::Enemy(EnemyData data)
 	_size = std::get<static_cast<int>(ENM_DATA::SIZE)>(data);
 	_type = std::get<static_cast<int>(ENM_DATA::TYPE)>(data);
 	_targetPos = std::get<static_cast<int>(ENM_DATA::TARGTPOS)>(data);
-
+	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
 	Init();
 
 	//-----------------
@@ -95,7 +95,7 @@ bool Enemy::Init(void)
 	//Y = (_pos.y- std::get<0>(moveData[0]).y);
 	//lastY = abs(Y);
 
-	move = &Enemy::MoveSigmoid;
+	move = &Enemy::MoveWait;
 
 	return true;
 }
@@ -223,4 +223,15 @@ void Enemy::MoveSpiral(void)
 void Enemy::MoveLR(void)
 {
 	_angle = 0.0f;
+}
+
+void Enemy::MoveWait(void)
+{
+	if (step > _enemCnt * 20)
+	{
+		step = 0;
+		move = &Enemy::MoveSigmoid;
+	}
+
+	step++;
 }
