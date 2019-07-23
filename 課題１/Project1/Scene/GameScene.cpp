@@ -26,12 +26,26 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 
 	GetHitKeyStateAll(key);
 
+	
+	checkKeyOld = checkKey;
+
+
 	if (key[KEY_INPUT_I])
+	{
+		checkKey = 1;
+	}
+	else
+	{
+		checkKey = 0;
+	}
+	
+
+	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
 		for (int i = 0; i < 3; i++)
 		{
-			/*if (_objList.size() < 22)
+			/*if (_objList.size() < 10)
 			{*/
 				AddEnemy({ enemAppPos[enemRand % 6], ENM_TYPE(enemRand % 3), {32,32},
 					Vector2Dbl(80 + 40 * (enemCount % 7),80 + 40 * (enemCount / 7 % 3) ),i});
@@ -68,7 +82,7 @@ void GameScene::Draw(void)
 	ClsDrawScreen();
 	for (auto &data : _objList)
 	{
-		//data->Obj::Draw();
+		data->Obj::Draw();
 	}
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
 	SetDrawScreen(ghBefor);

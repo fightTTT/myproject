@@ -23,6 +23,8 @@ Enemy::Enemy(EnemyData data)
 	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
 	Init();
 
+
+	debgPos = _pos;
 	//-----------------
 	/*_floatPosX = _pos.x;
 	_floatPosY = _pos.y;*/
@@ -82,9 +84,9 @@ bool Enemy::Init(void)
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
 	speed = 1;
-	X = (-10);
+	X = -10;
 	
-	step = X;
+	step = 1.0;
 
 	_alive = true;
 	firstFlag = true;
@@ -196,17 +198,22 @@ void Enemy::SetMove()
 
 void Enemy::MoveSigmoid(void)
 {
-	auto sigmoid = [&](double y) {return (y/ (1.0 + exp(step*(-0.05)))); };
+	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*(-1.0)))); };
 
-	step++;
+	Vector2Dbl pos;
 
-	_pos.x += speed;
-	_pos.y = (sigmoid(Y));
+	pos.x = (X + 10)/20;
+	pos.y = sigmoid(X);
 
-	if (step> lastX)
+	_pos.x = pos.x * speed + debgPos.x;
+	_pos.y = pos.y * speed + debgPos.y;
+
+	X += step;
+
+	/*if (step> lastX)
 	{
 		move = &Enemy::MoveSpiral;
-	}
+	}*/
 	/*if (animCnt % 5 == 0)
 	{
 		drawPixel.emplace_back(_pos);
@@ -227,7 +234,7 @@ void Enemy::MoveLR(void)
 
 void Enemy::MoveWait(void)
 {
-	if (step > _enemCnt * 20)
+	if (step > _enemCnt * 40)
 	{
 		step = 0;
 		move = &Enemy::MoveSigmoid;

@@ -66,7 +66,7 @@ float GetNextVelocity(const float velocity,const float acceleration) {
 ///Vector2として返す
 Vector2 GetVelocityVector(const float velocity, const float angle) {
 	//どっちがcosでどっちがsinだ？
-	return Vector2(velocity*sin(angle), velocity*cos(angle));
+	return Vector2(velocity*cos(angle), velocity*sin(angle));
 }
 
 ///線分の傾き方からボールの加速度を計算する
@@ -77,11 +77,14 @@ float CalculateAccelerationForBall(const Segment& seg) {
 	//①posA→posBへのベクトルを作る
 	//②①のベクトルをもとにatanもしくはatan2を用いて角度を計算
 	//③②で出した角度と重力加速度_gより加速度を計算する
-	auto vec = atan2(seg.posb.y - seg.posa.y, seg.posb.x - seg.posa.x);
+	/*auto vec = atan2(seg.posb.y - seg.posa.y, seg.posb.x - seg.posa.x);
 
-	GetVelocityVector(,vec)
+	GetVelocityVector(,vec)*/
+	auto v = seg.posb - seg.posa;
+	auto angle = atan2(v.y, v.x);
+	return _g * sin(angle);
 
-	return _g * sin(vec);
+	//return _g * sin(vec);
 }
 
 ///ぼかした影を表示
@@ -130,6 +133,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	auto rt=MakeScreen(screen_width, screen_height);
 
 	Vector2 _v = Vector2(0,_g);
+	float vel = 0;
 	while (ProcessMessage() == 0) {
 		GetHitKeyStateAll(keystate);
 
@@ -161,9 +165,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//画面端以上には行けないように
 		if (seg.posa.x > c.pos.x || seg.posb.x < c.pos.x) {
 			_v = Vector2(0, 0);
+			vel = -vel*0.6;
+			c.pos.x = min(seg.posb.x, max(seg.posa.x, c.pos.x));
 		}
-
-		
 
 		//床に当たってなかったら重力による等加速直線運動
 		//ただしこのままでは真下に落ちるだけなので
@@ -171,14 +175,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (IsHit(seg,c)) {
 			//当たった場合は床に沿って進めてください。
 			//上のほうに関数があるので、それを使ってください。
-			auto vec = atan2(seg.posb.y - seg.posa.y, seg.posb.x - seg.posa.x);
+			float a = CalculateAccelerationForBall(seg);
+			auto angle = atan2(seg.posb.y - seg.posa.y, seg.posb.x - seg.posa.x);
+			vel = GetNextVelocity(vel, a);
 
+			_v = GetVelocityVector(vel, angle);
+			c.pos += _v;
 			c.pos = GetAdjustedCirclePosition(c,seg);
 
 			//DrawCircle(c.pos.x, c.pos.y, 0xff00ff, true, false);
 			//DrawBox(0, 0, 200, 200, 0xff00ff, true);
-
-			_v = GetVelocityVector(_v.x, vec);
 		}
 		else {
 			_v.y += _g;

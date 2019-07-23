@@ -24,5 +24,7 @@ private:
 	int _ghGameScreen;
 	std::array<Vector2Dbl, 6> enemAppPos;
 	char key[256];
+	int checkKey = 0;
+	int checkKeyOld = 0;
 };
 

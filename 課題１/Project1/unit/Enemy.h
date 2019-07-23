@@ -56,7 +56,7 @@ private:
 	ENM_TYPE _type;				// “G‚Ìí—Ş
 	Vector2Dbl _targetPos;			// “G‚ª•À‚ÔêŠ
 	Vector2Dbl _firstTarget;		// “G‚ªÅ‰‚ÉŒü‚©‚¤êŠ
-	int speed;
+	double speed;
 	bool firstFlag;
 	int waitCnt;
 	int _enemCnt;
@@ -71,6 +71,7 @@ private:
 	double lastX;
 	double Y;
 	double lastY;
+	Vector2Dbl debgPos;
 	//-----------------
 	std::list<Vector2Dbl> drawPixel;
 
