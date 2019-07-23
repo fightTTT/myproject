@@ -10,11 +10,10 @@ int Enemy::animCnt = 0;
 
 Enemy::Enemy()
 {
-	Init();
-	
+	Init();	
 }
 
-Enemy::Enemy(EnemyData data)
+Enemy::Enemy(EnemyData& data)
 {
 	_pos = std::get<static_cast<int>(ENM_DATA::POS)>(data);
 	_size = std::get<static_cast<int>(ENM_DATA::SIZE)>(data);
@@ -22,7 +21,6 @@ Enemy::Enemy(EnemyData data)
 	_targetPos = std::get<static_cast<int>(ENM_DATA::TARGTPOS)>(data);
 	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
 	Init();
-
 
 	debgPos = _pos;
 	//-----------------
@@ -83,10 +81,10 @@ bool Enemy::Init(void)
 	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
-	speed = 1;
+	speed = 0.1;
 	X = -10;
 	
-	step = 1.0;
+	step = 0.1;
 
 	_alive = true;
 	firstFlag = true;
@@ -198,22 +196,22 @@ void Enemy::SetMove()
 
 void Enemy::MoveSigmoid(void)
 {
-	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*(-1.0)))); };
+	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*-1.0))); };
 
-	Vector2Dbl pos;
+	Vector2Dbl oneTimepos;
 
-	pos.x = (X + 10)/20;
-	pos.y = sigmoid(X);
+	oneTimepos.x = (X + 10)/20;
+	oneTimepos.y = sigmoid(X);
 
-	_pos.x = pos.x * speed + debgPos.x;
-	_pos.y = pos.y * speed + debgPos.y;
+	_pos.x = oneTimepos.x *( _firstTarget.x-debgPos.x) + debgPos.x;
+	_pos.y = oneTimepos.y *( _firstTarget.y - debgPos.y) + debgPos.y;
 
 	X += step;
 
-	/*if (step> lastX)
+	if (X> 10)
 	{
 		move = &Enemy::MoveSpiral;
-	}*/
+	}
 	/*if (animCnt % 5 == 0)
 	{
 		drawPixel.emplace_back(_pos);
@@ -224,7 +222,7 @@ void Enemy::MoveSigmoid(void)
 
 void Enemy::MoveSpiral(void)
 {
-
+	//if()
 }
 
 void Enemy::MoveLR(void)
@@ -236,9 +234,13 @@ void Enemy::MoveWait(void)
 {
 	if (step > _enemCnt * 40)
 	{
-		step = 0;
+		step = 0.1;
 		move = &Enemy::MoveSigmoid;
 	}
+	else
+	{
+		step++;
+	}
 
-	step++;
+	
 }

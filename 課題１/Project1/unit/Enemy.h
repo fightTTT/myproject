@@ -39,7 +39,7 @@ class Enemy :
 {
 public:
 	Enemy();
-	Enemy(EnemyData data);
+	Enemy(EnemyData& data);
 	~Enemy();
 
 	// overrideと書くことによってオーバーライドし忘れによるバグを防止する
