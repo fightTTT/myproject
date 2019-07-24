@@ -70,18 +70,25 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	{
 		int enemRand = rand();
 
-		if (enemCount[0] == 0 || 1 || 2 || 7 || 8 || 9 || 10 || 19 || 20 || 29)
+		for (int i = 0; i < 3; i++)
 		{
-			for (int i = 0; i < 3; i++)
+			if (enemCount[0] != 0 && enemCount[0] != 1 && enemCount[0] != 2 && enemCount[0] != 7 && enemCount[0] != 8 && enemCount[0] != 9 && enemCount[0] != 10 && enemCount[0] != 19 && enemCount[0] != 20 && enemCount[0] != 29 && enemCount[0] < 50)
 			{
 				/*if (_objList.size() < 10)
 				{*/
-				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32},
-						  _targetPos[enemCount[0]],i });
-				enemCount[0]++;
+				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32}, _targetPos[enemCount[0]],i });
 				//}
+				enemCount[0]++;
 			}
+			else
+			{
+				i = 0;
+				enemCount[0]++;
+				continue;
+			}
+		
 		}
+			
 	}
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
