@@ -15,9 +15,37 @@ GameScene::~GameScene()
 {
 }
 
+void GameScene::Init(void)
+{
+	srand(1);
+
+	_objList.reserve(40);
+	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2(30, 32)));
+
+	enemAppPos = { Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
+					Vector2Dbl(15 + lpSceneMng.gameScreenSize.x,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y / 2),
+					Vector2Dbl(15,lpSceneMng.gameScreenSize.y - 16),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16), 
+				 };
+
+	for (int i = 0; i < 50; i++)
+	{
+		_targetPos[i].x = 80 + 40 * (i % 10);
+		_targetPos[i].y = 80 + 40 * (i / 10 % 5);
+	}
+	
+
+	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
+}
+
 Unique_Base GameScene::UpDate(Unique_Base own)
 {
-	static int enemCount = 0;
+	static int enemCount[3];
+	for (int i = 0; i > 3; i++)
+	{
+		enemCount[i] = 0;
+	}
 
 	for(auto &data: _objList)
 	{
@@ -25,10 +53,8 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 	GetHitKeyStateAll(key);
-
 	
 	checkKeyOld = checkKey;
-
 
 	if (key[KEY_INPUT_I])
 	{
@@ -43,14 +69,18 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
-		for (int i = 0; i < 3; i++)
+
+		if (enemCount[0] == 0 || 1 || 2 || 7 || 8 || 9 || 10 || 19 || 20 || 29)
 		{
-			/*if (_objList.size() < 10)
-			{*/
+			for (int i = 0; i < 3; i++)
+			{
+				/*if (_objList.size() < 10)
+				{*/
 				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32},
-					Vector2Dbl(80 + 40 * (enemCount % 7),80 + 40 * (enemCount / 7 % 3) ),i});
-				enemCount++;
-			//}
+						  _targetPos[enemCount[0]],i });
+				enemCount[0]++;
+				//}
+			}
 		}
 	}
 
@@ -86,74 +116,4 @@ void GameScene::Draw(void)
 	}
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
 	SetDrawScreen(ghBefor);
-}
-
-void GameScene::Init(void)
-{
-	srand(1);
-	/*_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*2, 20*4), Vector2(30, 32)));
-	for (int i = 0; i < 9; i++)
-	{
-		_objList.emplace_back(std::make_shared<Enemy>(Vector2(20*(i%3+1), 20 * (i / 3 + 1)), Vector2(30, 32)));
-	}*/
-
-	
-	_objList.reserve(40);
-	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2(30, 32)));
-
-	enemAppPos = { Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
-					Vector2Dbl(15 + lpSceneMng.gameScreenSize.x,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
-					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y / 2),
-					Vector2Dbl(15,lpSceneMng.gameScreenSize.y - 16),
-					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16), };
-	/*{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + 16),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15*3,-lpSceneMng.gameScreenPos.y + 16* 3),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15*6,-lpSceneMng.gameScreenPos.y + 16* 6)},
-
-	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + 16),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + 16 * 3),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + 16 * 6)},
-
-	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
-
-	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y / 2)},
-
-	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)},
-
-	{Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 3,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 3),
-	Vector2Dbl(-lpSceneMng.gameScreenPos.x + lpSceneMng.screenSize.x - 15 * 6,-lpSceneMng.gameScreenPos.y + lpSceneMng.screenSize.y - 16 * 6)}*///,}
-	//};
-
-	/*	{Vector2Dbl(15,16),
-	Vector2Dbl(15 * 3,16 * 3),
-	Vector2Dbl(15 * 6,16 * 6)},
-
-	{Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 3,16 * 3),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 6,16 * 6)},
-
-	{Vector2Dbl(15,-lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
-	Vector2Dbl(15 * 3,lpSceneMng.gameScreenSize.y / 2),
-	Vector2Dbl(15 * 6,lpSceneMng.gameScreenSize.y / 2)},
-
-	{Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y / 2),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 3,lpSceneMng.gameScreenSize.y / 2),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 6,lpSceneMng.gameScreenSize.y / 2)},
-
-	{Vector2Dbl(15,lpSceneMng.gameScreenSize.y - 16),
-	Vector2Dbl(15 * 3,lpSceneMng.gameScreenSize.y - 16 * 3),
-	Vector2Dbl(15 * 6,lpSceneMng.gameScreenSize.y - 16 * 6)},
-
-	{Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 3,lpSceneMng.gameScreenSize.y - 16 * 3),
-	Vector2Dbl(lpSceneMng.gameScreenSize.x - 15 * 6,lpSceneMng.gameScreenSize.y - 16 * 6)}, }*/
-//};
-	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }

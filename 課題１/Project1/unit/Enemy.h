@@ -48,14 +48,19 @@ public:
 	void SetMove();
 private:
 	bool Init(void);
-	void MoveSigmoid(void);
-	void MoveSpiral(void);
-	void MoveLR(void);
-	void MoveWait(void);
+
+	// シグモイド曲線で動く
+	void MoveSigmoid(void);		
+	// 回転
+	void MoveSpiral(void);		
+	// 左右移動
+	void MoveLR(void);		
+	// 敵の編隊のwait関数
+	void MoveWait(void);		
+
 	void (Enemy::*move)(void);	// メンバ関数ポインタ
-	ENM_TYPE _type;				// 敵の種類
-	Vector2Dbl _targetPos;			// 敵が並ぶ場所
-	Vector2Dbl _firstTarget;		// 敵が最初に向かう場所
+	ENM_TYPE _type;				// 種類
+	Vector2Dbl _targetPos;		// 並ぶ場所
 	double speed;
 	bool firstFlag;
 	int waitCnt;
@@ -65,16 +70,11 @@ private:
 	static int animCnt;
 	std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
-	//-----------------
-	/*float _floatPosX;
-	float _floatPosY;*/
-	double X;
-	double lastX;
-	double Y;
-	double lastY;
-	Vector2Dbl debgPos;
-	//-----------------
-	std::list<Vector2Dbl> drawPixel;
-
 	double step;
+
+	//-----------------
+	double X;
+	Vector2Dbl debgPos;
+	std::list<Vector2Dbl> drawPixel;
+	//-----------------
 };

@@ -14,17 +14,27 @@ public:
 	GameScene();
 	~GameScene();
 	Unique_Base UpDate(Unique_Base own) override;
-	SCN_ID GetScnID(void) override;		// 自身のシーンの種類を返す
-	void AddEnemy(EnemyData data);
+
+	// 自身のシーンの種類を返す
+	SCN_ID GetScnID(void) override;		
+
+	// Enemyを追加する
+	void AddEnemy(EnemyData data);		
+
 	void Draw(void);
 protected:
 	void Init(void)override;
 private:
-	std::vector<Shared_Obj> _objList;
+	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
 	int _ghGameScreen;
-	std::array<Vector2Dbl, 5> enemAppPos;
+	std::array<Vector2Dbl, 5> enemAppPos;	// 敵の出現座標
+
+	std::array<Vector2Dbl, 50> _targetPos;
+	// デバッグ用
+	//--------------------
 	char key[256];
 	int checkKey = 0;
 	int checkKeyOld = 0;
+	//--------------------
 };
 

@@ -10,7 +10,7 @@ Obj::Obj()
 	_animFram = 0;
 	_death = false;
 	_alive = true;
-	//_animCnt = animCnt%30;
+	_animCnt = 0;
 
 }
 

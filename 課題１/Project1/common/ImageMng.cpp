@@ -30,7 +30,7 @@ const IntVec& ImageMng::GetID(const std::string& key,const std::string& fileName
 	
 }
 
-const IntVec& ImageMng::GetID(const std::string& key,const Vector2& const num,const Vector2& size)
+const IntVec& ImageMng::GetID(const std::string& key,const Vector2& num,const Vector2& size)
 {
 	GetID(key, key, num,size);
 	return imgMap[key];

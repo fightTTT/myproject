@@ -65,9 +65,6 @@ protected:
 private:
 	ANIM _animKey;		// アニメーションタイプ
 	int _animFram;		// アニメーションのフレーム数
-	
-	
-
 
 	std::map<ANIM, const AnimVector> _animMap;		// アニメーション情報を格納しているmap
 };

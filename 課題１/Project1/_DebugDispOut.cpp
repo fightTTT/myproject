@@ -144,8 +144,8 @@ int _DebugDispOut::DrawBox(int x1, int y1, int x2, int y2,unsigned int Color, in
 {
 	int retFlag = 0;
 	SetScreen();
-	retFlag = DxLib::DrawBox(x1 + lpSceneMng.gameScreenPos.x, y1 + lpSceneMng.gameScreenPos.y, 
-							 x2 + lpSceneMng.gameScreenPos.x, y2 + lpSceneMng.gameScreenPos.y, Color, FillFlag);
+	retFlag = DxLib::DrawBox(x1 + lpSceneMng.gameScreenPos.x - 16, y1 + lpSceneMng.gameScreenPos.y - 16, 
+							 x2 + lpSceneMng.gameScreenPos.x - 16, y2 + lpSceneMng.gameScreenPos.y - 16, Color, FillFlag);
 	RevScreen();
 
 	return retFlag;

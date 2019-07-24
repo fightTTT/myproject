@@ -23,10 +23,6 @@ Enemy::Enemy(EnemyData& data)
 	Init();
 
 	debgPos = _pos;
-	//-----------------
-	/*_floatPosX = _pos.x;
-	_floatPosY = _pos.y;*/
-	//-----------------
 }
 
 Enemy::~Enemy()
@@ -64,8 +60,6 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::NORMAL, data);
 
-	_firstTarget = { 250,200 };
-
 	data.reserve(5);
 	data.emplace_back(IMAGE_ID("”š”j")[0], 5);
 	data.emplace_back(IMAGE_ID("”š”j")[1], 15);
@@ -85,16 +79,9 @@ bool Enemy::Init(void)
 	X = -10;
 	
 	step = 0.1;
-
 	_alive = true;
 	firstFlag = true;
 	waitCnt = 0;
-
-	
-	lastX = 10;
-	//Y = (_pos.y- std::get<0>(moveData[0]).y);
-	//lastY = abs(Y);
-
 	move = &Enemy::MoveWait;
 
 	return true;
@@ -128,7 +115,9 @@ void Enemy::SetMove()
 		AnimKey(ANIM::DEATH);
 	}*/
 
-	animCnt++;
+	_posOld = _pos;
+
+
 
 	int color = 0x00ff00;
 	if (firstFlag == false)
@@ -136,53 +125,8 @@ void Enemy::SetMove()
 		color = 0xff0000;
 	}
 
-	_posOld = _pos;
+	
 	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
-	_DbgDrawBox(static_cast<int>(std::get<0>(moveData[0]).x), static_cast<int>(std::get<0>(moveData[0]).y), static_cast<int>(std::get<0>(moveData[0]).x) + 32, static_cast<int>(std::get<0>(moveData[0]).y) + 32, color, true);
-
-	//if (firstFlag)
-	//{
-	//	if ((abs(_firstTarget.x - _pos.x) > speed || abs(_firstTarget.y - _pos.y) > speed))
-	//	{
-
-	//		float angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x);
-	//		_angle = atan2(_firstTarget.y - _pos.y, _firstTarget.x - _pos.x)+ (90 * (DX_PI / 180));
-
-	//		_pos.x += (cos(angle)*speed);
-	//		_pos.y += (sin(angle)*speed);
-
-	//		/*_pos.x = static_cast<int>(_floatPosX);
-	//		_pos.y = static_cast<int>(_floatPosY);*/
-	//	}
-
-	//	if ((abs(_firstTarget.x - _pos.x) <= speed && abs(_firstTarget.y - _pos.y) <= speed))
-	//	{
-	//		_angle = 0.0f;
-	//		_pos = _firstTarget;
-	//		waitCnt++;
-	//		if (waitCnt > 60)
-	//		{
-	//			firstFlag = false;
-	//		}
-	//	}
-	//}
-	//else if (!firstFlag&&(abs(_targetPos.x - _pos.x) > speed || abs(_targetPos.y - _pos.y) > speed))
-	//{
-	//	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), 
-	//						 static_cast<float>(_targetPos.x - _pos.x));
-	//	_angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
-	//	_angle += 90 * (DX_PI / 180);
-	//	_pos.x += (cos(angle)*speed);
-	//	_pos.y += (sin(angle)*speed);
-
-	//	/*_pos.x = static_cast<int>(_floatPosX);
-	//	_pos.y = static_cast<int>(_floatPosY);*/
-	//	if ((abs(_targetPos.x - _pos.x) <= speed && abs(_targetPos.y - _pos.y) <= speed))
-	//	{
-	//		_angle = 0.0f;
-	//	}
-	//}
-
 
 	if (abs(std::get<0>(moveData[0]).x - _pos.x) < speed && abs(std::get<0>(moveData[0]).y - _pos.y) < speed && move == &Enemy::MoveSigmoid)
 	{
@@ -191,6 +135,7 @@ void Enemy::SetMove()
 
 	(this->*move)();
 
+	animCnt++;
 }
 
 void Enemy::MoveSigmoid(void)
@@ -202,8 +147,8 @@ void Enemy::MoveSigmoid(void)
 	oneTimepos.x = (X + 10)/20;
 	oneTimepos.y = sigmoid(X);
 
-	_pos.x = oneTimepos.x *( _firstTarget.x-debgPos.x) + debgPos.x;
-	_pos.y = oneTimepos.y *( _firstTarget.y - debgPos.y) + debgPos.y;
+	_pos.x = oneTimepos.x *(std::get<0>(moveData[0]).x-debgPos.x) + debgPos.x;
+	_pos.y = oneTimepos.y *(std::get<0>(moveData[0]).y - debgPos.y) + debgPos.y;
 
 	X += step;
 /*
@@ -215,7 +160,6 @@ void Enemy::MoveSigmoid(void)
 
 	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
 	_angle += 90 * (DX_PI / 180);
-
 }
 
 void Enemy::MoveSpiral(void)
@@ -232,7 +176,6 @@ void Enemy::MoveSpiral(void)
 
 	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
 	_angle += 90 * (DX_PI / 180);
-
 }
 
 void Enemy::MoveLR(void)
@@ -250,7 +193,6 @@ void Enemy::MoveLR(void)
 		_pos = _targetPos;
 		_angle = 0.0f;
 	}
-
 }
 
 void Enemy::MoveWait(void)
@@ -264,6 +206,4 @@ void Enemy::MoveWait(void)
 	{
 		step++;
 	}
-
-	
 }
