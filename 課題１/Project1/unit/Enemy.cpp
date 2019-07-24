@@ -64,7 +64,7 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::NORMAL, data);
 
-	_firstTarget = { 250,300 };
+	_firstTarget = { 250,200 };
 
 	data.reserve(5);
 	data.emplace_back(IMAGE_ID("”š”j")[0], 5);
@@ -77,8 +77,8 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
-	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SIGMOID);
-	moveData.emplace_back(Vector2Dbl(250, 250), MOVE_TYPE::SPIRAL);
+	moveData.emplace_back(Vector2Dbl(250, 200), MOVE_TYPE::SIGMOID);
+	moveData.emplace_back(Vector2Dbl(250, 200), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
 	speed = 0.1;
@@ -183,15 +183,14 @@ void Enemy::SetMove()
 	//	}
 	//}
 
+
+	if (abs(std::get<0>(moveData[0]).x - _pos.x) < speed && abs(std::get<0>(moveData[0]).y - _pos.y) < speed && move == &Enemy::MoveSigmoid)
+	{
+		move = &Enemy::MoveSpiral;
+	}
+
 	(this->*move)();
 
-	//for (auto &draw : drawPixel)
-	//{
-	//	_DbgDrawPixel(draw.x, draw.y, 0xffff00);
-	//}
-
-	//TRACE("x%d:y%d\n", static_cast<int>(_pos.x - _posOld.x), static_cast<int>(_pos.y - _posOld.y));
-	//_DbgDrawFormatString(0, 15, 0xff00ff, "enemyPos:%d,%d", _pos.x, _pos.y);
 }
 
 void Enemy::MoveSigmoid(void)
@@ -207,27 +206,51 @@ void Enemy::MoveSigmoid(void)
 	_pos.y = oneTimepos.y *( _firstTarget.y - debgPos.y) + debgPos.y;
 
 	X += step;
-
+/*
 	if (X> 10)
 	{
+		step = 0;
 		move = &Enemy::MoveSpiral;
-	}
-	/*if (animCnt % 5 == 0)
-	{
-		drawPixel.emplace_back(_pos);
 	}*/
-	
-	//TRACE("%d\n", _pos.x);
+
+	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+	_angle += 90 * (DX_PI / 180);
+
 }
 
 void Enemy::MoveSpiral(void)
 {
-	//if()
+	_vel.x = cos(((DX_PI + (step / 120+3) * step) / 180)) * 2;
+	_vel.y = sin(((DX_PI + (step / 120+3) * step) / 180)) * 2;
+	if ((step / 120) > 3)
+	{
+		speed = 2;
+		move = &Enemy::MoveLR;
+	}
+	_pos += -_vel;
+	step++;
+
+	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+	_angle += 90 * (DX_PI / 180);
+
 }
 
 void Enemy::MoveLR(void)
 {
-	_angle = 0.0f;
+	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y),static_cast<float>(_targetPos.x - _pos.x));
+	_vel.x = cos(angle) * speed;
+	_vel.y = sin(angle) * speed;
+	_pos += _vel;
+
+	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+	_angle += 90 * (DX_PI / 180);
+
+	if (abs(_targetPos.y - _pos.y) <= speed && abs(_targetPos.x - _pos.x) <= speed)
+	{
+		_pos = _targetPos;
+		_angle = 0.0f;
+	}
+
 }
 
 void Enemy::MoveWait(void)

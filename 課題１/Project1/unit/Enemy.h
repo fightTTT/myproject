@@ -64,6 +64,7 @@ private:
 	Vector2Dbl _posOld;
 	static int animCnt;
 	std::vector<MoveType> moveData;
+	Vector2Dbl _vel;
 	//-----------------
 	/*float _floatPosX;
 	float _floatPosY;*/
