@@ -140,11 +140,6 @@ void Enemy::SetMove()
 
 	(this->*move)();
 
-	if (enemGather)
-	{
-
-	}
-
 	animCnt++;
 }
 
@@ -213,10 +208,10 @@ void Enemy::MoveLR(void)
 	if (enemGather)
 	{
 		float angle = atan2f(_pos.y - 0, _pos.x - 250);
-		_vel.x = cos(angle)*0.5;
-		_vel.y = sin(angle)*0.5;
+		_vel.x = cos(angle)*0.3;
+		_vel.y = sin(angle)*0.3;
 
-		if (static_cast<int>(step) / 60 % 2 == 0)
+		if (static_cast<int>(step) / 120 % 2 == 0)
 		{
 			_pos += _vel;
 		}

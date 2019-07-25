@@ -76,6 +76,8 @@ private:
 	std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
 	double step;
+
+
 	//-----------------
 	double X;
 	Vector2Dbl debgPos;
