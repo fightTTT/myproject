@@ -12,6 +12,7 @@ enum class ENM_DATA
 	SIZE,
 	TARGTPOS,
 	ENEMNUM,
+	ENEMCNT,
 	MAX
 };
 
@@ -31,7 +32,7 @@ enum class MOVE_TYPE
 	MAX
 };
 
-using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl,int>;
+using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl,int,int>;
 using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
 
 class Enemy :
@@ -52,7 +53,9 @@ private:
 	// シグモイド曲線で動く
 	void MoveSigmoid(void);		
 	// 回転
-	void MoveSpiral(void);		
+	void MoveSpiral(void);
+	// 最後の目標地点に向かう
+	void MoveLastTraget(void);
 	// 左右移動
 	void MoveLR(void);		
 	// 敵の編隊のwait関数
@@ -68,10 +71,11 @@ private:
 
 	Vector2Dbl _posOld;
 	static int animCnt;
+	static bool enemGather;
+	int enemCounter;
 	std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
 	double step;
-
 	//-----------------
 	double X;
 	Vector2Dbl debgPos;

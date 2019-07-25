@@ -7,6 +7,7 @@
 #include "../common/ImageMng.h"
 
 int Enemy::animCnt = 0;
+bool Enemy::enemGather = false;
 
 Enemy::Enemy()
 {
@@ -20,6 +21,7 @@ Enemy::Enemy(EnemyData& data)
 	_type = std::get<static_cast<int>(ENM_DATA::TYPE)>(data);
 	_targetPos = std::get<static_cast<int>(ENM_DATA::TARGTPOS)>(data);
 	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
+	enemCounter = std::get<static_cast<int>(ENM_DATA::ENEMCNT)>(data);
 	Init();
 
 	debgPos = _pos;
@@ -71,8 +73,8 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
-	moveData.emplace_back(Vector2Dbl(250, 200), MOVE_TYPE::SIGMOID);
-	moveData.emplace_back(Vector2Dbl(250, 200), MOVE_TYPE::SPIRAL);
+	moveData.emplace_back(Vector2Dbl(100, 300), MOVE_TYPE::SIGMOID);
+	moveData.emplace_back(Vector2Dbl(250, 300), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
 	speed = 0.1;
@@ -82,6 +84,7 @@ bool Enemy::Init(void)
 	_alive = true;
 	firstFlag = true;
 	waitCnt = 0;
+	
 	move = &Enemy::MoveWait;
 
 	return true;
@@ -91,7 +94,6 @@ bool Enemy::Init(void)
 void Enemy::Draw(void)
 {
 	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[11], true);
-
 }
 
 UNIT Enemy::GetUnit(void)
@@ -103,6 +105,9 @@ void Enemy::SetMove()
 {
 	//static int charCnt;
 	//static int animCnt = 0;
+
+
+
 
 	//Ž€‚ñ‚¾‚çtrue‚É‚È‚éŠÖ”
 	if (DeathProc())
@@ -135,6 +140,11 @@ void Enemy::SetMove()
 
 	(this->*move)();
 
+	if (enemGather)
+	{
+
+	}
+
 	animCnt++;
 }
 
@@ -166,10 +176,10 @@ void Enemy::MoveSpiral(void)
 {
 	_vel.x = cos(((DX_PI + (step / 120+3) * step) / 180)) * 2;
 	_vel.y = sin(((DX_PI + (step / 120+3) * step) / 180)) * 2;
-	if ((step / 120) > 3)
+	if ((step / 120) > 2)
 	{
 		speed = 2;
-		move = &Enemy::MoveLR;
+		move = &Enemy::MoveLastTraget;
 	}
 	_pos += -_vel;
 	step++;
@@ -178,9 +188,9 @@ void Enemy::MoveSpiral(void)
 	_angle += 90 * (DX_PI / 180);
 }
 
-void Enemy::MoveLR(void)
+void Enemy::MoveLastTraget(void)
 {
-	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y),static_cast<float>(_targetPos.x - _pos.x));
+	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
 	_vel.x = cos(angle) * speed;
 	_vel.y = sin(angle) * speed;
 	_pos += _vel;
@@ -192,12 +202,44 @@ void Enemy::MoveLR(void)
 	{
 		_pos = _targetPos;
 		_angle = 0.0f;
+		step = 0;
+		move = &Enemy::MoveLR;
 	}
 }
 
+void Enemy::MoveLR(void)
+{
+	
+	if (enemGather)
+	{
+		float angle = atan2f(_pos.y - 0, _pos.x - 250);
+		_vel.x = cos(angle)*0.5;
+		_vel.y = sin(angle)*0.5;
+
+		if (static_cast<int>(step) / 60 % 2 == 0)
+		{
+			_pos += _vel;
+		}
+		else
+		{
+			_pos -= _vel;
+		}
+		
+		step++;
+	}
+	else
+	{
+		if (enemCounter == 40)
+		{
+			enemGather = true;
+		}
+
+	}
+	
+}
 void Enemy::MoveWait(void)
 {
-	if (step > _enemCnt * 40)
+	if (step > _enemCnt * 25)
 	{
 		step = 0.1;
 		move = &Enemy::MoveSigmoid;

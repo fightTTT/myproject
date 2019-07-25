@@ -29,12 +29,12 @@ private:
 	int _ghGameScreen;
 	std::array<Vector2Dbl, 5> enemAppPos;	// 敵の出現座標
 
-	std::array<Vector2Dbl, 50> _targetPos;
 	// デバッグ用
 	//--------------------
 	char key[256];
 	int checkKey = 0;
 	int checkKeyOld = 0;
+	std::vector<char> enemON;
 	//--------------------
 };
 

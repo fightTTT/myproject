@@ -29,12 +29,23 @@ void GameScene::Init(void)
 					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16), 
 				 };
 
+	enemON.resize(50);
 	for (int i = 0; i < 50; i++)
 	{
-		_targetPos[i].x = 80 + 40 * (i % 10);
-		_targetPos[i].y = 80 + 40 * (i / 10 % 5);
+		enemON[i] = 1;
 	}
-	
+
+	enemON[0] = 0;
+	enemON[1] = 0;
+	enemON[2] = 0;
+	enemON[7] = 0;
+	enemON[8] = 0;
+	enemON[9] = 0;
+	enemON[10] = 0;
+	enemON[19] = 0;
+	enemON[20] = 0;
+	enemON[29] = 0;
+
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }
@@ -64,31 +75,37 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	{
 		checkKey = 0;
 	}
-	
 
 	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
-
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3;)
 		{
-			if (enemCount[0] != 0 && enemCount[0] != 1 && enemCount[0] != 2 && enemCount[0] != 7 && enemCount[0] != 8 && enemCount[0] != 9 && enemCount[0] != 10 && enemCount[0] != 19 && enemCount[0] != 20 && enemCount[0] != 29 && enemCount[0] < 50)
+			if (_objList.size() < 41)
 			{
 				/*if (_objList.size() < 10)
 				{*/
-				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32}, _targetPos[enemCount[0]],i });
-				//}
-				enemCount[0]++;
+				if (enemON[enemCount[0]] == 1)
+				{
+					enemCount[1]++;
+					AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32},
+						Vector2Dbl(80 + 40 * (enemCount[0] % 10),80 + 40 * (enemCount[0] / 10 % 5)),i,enemCount[1] });
+					//}
+					enemCount[0]++;
+					
+					i++;
+				}
+				else
+				{
+					enemCount[0]++;
+					continue;
+				}
 			}
 			else
 			{
-				i = 0;
-				enemCount[0]++;
-				continue;
+				break;
 			}
-		
 		}
-			
 	}
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
