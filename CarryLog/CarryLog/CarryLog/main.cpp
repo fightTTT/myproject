@@ -54,6 +54,7 @@ bool IsHit(const Capsule& cap, const Circle& cc) {
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ChangeWindowMode(true);
+	SetMainWindowText("1816019_çÏ ñæçq");
 	SetGraphMode(512, 800, 32);
 	DxLib_Init();
 	SetDrawScreen(DX_SCREEN_BACK);
