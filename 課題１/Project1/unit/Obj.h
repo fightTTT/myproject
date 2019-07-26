@@ -32,10 +32,10 @@ public:
 	virtual void Draw(void);
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
-	virtual void SetMove();
+	virtual void SetMove(void);
 
 	// _animkeyを取得
-	const ANIM AnimKey()const;		
+	const ANIM AnimKey(void)const;		
 
 	// _animKeyにアニメーションタイプをセットする
 	bool AnimKey(const ANIM animkey);	
@@ -43,8 +43,8 @@ public:
 	// pos情報取得
 	const Vector2Dbl Pos()const;
 
-	bool IsAnimEnd();
-	bool DeathProc();
+	bool IsAnimEnd(void);
+	bool DeathProc(void);
 
 	// posセット
 	void Pos(const Vector2Dbl &pos);

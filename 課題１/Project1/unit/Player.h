@@ -13,9 +13,10 @@ public:
 	~Player();
 	void Draw(void) override;
 	UNIT GetUnit(void) override;
-	void SetMove();
+	void SetMove(void);
 private:
 	bool Init(void);
+	bool IsShot(void);
 	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
 };
 

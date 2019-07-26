@@ -8,7 +8,7 @@ public:
 	Shot();
 	Shot(Vector2Dbl pos);
 	~Shot();
-	void SetMove();
+	void SetMove(void);
 	UNIT GetUnit(void);
 
 };
