@@ -73,14 +73,14 @@ Ojisan::SwingPhase(){
 	
 	v=v.normalized();
 	
-	_theta = 0.0f;//ベクトルから現在の角度を計算
+	_theta = atan2f(v.y,v.x);//ベクトルから現在の角度を計算
 	
 
-	float a = 0.0f;//加速度計算
+	float a = cos(_theta);//加速度計算
 	_v+=a;//速度へ加算
 
-	float vx = 0.0f;//速度を分配(X方向)
-	float vy = 0.0f;//速度を分配(Y方向)
+	float vx = -sin(_theta) * _v;//速度を分配(X方向)
+	float vy = cos(_theta) * _v;//速度を分配(Y方向)
 
 	if(_isJumped){
 		OnMove(_pos.x,_pos.y,_vx,_vy);
