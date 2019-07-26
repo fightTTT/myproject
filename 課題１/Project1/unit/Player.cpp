@@ -1,21 +1,24 @@
-#include "Player.h"
 #include <DxLib.h>
+#include <algorithm>
+#include "Player.h"
 #include "../common/ImageMng.h"
 #include "../_DebugConOut.h"
 #include "../_DebugDispOut.h"
 #include "../Input/KeyState.h"
+#include "../Shot.h"
 
 Player::Player()
 {
 	Init();
 }
 
-Player::Player(const Vector2Dbl& pos, const Vector2& size)
+Player::Player(const Vector2Dbl& pos, const Vector2Dbl& size)
 {
 	Init();
 	_pos = pos;
 	_size = size;
 	_angle = 0.0f;
+	_shotObj.reserve(2);
 	
 	//TRACE("%d",_pos.x);
 }
@@ -27,7 +30,11 @@ Player::~Player()
 
 void Player::Draw(void)
 {
-	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[0], true);
+	for (auto &data : _shotObj)
+	{
+		data->Draw();
+	}
+	//DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[0], true);
 }
 
 UNIT Player::GetUnit(void)
@@ -35,7 +42,7 @@ UNIT Player::GetUnit(void)
 	return UNIT::PLAYER;
 }
 
-void Player::SetMove()
+void Player::SetMove(void)
 {
 	if (DeathProc())
 	{
@@ -47,6 +54,12 @@ void Player::SetMove()
 		_alive = false;
 		AnimKey(ANIM::DEATH);
 	}*/
+	Shooting();
+
+	for (auto &data : _shotObj)
+	{
+		data->SetMove();
+	}
 
 
 	inputState->Update();
@@ -101,4 +114,22 @@ bool Player::Init(void)
 	//_animKey = ANIM::EX;
 
 	return true;
+}
+
+bool Player::Shooting(void)
+{
+	auto deth_itr = std::remove_if(_shotObj.begin(), _shotObj.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
+	_shotObj.erase(deth_itr, _shotObj.end());
+
+	if (inputState->state(INPUT_ID::BTN_1).first)
+	{
+		if (_shotObj.size() < 2)
+		{
+			_shotObj.emplace_back(std::make_shared<Shot>(_pos));
+		}
+	}
+
+	
+
+	return false;
 }

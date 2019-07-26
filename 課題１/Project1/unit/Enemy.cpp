@@ -93,7 +93,7 @@ bool Enemy::Init(void)
 
 void Enemy::Draw(void)
 {
-	DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[11], true);
+	//DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[11], true);
 }
 
 UNIT Enemy::GetUnit(void)

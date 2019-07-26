@@ -57,7 +57,7 @@ protected:
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
 	Vector2Dbl _pos;		// 座標
-	Vector2 _size;		// キャラの大きさ
+	Vector2Dbl _size;		// キャラの大きさ
 	bool _alive;		// 生きているか	true...生存　false...死亡
 	bool _death;	
 	float _angle;

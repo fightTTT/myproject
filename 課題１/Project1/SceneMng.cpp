@@ -26,6 +26,7 @@ void SceneMng::Run(void)
 	ImageMng::GetInstance().GetID("キャラ", "image/char.png", { 10,10 }, { 30,30 });
 	ImageMng::GetInstance().GetID("爆破", "image/en_blast.png", { 5,1 }, { 64,64 });
 	ImageMng::GetInstance().GetID("PL爆破", "image/pl_blast.png", { 4,1 }, { 64,64 });
+	ImageMng::GetInstance().GetID("ショット", "image/shot.png", { 2,1 }, { 3,8 });
 
 	_DebugConOut::GetInstance();
 

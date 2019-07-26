@@ -20,7 +20,7 @@ void GameScene::Init(void)
 	srand(1);
 
 	_objList.reserve(40);
-	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2(30, 32)));
+	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2Dbl(30, 32)));
 
 	enemAppPos = { Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
 					Vector2Dbl(15 + lpSceneMng.gameScreenSize.x,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
@@ -137,6 +137,7 @@ void GameScene::Draw(void)
 	for (auto &data : _objList)
 	{
 		data->Obj::Draw();
+		data->Draw();
 	}
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
 	SetDrawScreen(ghBefor);

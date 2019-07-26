@@ -6,9 +6,12 @@ class Shot :
 {
 public:
 	Shot();
-	Shot(Vector2Dbl pos);
+	Shot(Vector2Dbl& pos);
 	~Shot();
 	void SetMove(void);
 	UNIT GetUnit(void);
+
+private:
+	void Init(void);
 
 };

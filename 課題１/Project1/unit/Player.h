@@ -9,14 +9,15 @@ class Player :
 {
 public:
 	Player();
-	Player(const Vector2Dbl& pos, const Vector2& size);
+	Player(const Vector2Dbl& pos, const Vector2Dbl& size);
 	~Player();
 	void Draw(void) override;
 	UNIT GetUnit(void) override;
 	void SetMove(void);
 private:
 	bool Init(void);
-	bool IsShot(void);
+	bool Shooting(void);
 	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
+	std::vector<Shared_Obj> _shotObj;
 };
 

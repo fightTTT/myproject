@@ -32,7 +32,7 @@ enum class MOVE_TYPE
 	MAX
 };
 
-using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2,Vector2Dbl,int,int>;
+using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2Dbl,Vector2Dbl,int,int>;
 using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
 
 class Enemy :
