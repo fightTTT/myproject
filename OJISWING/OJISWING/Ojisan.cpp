@@ -102,7 +102,7 @@ void
 Ojisan::FlyingPhase(){
 	Vec2 v=(_pos-_endPoint);
 	v=v.normalized();
-	_theta =atan2f(Cross(v,Vec2(-1,0)),Dot(v,Vec2(-1,0)));
+	_theta =atan2f(Cross(v,Vec2(-1,0)),Dot(v,Vec2(-1,0))) ;
 	
 	CheckGround();//地面衝突チェック＆地面衝突状態へ移行
 
@@ -119,9 +119,9 @@ Ojisan::FlyingPhase(){
 	}else{
 		_isPushJump=false;
 	}
-	OnMove(_pos.x,_pos.y,_vx,_vy);
+	OnMove(_pos.x, _pos.y, _vx, _vy);
 
-	_vy+=0.0f;//重力加速
+	_vy+=_g;//重力加速
 	
 	DrawRotaGraph(_pos.x-_scroll.x,_pos.y-_scroll.y,1.0,-(_theta -3.14159265358979/2),_handle,true,false);
 }
@@ -248,8 +248,8 @@ Ojisan::OnPushJumpKey(float& vx, float& vy){
 	float cost = Dot(v,Vec2(-1,0));
 	float sint = Cross(v,Vec2(-1,0));
 	_v *= 1.6f;
-	vx=_v*sint;
-	vy=_v*cost;
+	vx=_v* -sin(_theta)+sint;
+	vy=_v* cos(_theta)+cost +_g;
 
 	_phase=&Ojisan::FlyingPhase;
 
@@ -264,12 +264,12 @@ Ojisan::IsFlying()const {
 void //左キー押されたイベント
 Ojisan::OnPushLeftKey(float& vx,float& vy){
 	//⑥ここに左キーを押された時の処理を書いてください
-	_v-=0.5f;
+	_v+=0.5f;
 }
 
 
 void //右キー押されたイベント
 Ojisan::OnPushRightKey(float& vx, float &vy){
 	//⑦ここに右キーを押された時の処理を書いてください
-	_v+=0.5f;
+	_v-=0.5f;
 }
