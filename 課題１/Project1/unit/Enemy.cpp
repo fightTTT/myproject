@@ -143,6 +143,11 @@ void Enemy::SetMove()
 	animCnt++;
 }
 
+std::vector<Shared_Obj> Enemy::GetShotData()
+{
+	return std::vector<Shared_Obj>();
+}
+
 void Enemy::MoveSigmoid(void)
 {
 	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*-1.0))); };

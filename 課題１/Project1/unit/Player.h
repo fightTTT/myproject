@@ -14,6 +14,7 @@ public:
 	void Draw(void) override;
 	UNIT GetUnit(void) override;
 	void SetMove(void);
+	std::vector<Shared_Obj> GetShotData();
 private:
 	bool Init(void);
 	bool Shooting(void);

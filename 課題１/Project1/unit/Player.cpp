@@ -83,12 +83,16 @@ void Player::SetMove(void)
 	_DbgDrawFormatString(0, 0, 0xff00ff, "playerPos:%d,%d", _pos.x,_pos.y);
 }
 
+std::vector<Shared_Obj> Player::GetShotData()
+{
+	return _shotObj;
+}
+
 bool Player::Init(void)
 {
 	AnimVector data;
 
 	data.reserve(2);
-	//data.push_back(std::make_pair(IMAGE_ID("ƒLƒƒƒ‰")[0],30));
 
 	// ã‹L‚Ìpush_back‚Æ“¯‚¶ˆ—
 	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[0], 30);
@@ -111,13 +115,12 @@ bool Player::Init(void)
 
 	inputState = std::make_unique<KeyState>();
 
-	//_animKey = ANIM::EX;
-
 	return true;
 }
 
 bool Player::Shooting(void)
 {
+	// ’e‚Ìíœˆ—
 	auto deth_itr = std::remove_if(_shotObj.begin(), _shotObj.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
 	_shotObj.erase(deth_itr, _shotObj.end());
 
@@ -128,8 +131,6 @@ bool Player::Shooting(void)
 			_shotObj.emplace_back(std::make_shared<Shot>(_pos));
 		}
 	}
-
-	
 
 	return false;
 }

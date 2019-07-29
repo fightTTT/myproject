@@ -81,8 +81,8 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		int enemRand = rand();
 		for (int i = 0; i < 3;)
 		{
-			if (_objList.size() < 41)
-			{
+			/*if (_objList.size() < 41)
+			{*/
 				/*if (_objList.size() < 10)
 				{*/
 				if (enemON[enemCount[0]] == 1)
@@ -100,13 +100,15 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 					enemCount[0]++;
 					continue;
 				}
-			}
+			/*}
 			else
 			{
 				break;
-			}
+			}*/
 		}
 	}
+
+	SetShot();
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
 	auto deth_itr = std::remove_if(_objList.begin(), _objList.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
@@ -125,6 +127,41 @@ SCN_ID GameScene::GetScnID(void)
 void GameScene::AddEnemy(EnemyData data)
 {
 	_objList.emplace_back(std::make_shared<Enemy>(data));
+}
+
+void GameScene::SetShot(void)
+{
+	static int shotNum = 0;
+
+	if (shotNum >= 2)
+	{
+		return;
+	}
+
+	for (auto &data : _objList)
+	{
+		for (auto &shot : data->GetShotData())
+		{
+			_objList.emplace_back(shot);
+			shotNum++;
+		}
+	}
+
+	for (auto &data : _objList)
+	{
+		data->IsDeath()
+	}
+}
+
+void GameScene::HitShot(void)
+{
+	for (auto &shot : _objList)
+	{
+		if (shot->GetUnit == UNIT::SHOT)
+		{
+
+		}
+	}
 }
 
 void GameScene::Draw(void)

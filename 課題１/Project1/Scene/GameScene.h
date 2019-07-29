@@ -21,10 +21,14 @@ public:
 	// Enemyを追加する
 	void AddEnemy(EnemyData data);		
 
+
 	void Draw(void);
 protected:
 	void Init(void)override;
 private:
+	void SetShot(void);
+	void HitShot(void);
+
 	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
 	int _ghGameScreen;
 	std::array<Vector2Dbl, 5> enemAppPos;	// 敵の出現座標

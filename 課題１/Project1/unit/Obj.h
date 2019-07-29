@@ -33,7 +33,7 @@ public:
 	void Draw(int id);
 	virtual UNIT GetUnit(void) = 0;
 	virtual void SetMove(void);
-
+	virtual std::vector<Shared_Obj> GetShotData() = 0;
 	// _animkey‚ðŽæ“¾
 	const ANIM AnimKey(void)const;		
 

@@ -47,3 +47,8 @@ UNIT Shot::GetUnit(void)
 {
 	return UNIT::SHOT;
 }
+
+std::vector<Shared_Obj> Shot::GetShotData()
+{
+	return std::vector<Shared_Obj>();
+}
