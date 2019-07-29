@@ -114,14 +114,13 @@ void Enemy::SetMove()
 	{
 		return;
 	}
-	/*if (rand()%1200 == 0)
+
+	if (!_alive)
 	{
-		_alive = false;
 		AnimKey(ANIM::DEATH);
-	}*/
+	}
 
 	_posOld = _pos;
-
 
 
 	int color = 0x00ff00;

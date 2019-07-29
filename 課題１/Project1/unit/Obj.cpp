@@ -124,6 +124,16 @@ void Obj::Pos(const Vector2Dbl &pos)
 	_pos = pos;
 }
 
+const void Obj::IsAlive(bool alive)
+{
+	_alive = alive;
+}
+
+const void Obj::IsDeath(bool Death)
+{
+	_death = Death;
+}
+
 bool Obj::SetAnim(const ANIM key, AnimVector &data)
 {
 	// key‚ğŒ©‚Ä“™‰¿‚Ìkey‚ğ‚Â—v‘f‚ªŠù‚É‘¶İ‚·‚éê‡‚Ímove‚³‚ê‚È‚¢

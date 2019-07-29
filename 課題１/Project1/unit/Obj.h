@@ -34,6 +34,7 @@ public:
 	virtual UNIT GetUnit(void) = 0;
 	virtual void SetMove(void);
 	virtual std::vector<Shared_Obj> GetShotData() = 0;
+	
 	// _animkeyを取得
 	const ANIM AnimKey(void)const;		
 
@@ -52,6 +53,8 @@ public:
 	// 生存確認
 	const bool IsAlive() { return _alive; };
 	const bool IsDeath() { return _death; };
+	const void IsAlive(bool alive);
+	const void IsDeath(bool Death);
 protected:
 
 	// アニメーション情報をセットする

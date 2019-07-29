@@ -27,7 +27,7 @@ protected:
 	void Init(void)override;
 private:
 	void SetShot(void);
-	void HitShot(void);
+	bool HitShot(void);
 
 	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
 	int _ghGameScreen;

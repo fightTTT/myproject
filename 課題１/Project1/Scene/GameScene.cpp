@@ -110,6 +110,12 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 
 	SetShot();
 
+	if(HitShot())
+	{
+		
+	}
+
+
 	// std::remove_if(開始位置、終了位置、プレディケート)
 	auto deth_itr = std::remove_if(_objList.begin(), _objList.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
 	_objList.erase(deth_itr, _objList.end());
@@ -133,35 +139,61 @@ void GameScene::SetShot(void)
 {
 	static int shotNum = 0;
 
-	if (shotNum >= 2)
-	{
-		return;
-	}
+	
+	
 
 	for (auto &data : _objList)
 	{
-		for (auto &shot : data->GetShotData())
+		if (shotNum >= 2)
 		{
-			_objList.emplace_back(shot);
-			shotNum++;
+			break;
+		}
+		if (data->GetShotData().size() >= (2 - shotNum))
+		{
+			for (auto &shot : data->GetShotData())
+			{
+				_objList.emplace_back(shot);
+				shotNum++;
+			}
+		}
+	}	
+
+	for (auto &data : _objList)
+	{
+		if (data->GetUnit() == UNIT::SHOT)
+		{
+			if (data->IsDeath())
+			{
+				shotNum--;
+			}
 		}
 	}
 
-	for (auto &data : _objList)
-	{
-		data->IsDeath()
-	}
 }
 
-void GameScene::HitShot(void)
+bool GameScene::HitShot(void)
 {
 	for (auto &shot : _objList)
 	{
-		if (shot->GetUnit == UNIT::SHOT)
+		if (shot->GetUnit() == UNIT::SHOT)
 		{
+			for (auto &enem : _objList)
+			{
+				if (enem->GetUnit() == UNIT::ENEMY)
+				{
+					if (shot->Pos().y <= enem->Pos().y)
+					{
+						enem->IsAlive(false);
+						enem->AnimKey(ANIM::DEATH);
+						shot->IsDeath(true);
 
+						return true;
+					}
+				}
+			}
 		}
 	}
+	return true;
 }
 
 void GameScene::Draw(void)
