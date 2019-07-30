@@ -44,14 +44,20 @@ Position2 GetAdjustedCirclePosition(const Circle& c, const Segment& seg) {
 	auto VB = seg.posb - seg.posa;
 	VB.Normalize();
 
+	auto n = Vector2(VB.y, -VB.x);
+	n.Normalize();
+
 	//①内積から射影長を求めよ
 	//②射影長から射影点を求めよ
 	//③円の現在座標と射影点から垂線ベクトルを求めよ
 	//④③方向に半径ぶん遠ざけた座標を返そう
 
-	float shadowLen = 0.0f;//射影長
+
+	float shadowLen = Dot(VA,VB);//射影長
 	Position2 shadowPos = Position2();//射影座標
 	auto V = Vector2();//垂線ベクトル
+
+
 	
 	return Position2();//円の、あるべき座標を返してください
 }

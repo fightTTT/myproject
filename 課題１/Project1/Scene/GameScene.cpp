@@ -85,7 +85,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
-		for (int i = 0; i < 3;)
+		for (int i = 0; i < 4;)
 		{
 			if (enemCount[0] < 50)
 			{
