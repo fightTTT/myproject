@@ -56,7 +56,7 @@ private:
 	// 回転
 	void MoveSpiral(void);
 	// 最後の目標地点に向かう
-	void MoveLastTraget(void);
+	void MoveLastTarget(void);
 	// 左右移動
 	void MoveLR(void);		
 	// 敵の編隊のwait関数

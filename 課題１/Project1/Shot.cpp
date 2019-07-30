@@ -11,6 +11,7 @@ Shot::Shot()
 Shot::Shot(Vector2Dbl& pos)
 {
 	_pos = pos;
+	_size = {3,8};
 	Init();
 }
 
@@ -31,10 +32,8 @@ void Shot::Init(void)
 
 void Shot::SetMove()
 {
-
 	TRACE("%d\n",_pos.x);
 	
-
 	if (_pos.y + _size.y / 2 < 0)
 	{
 		_death = true;

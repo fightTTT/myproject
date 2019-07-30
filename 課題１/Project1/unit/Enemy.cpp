@@ -86,6 +86,7 @@ bool Enemy::Init(void)
 	waitCnt = 0;
 	
 	move = &Enemy::MoveWait;
+	enemGather = false;
 
 	return true;
 }
@@ -178,7 +179,7 @@ void Enemy::MoveSpiral(void)
 	if ((step / 120) > 2)
 	{
 		speed = 2;
-		move = &Enemy::MoveLastTraget;
+		move = &Enemy::MoveLastTarget;
 	}
 	_pos += -_vel;
 	step++;
@@ -187,7 +188,7 @@ void Enemy::MoveSpiral(void)
 	_angle += 90 * (DX_PI / 180);
 }
 
-void Enemy::MoveLastTraget(void)
+void Enemy::MoveLastTarget(void)
 {
 	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
 	_vel.x = cos(angle) * speed;

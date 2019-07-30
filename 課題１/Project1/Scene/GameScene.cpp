@@ -76,13 +76,19 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		checkKey = 0;
 	}
 
+	if (_objList.size() == 1)
+	{
+		enemCount[0] = 0;
+		enemCount[1] = 0;
+	}
+
 	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
 		for (int i = 0; i < 3;)
 		{
-			/*if (_objList.size() < 41)
-			{*/
+			if (enemCount[0] < 50)
+			{
 				/*if (_objList.size() < 10)
 				{*/
 				if (enemON[enemCount[0]] == 1)
@@ -100,21 +106,17 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 					enemCount[0]++;
 					continue;
 				}
-			/*}
+			}
 			else
 			{
 				break;
-			}*/
+			}
 		}
 	}
 
+	HitShot();
 	SetShot();
-
-	if(HitShot())
-	{
-		
-	}
-
+	
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
 	auto deth_itr = std::remove_if(_objList.begin(), _objList.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
@@ -138,9 +140,6 @@ void GameScene::AddEnemy(EnemyData data)
 void GameScene::SetShot(void)
 {
 	static int shotNum = 0;
-
-	
-	
 
 	for (auto &data : _objList)
 	{
@@ -181,7 +180,10 @@ bool GameScene::HitShot(void)
 			{
 				if (enem->GetUnit() == UNIT::ENEMY)
 				{
-					if (shot->Pos().y <= enem->Pos().y)
+					if (shot->Pos().y - (shot->Size().y / 2) <= enem->Pos().y + (enem->Size().y / 2)
+					 && shot->Pos().y + (shot->Size().y / 2) >= enem->Pos().y - (enem->Size().y / 2)
+					 && enem->Pos().x + (enem->Size().x / 2) >= shot->Pos().x - (shot->Size().x / 2)
+					 && enem->Pos().x - (enem->Size().x / 2) <= shot->Pos().x + (shot->Size().x / 2))
 					{
 						enem->IsAlive(false);
 						enem->AnimKey(ANIM::DEATH);
@@ -193,6 +195,7 @@ bool GameScene::HitShot(void)
 			}
 		}
 	}
+
 	return true;
 }
 
@@ -203,11 +206,13 @@ void GameScene::Draw(void)
 	SetDrawScreen(_ghGameScreen);
 
 	ClsDrawScreen();
+
 	for (auto &data : _objList)
 	{
 		data->Obj::Draw();
 		data->Draw();
 	}
+
 	lpSceneMng.AddDrawQue({ _ghGameScreen,lpSceneMng.gameScreenPos.x, lpSceneMng.gameScreenPos.y });
 	SetDrawScreen(ghBefor);
 }

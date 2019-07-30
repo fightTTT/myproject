@@ -88,6 +88,11 @@ const Vector2Dbl Obj::Pos() const
 	return _pos;
 }
 
+const Vector2Dbl Obj::Size() const
+{
+	return _size;
+}
+
 bool Obj::IsAnimEnd()
 {
 	if (_animMap.find(_animKey) == _animMap.end())
