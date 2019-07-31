@@ -32,7 +32,7 @@ void Shot::Init(void)
 
 void Shot::SetMove()
 {
-	TRACE("%d\n",_pos.x);
+	TRACE("%d\n",_pos.y);
 	
 	if (_pos.y + _size.y / 2 < 0)
 	{

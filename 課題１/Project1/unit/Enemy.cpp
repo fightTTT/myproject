@@ -45,16 +45,17 @@ bool Enemy::Init(void)
 	switch (_type)
 	{
 	case ENM_TYPE::A:
-		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
 		break;
 	case ENM_TYPE::B:
 		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
 		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
 		break;
 	case ENM_TYPE::C:
-		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
+		
+		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
 		break;
 	default:
 		break;

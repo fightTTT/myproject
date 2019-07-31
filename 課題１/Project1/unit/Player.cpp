@@ -132,5 +132,5 @@ bool Player::Shooting(void)
 		}
 	}
 
-	return false;
+	return true;
 }

@@ -7,6 +7,8 @@
 #include "../Input/InputState.h"
 
 
+using EnemLine = std::tuple<ENM_TYPE,Vector2Dbl,int,int>;		// 敵の種類、集合場所の左上座標、X軸機数、Y軸機数
+
 class GameScene :
 	public BaseScene
 {
@@ -26,7 +28,6 @@ public:
 protected:
 	void Init(void)override;
 private:
-	void SetShot(void);
 	bool HitShot(void);
 
 	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
@@ -39,6 +40,7 @@ private:
 	int checkKey = 0;
 	int checkKeyOld = 0;
 	std::vector<char> enemON;
+	std::vector<EnemLine> enemLine;
 	//--------------------
 };
 

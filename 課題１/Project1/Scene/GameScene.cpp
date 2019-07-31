@@ -46,6 +46,10 @@ void GameScene::Init(void)
 	enemON[20] = 0;
 	enemON[29] = 0;
 
+	enemLine.reserve(3);
+	enemLine.emplace_back(ENM_TYPE::A,Vector2Dbl(30*3,0),4,1);
+	enemLine.emplace_back(ENM_TYPE::B, Vector2Dbl(30,32), 8, 2);
+	enemLine.emplace_back(ENM_TYPE::C, Vector2Dbl(0,32*3), 10, 2);
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }
@@ -76,36 +80,39 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 		checkKey = 0;
 	}
 
-	if (_objList.size() == 1)
+	/*if (_objList.size() == 1)
 	{
 		enemCount[0] = 0;
 		enemCount[1] = 0;
+	}*/
+
+	if (enemCount[1] >= 40)
+	{
+		enemCount[2] = 0;
 	}
+
+	if (enemCount[0] >= std::get<2>(enemLine[enemCount[2]])*std::get<3>(enemLine[enemCount[2]])-1)
+	{
+		enemCount[2]++;
+		enemCount[0] = 0;
+	}
+
 
 	if (checkKey == 1 && checkKeyOld == 0)
 	{
 		int enemRand = rand();
 		for (int i = 0; i < 4;)
 		{
-			if (enemCount[0] < 50)
+			if (enemCount[1] < 40)
 			{
-				/*if (_objList.size() < 10)
-				{*/
-				if (enemON[enemCount[0]] == 1)
-				{
-					enemCount[1]++;
-					AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(enemRand % 3), {32,32},
-						Vector2Dbl(80 + 40 * (enemCount[0] % 10),80 + 40 * (enemCount[0] / 10 % 5)),i,enemCount[1] });
-					//}
-					enemCount[0]++;
-					
-					i++;
-				}
-				else
-				{
-					enemCount[0]++;
-					continue;
-				}
+				enemCount[1]++;
+				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(std::get<0>(enemLine[enemCount[2]])), {32,32},
+					Vector2Dbl(80 + std::get<1>(enemLine[enemCount[2]]).x + 30 * (enemCount[0] % std::get<2>(enemLine[enemCount[2]])),
+								80 + std::get<1>(enemLine[enemCount[2]]).y + 30 * (enemCount[0] / std::get<2>(enemLine[enemCount[2]]) % std::get<3>(enemLine[enemCount[2]]))),
+								i,enemCount[1] });
+				enemCount[0]++;
+
+				i++;
 			}
 			else
 			{
@@ -115,7 +122,6 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 	HitShot();
-	SetShot();
 	
 
 	// std::remove_if(開始位置、終了位置、プレディケート)
@@ -137,60 +143,35 @@ void GameScene::AddEnemy(EnemyData data)
 	_objList.emplace_back(std::make_shared<Enemy>(data));
 }
 
-void GameScene::SetShot(void)
+bool GameScene::HitShot(void)
 {
-	static int shotNum = 0;
+	std::vector<Shared_Obj> shotObj;
 
-	for (auto &data : _objList)
+	for (auto &player : _objList)
 	{
-		if (shotNum >= 2)
+		if (player->GetUnit() == UNIT::PLAYER)
 		{
-			break;
-		}
-		if (data->GetShotData().size() >= (2 - shotNum))
-		{
-			for (auto &shot : data->GetShotData())
-			{
-				_objList.emplace_back(shot);
-				shotNum++;
-			}
-		}
-	}	
-
-	for (auto &data : _objList)
-	{
-		if (data->GetUnit() == UNIT::SHOT)
-		{
-			if (data->IsDeath())
-			{
-				shotNum--;
-			}
+			shotObj.resize(player->GetShotData().size());
+			shotObj = player->GetShotData();
 		}
 	}
 
-}
-
-bool GameScene::HitShot(void)
-{
-	for (auto &shot : _objList)
+	for (auto shot : shotObj)
 	{
-		if (shot->GetUnit() == UNIT::SHOT)
+		for (auto &enem : _objList)
 		{
-			for (auto &enem : _objList)
+			if (enem->GetUnit() == UNIT::ENEMY && enem->IsAlive() == true)
 			{
-				if (enem->GetUnit() == UNIT::ENEMY)
+				if (shot->Pos().y - (shot->Size().y / 2) <= enem->Pos().y + (enem->Size().y / 2)
+					&& shot->Pos().y + (shot->Size().y / 2) >= enem->Pos().y - (enem->Size().y / 2)
+					&& enem->Pos().x + (enem->Size().x / 2) >= shot->Pos().x - (shot->Size().x / 2)
+					&& enem->Pos().x - (enem->Size().x / 2) <= shot->Pos().x + (shot->Size().x / 2))
 				{
-					if (shot->Pos().y - (shot->Size().y / 2) <= enem->Pos().y + (enem->Size().y / 2)
-					 && shot->Pos().y + (shot->Size().y / 2) >= enem->Pos().y - (enem->Size().y / 2)
-					 && enem->Pos().x + (enem->Size().x / 2) >= shot->Pos().x - (shot->Size().x / 2)
-					 && enem->Pos().x - (enem->Size().x / 2) <= shot->Pos().x + (shot->Size().x / 2))
-					{
-						enem->IsAlive(false);
-						enem->AnimKey(ANIM::DEATH);
-						shot->IsDeath(true);
+					enem->IsAlive(false);
+					enem->AnimKey(ANIM::DEATH);
+					shot->IsDeath(true);
 
-						return true;
-					}
+					return true;
 				}
 			}
 		}
