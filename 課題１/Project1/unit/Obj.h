@@ -16,7 +16,6 @@ enum class UNIT
 {
 	PLAYER,		// プレイヤーユニット
 	ENEMY,		// 敵
-	SHOT,
 	MAX
 };
 

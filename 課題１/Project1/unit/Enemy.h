@@ -77,7 +77,8 @@ private:
 	std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
 	double step;
-
+	bool leftFlag; 
+	int enemyAnimFrame;
 
 	//-----------------
 	double X;

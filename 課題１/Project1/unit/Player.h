@@ -21,4 +21,3 @@ private:
 	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
 	std::vector<Shared_Obj> _shotObj;
 };
-

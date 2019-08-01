@@ -38,8 +38,8 @@ private:
 	char key[256];
 	int checkKey = 0;
 	int checkKeyOld = 0;
-	std::vector<char> enemON;
 	std::vector<EnemLine> enemLine;
+	std::array<std::vector<int>, 3> enemNum;
 	//--------------------
 };
 

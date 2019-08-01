@@ -40,6 +40,7 @@ void SceneMng::Run(void)
 		_activeScene = _activeScene->UpDate(std::move(_activeScene));
 		AddDrawQue({ IMAGE_ID("òg")[0],0,0 });
 		Draw();
+		frame++;
 	}
 
 }
@@ -54,6 +55,7 @@ bool SceneMng::AddDrawQue(DrawQueT dQue)
 	return true;
 }
 
+
 bool SceneMng::Init(void)
 {
 	SetGraphMode(screenSize.x, screenSize.y, 16);		// 65536êF”∞ƒﬁÇ…ê›íË
@@ -65,7 +67,7 @@ bool SceneMng::Init(void)
 
 	SET_IMAGE_ID("òg", "image/frame.png");
 	_DbgSetUp(200);
-
+	frame = 0;
 	return true;
 }
 

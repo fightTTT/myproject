@@ -29,27 +29,17 @@ void GameScene::Init(void)
 					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16), 
 				 };
 
-	enemON.resize(50);
-	for (int i = 0; i < 50; i++)
-	{
-		enemON[i] = 1;
-	}
-
-	enemON[0] = 0;
-	enemON[1] = 0;
-	enemON[2] = 0;
-	enemON[7] = 0;
-	enemON[8] = 0;
-	enemON[9] = 0;
-	enemON[10] = 0;
-	enemON[19] = 0;
-	enemON[20] = 0;
-	enemON[29] = 0;
-
 	enemLine.reserve(3);
 	enemLine.emplace_back(ENM_TYPE::A,Vector2Dbl(30*3,0),4,1);
 	enemLine.emplace_back(ENM_TYPE::B, Vector2Dbl(30,32), 8, 2);
 	enemLine.emplace_back(ENM_TYPE::C, Vector2Dbl(0,32*3), 10, 2);
+
+	enemNum[0].resize(4);;
+	enemNum[0] = {1,2,0,3};
+	enemNum[1].resize(16);
+	enemNum[1] = {3,11,4,12,2,10,5,13,1,9,6,14,0,8,7,15};
+	enemNum[2].resize(20);
+	enemNum[2] = { 4,14,5,15,3,13,6,16,2,12,7,17,1,11,8,18,0,10,9,19 };
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 }
@@ -57,6 +47,7 @@ void GameScene::Init(void)
 Unique_Base GameScene::UpDate(Unique_Base own)
 {
 	static int enemCount[3];
+	static int cnt = 0;
 	for (int i = 0; i > 3; i++)
 	{
 		enemCount[i] = 0;
@@ -94,6 +85,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	if (enemCount[0] >= std::get<2>(enemLine[enemCount[2]])*std::get<3>(enemLine[enemCount[2]])-1)
 	{
 		enemCount[2]++;
+		cnt = 0;
 		enemCount[0] = 0;
 	}
 
@@ -107,12 +99,13 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 			{
 				enemCount[1]++;
 				AddEnemy({ enemAppPos[enemRand % 5], ENM_TYPE(std::get<0>(enemLine[enemCount[2]])), {32,32},
-					Vector2Dbl(80 + std::get<1>(enemLine[enemCount[2]]).x + 30 * (enemCount[0] % std::get<2>(enemLine[enemCount[2]])),
-								80 + std::get<1>(enemLine[enemCount[2]]).y + 30 * (enemCount[0] / std::get<2>(enemLine[enemCount[2]]) % std::get<3>(enemLine[enemCount[2]]))),
+					Vector2Dbl(80 + std::get<1>(enemLine[enemCount[2]]).x + 30 * (enemNum[enemCount[2]][cnt] % std::get<2>(enemLine[enemCount[2]])),
+								80 + std::get<1>(enemLine[enemCount[2]]).y + 30 * (enemNum[enemCount[2]][cnt] / std::get<2>(enemLine[enemCount[2]]) % std::get<3>(enemLine[enemCount[2]]))),
 								i,enemCount[1] });
 				enemCount[0]++;
 
 				i++;
+				cnt++;
 			}
 			else
 			{

@@ -17,6 +17,7 @@ Player::Player(const Vector2Dbl& pos, const Vector2Dbl& size)
 	Init();
 	_pos = pos;
 	_size = size;
+
 	_angle = 0.0f;
 	_shotObj.reserve(2);
 	

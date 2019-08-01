@@ -44,7 +44,7 @@ void Shot::SetMove()
 
 UNIT Shot::GetUnit(void)
 {
-	return UNIT::SHOT;
+	return UNIT::MAX;
 }
 
 std::vector<Shared_Obj> Shot::GetShotData()

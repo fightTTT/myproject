@@ -5,6 +5,7 @@
 #include "../_DebugDispOut.h"
 #include "../_DebugConOut.h"
 #include "../common/ImageMng.h"
+#include "../SceneMng.h"
 
 int Enemy::animCnt = 0;
 bool Enemy::enemGather = false;
@@ -33,6 +34,11 @@ Enemy::~Enemy()
 
 bool Enemy::Init(void)
 {
+	enemyAnimFrame = 60;
+
+	_animCnt = lpSceneMng.GetFrame() % enemyAnimFrame;
+
+
 	AnimVector data;
 
 	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
@@ -46,16 +52,16 @@ bool Enemy::Init(void)
 	{
 	case ENM_TYPE::A:
 		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[31], enemyAnimFrame);
 		break;
 	case ENM_TYPE::B:
 		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[21], enemyAnimFrame);
 		break;
 	case ENM_TYPE::C:
 		
 		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[11], enemyAnimFrame);
 		break;
 	default:
 		break;
@@ -74,7 +80,17 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
-	moveData.emplace_back(Vector2Dbl(100, 300), MOVE_TYPE::SIGMOID);
+	if (_pos.x < 100)
+	{
+		leftFlag = true;
+		moveData.emplace_back(Vector2Dbl(400, 200), MOVE_TYPE::SIGMOID);
+	}
+	else
+	{
+		leftFlag = false;
+		moveData.emplace_back(Vector2Dbl(100, 200), MOVE_TYPE::SIGMOID);
+	}
+	
 	moveData.emplace_back(Vector2Dbl(250, 300), MOVE_TYPE::SPIRAL);
 	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
 
@@ -85,6 +101,8 @@ bool Enemy::Init(void)
 	_alive = true;
 	firstFlag = true;
 	waitCnt = 0;
+
+	
 	
 	move = &Enemy::MoveWait;
 	enemGather = false;
@@ -175,8 +193,18 @@ void Enemy::MoveSigmoid(void)
 
 void Enemy::MoveSpiral(void)
 {
-	_vel.x = cos(((DX_PI + (step / 120+3) * step) / 180)) * 2;
-	_vel.y = sin(((DX_PI + (step / 120+3) * step) / 180)) * 2;
+
+	if (leftFlag)
+	{
+		_vel.x = -cos((step) * (DX_PI / 180) * 2) * 2;
+		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
+	}
+	else
+	{
+		_vel.x = cos((step) * (DX_PI / 180) * 2) * 2;
+		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
+	}
+
 	if ((step / 120) > 2)
 	{
 		speed = 2;
@@ -213,9 +241,10 @@ void Enemy::MoveLR(void)
 	
 	if (enemGather)
 	{
-		float angle = atan2f(_pos.y - 0, _pos.x - 250);
-		_vel.x = cos(angle)*0.3;
-		_vel.y = sin(angle)*0.3;
+		float angle = atan2f(_pos.y - 0, _pos.x - 200);
+		float len = hypot(200 - _pos.x,0 - _pos.y);
+		_vel.x = cos(angle) * (len * 0.002);
+		_vel.y = sin(angle) * (len * 0.002);
 
 		if (static_cast<int>(step) / 120 % 2 == 0)
 		{
