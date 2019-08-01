@@ -23,7 +23,6 @@ public:
 	// Enemy‚ð’Ç‰Á‚·‚é
 	void AddEnemy(EnemyData data);		
 
-
 	void Draw(void);
 protected:
 	void Init(void)override;
