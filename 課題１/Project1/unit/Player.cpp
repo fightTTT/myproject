@@ -21,7 +21,6 @@ Player::Player(const Vector2Dbl& pos, const Vector2Dbl& size)
 	_angle = 0.0f;
 	_shotObj.reserve(2);
 	
-	//TRACE("%d",_pos.x);
 }
 
 
@@ -35,7 +34,6 @@ void Player::Draw(void)
 	{
 		data->Draw();
 	}
-	//DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("ƒLƒƒƒ‰")[0], true);
 }
 
 UNIT Player::GetUnit(void)

@@ -11,8 +11,8 @@ enum class ENM_DATA
 	TYPE,
 	SIZE,
 	TARGTPOS,
-	ENEMNUM,
 	ENEMCNT,
+	ENEMNUM,
 	MAX
 };
 
@@ -24,16 +24,18 @@ enum class ENM_TYPE
 	MAX
 };
 
-enum class MOVE_TYPE
-{
-	SIGMOID,
-	SPIRAL,
-	LR,
-	MAX
-};
+//enum class MOVE_TYPE
+//{
+//	SIGMOID,
+//	SPIRAL,
+//	LR,
+//	MAX
+//};
 
 using EnemyData = std::tuple<Vector2Dbl, ENM_TYPE, Vector2Dbl,Vector2Dbl,int,int>;
-using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
+//using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
+
+class EnemyMove;
 
 class Enemy :
 	public Obj
@@ -48,6 +50,7 @@ public:
 	UNIT GetUnit(void) override;
 	void SetMove();
 	std::vector<Shared_Obj> GetShotData();
+
 private:
 	bool Init(void);
 
@@ -66,23 +69,25 @@ private:
 	ENM_TYPE _type;				// éÌóﬁ
 	Vector2Dbl _targetPos;		// ï¿Ç‘èÍèä
 	double speed;
-	bool firstFlag;
+
 	int waitCnt;
 	int _enemCnt;
 
 	Vector2Dbl _posOld;
 	static int animCnt;
-	static bool enemGather;
-	int enemCounter;
-	std::vector<MoveType> moveData;
+	//static bool enemGather;
+	int enemNum;
+	//std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
 	double step;
 	bool leftFlag; 
 	int enemyAnimFrame;
+	std::unique_ptr<EnemyMove> enemMoveData;
 
 	//-----------------
 	double X;
-	Vector2Dbl debgPos;
+	Vector2Dbl InstancePos;
 	std::list<Vector2Dbl> drawPixel;
+	bool firstFlag;
 	//-----------------
 };
