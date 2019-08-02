@@ -54,18 +54,18 @@ public:
 private:
 	bool Init(void);
 
-	// シグモイド曲線で動く
-	void MoveSigmoid(void);		
-	// 回転
-	void MoveSpiral(void);
-	// 最後の目標地点に向かう
-	void MoveLastTarget(void);
-	// 左右移動
-	void MoveLR(void);		
-	// 敵の編隊のwait関数
-	void MoveWait(void);		
+	//// シグモイド曲線で動く
+	//void MoveSigmoid(void);		
+	//// 回転
+	//void MoveSpiral(void);
+	//// 最後の目標地点に向かう
+	//void MoveLastTarget(void);
+	//// 左右移動
+	//void MoveLR(void);		
+	//// 敵の編隊のwait関数
+	//void MoveWait(void);		
 
-	void (Enemy::*move)(void);	// メンバ関数ポインタ
+	//void (Enemy::*move)(void);	// メンバ関数ポインタ
 	ENM_TYPE _type;				// 種類
 	Vector2Dbl _targetPos;		// 並ぶ場所
 	double speed;

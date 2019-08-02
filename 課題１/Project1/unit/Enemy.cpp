@@ -107,7 +107,7 @@ bool Enemy::Init(void)
 
 	
 	
-	move = &Enemy::MoveWait;
+	//move = &Enemy::MoveWait;
 	//enemGather = false;
 
 	
@@ -170,112 +170,112 @@ std::vector<Shared_Obj> Enemy::GetShotData()
 	return std::vector<Shared_Obj>();
 }
 
-void Enemy::MoveSigmoid(void)
-{
-	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*-1.0))); };
-
-	Vector2Dbl oneTimepos;
-
-	oneTimepos.x = (X + 10)/20;
-	oneTimepos.y = sigmoid(X);
-
-	//_pos.x = oneTimepos.x *(std::get<0>(moveData[0]).x-InstancePos.x) + InstancePos.x;
-	//_pos.y = oneTimepos.y *(std::get<0>(moveData[0]).y - InstancePos.y) + InstancePos.y;
-
-	X += step;
-/*
-	if (X> 10)
-	{
-		step = 0;
-		move = &Enemy::MoveSpiral;
-	}*/
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-}
-
-void Enemy::MoveSpiral(void)
-{
-
-	if (leftFlag)
-	{
-		_vel.x = cos((step) * (DX_PI / 180) * 2) * 2;
-		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
-	}
-	else
-	{
-		_vel.x = -cos((step) * (DX_PI / 180) * 2) * 2;
-		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
-	}
-
-	if ((step / 120) > 2)
-	{
-		speed = 2;
-		move = &Enemy::MoveLastTarget;
-	}
-	_pos += _vel;
-	step++;
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-}
-
-void Enemy::MoveLastTarget(void)
-{
-	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
-	_vel.x = cos(angle) * speed;
-	_vel.y = sin(angle) * speed;
-	_pos += _vel;
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-
-	if (abs(_targetPos.y - _pos.y) <= speed && abs(_targetPos.x - _pos.x) <= speed)
-	{
-		_pos = _targetPos;
-		_angle = 0.0f;
-		step = 0;
-		move = &Enemy::MoveLR;
-	}
-}
-
-void Enemy::MoveLR(void)
-{
-	/*if (enemGather)
-	{
-		float angle = atan2f(_pos.y - 0, _pos.x - 200);
-		float len = hypot(200 - _pos.x,0 - _pos.y);
-		_vel.x = cos(angle) * (len * 0.002);
-		_vel.y = sin(angle) * (len * 0.002);
-
-		if (static_cast<int>(step) / 120 % 2 == 0)
-		{
-			_pos += _vel;
-		}
-		else
-		{
-			_pos -= _vel;
-		}
-		
-		step++;
-	}
-	else
-	{
-		if (enemNum == 40)
-		{
-			enemGather = true;
-		}
-	}*/
-}
-void Enemy::MoveWait(void)
-{
-	if (step > _enemCnt * 25)
-	{
-		step = 0.1;
-		move = &Enemy::MoveSigmoid;
-	}
-	else
-	{
-		step++;
-	}
-}
+//void Enemy::MoveSigmoid(void)
+//{
+//	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*-1.0))); };
+//
+//	Vector2Dbl oneTimepos;
+//
+//	oneTimepos.x = (X + 10)/20;
+//	oneTimepos.y = sigmoid(X);
+//
+//	//_pos.x = oneTimepos.x *(std::get<0>(moveData[0]).x-InstancePos.x) + InstancePos.x;
+//	//_pos.y = oneTimepos.y *(std::get<0>(moveData[0]).y - InstancePos.y) + InstancePos.y;
+//
+//	X += step;
+///*
+//	if (X> 10)
+//	{
+//		step = 0;
+//		move = &Enemy::MoveSpiral;
+//	}*/
+//
+//	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+//	_angle += 90 * (DX_PI / 180);
+//}
+//
+//void Enemy::MoveSpiral(void)
+//{
+//
+//	if (leftFlag)
+//	{
+//		_vel.x = cos((step) * (DX_PI / 180) * 2) * 2;
+//		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
+//	}
+//	else
+//	{
+//		_vel.x = -cos((step) * (DX_PI / 180) * 2) * 2;
+//		_vel.y = sin((step) * (DX_PI / 180) * 2) * 2;
+//	}
+//
+//	if ((step / 120) > 2)
+//	{
+//		speed = 2;
+//		move = &Enemy::MoveLastTarget;
+//	}
+//	_pos += _vel;
+//	step++;
+//
+//	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+//	_angle += 90 * (DX_PI / 180);
+//}
+//
+//void Enemy::MoveLastTarget(void)
+//{
+//	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
+//	_vel.x = cos(angle) * speed;
+//	_vel.y = sin(angle) * speed;
+//	_pos += _vel;
+//
+//	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
+//	_angle += 90 * (DX_PI / 180);
+//
+//	if (abs(_targetPos.y - _pos.y) <= speed && abs(_targetPos.x - _pos.x) <= speed)
+//	{
+//		_pos = _targetPos;
+//		_angle = 0.0f;
+//		step = 0;
+//		move = &Enemy::MoveLR;
+//	}
+//}
+//
+//void Enemy::MoveLR(void)
+//{
+//	/*if (enemGather)
+//	{
+//		float angle = atan2f(_pos.y - 0, _pos.x - 200);
+//		float len = hypot(200 - _pos.x,0 - _pos.y);
+//		_vel.x = cos(angle) * (len * 0.002);
+//		_vel.y = sin(angle) * (len * 0.002);
+//
+//		if (static_cast<int>(step) / 120 % 2 == 0)
+//		{
+//			_pos += _vel;
+//		}
+//		else
+//		{
+//			_pos -= _vel;
+//		}
+//		
+//		step++;
+//	}
+//	else
+//	{
+//		if (enemNum == 40)
+//		{
+//			enemGather = true;
+//		}
+//	}*/
+//}
+//void Enemy::MoveWait(void)
+//{
+//	if (step > _enemCnt * 25)
+//	{
+//		step = 0.1;
+//		move = &Enemy::MoveSigmoid;
+//	}
+//	else
+//	{
+//		step++;
+//	}
+//}
