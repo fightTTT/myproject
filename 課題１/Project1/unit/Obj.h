@@ -53,18 +53,23 @@ public:
 	// 生存確認
 	const bool IsAlive() { return _alive; };
 	const bool IsDeath() { return _death; };
-	const void IsAlive(bool alive);
-	const void IsDeath(bool Death);
+	const int Life() { return _life; };
+	void IsAlive(const bool alive);
+	void IsDeath(const bool Death);
+	void Life(const int life);
+
 protected:
 
 	// アニメーション情報をセットする
 	bool SetAnim(const ANIM key, AnimVector &data);	
+	const ANIM GetAnimKey(void) { return _animKey; };
 	Vector2Dbl _pos;		// 座標
 	Vector2Dbl _size;		// キャラの大きさ
 	bool _alive;		// 生きているか	true...生存　false...死亡
 	bool _death;	
 	float _angle;
 	int _animCnt;		// アニメーションカウンター
+	int _life;
 	
 private:
 	ANIM _animKey;		// アニメーションタイプ

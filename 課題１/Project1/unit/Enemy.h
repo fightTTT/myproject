@@ -53,17 +53,8 @@ public:
 
 private:
 	bool Init(void);
+	void EnemDamage(void);		// ダメージを受けたときの処理。敵の色を変え、ライフがゼロになったら殺す
 
-	//// シグモイド曲線で動く
-	//void MoveSigmoid(void);		
-	//// 回転
-	//void MoveSpiral(void);
-	//// 最後の目標地点に向かう
-	//void MoveLastTarget(void);
-	//// 左右移動
-	//void MoveLR(void);		
-	//// 敵の編隊のwait関数
-	//void MoveWait(void);		
 
 	//void (Enemy::*move)(void);	// メンバ関数ポインタ
 	ENM_TYPE _type;				// 種類
@@ -75,9 +66,7 @@ private:
 
 	Vector2Dbl _posOld;
 	static int animCnt;
-	//static bool enemGather;
 	int enemNum;
-	//std::vector<MoveType> moveData;
 	Vector2Dbl _vel;
 	double step;
 	bool leftFlag; 

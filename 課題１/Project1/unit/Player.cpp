@@ -14,12 +14,14 @@ Player::Player()
 
 Player::Player(const Vector2Dbl& pos, const Vector2Dbl& size)
 {
-	Init();
+	
 	_pos = pos;
 	_size = size;
 
 	_angle = 0.0f;
 	_shotObj.reserve(2);
+
+	Init();
 	
 }
 
@@ -48,11 +50,16 @@ void Player::SetMove(void)
 		return;
 	}
 
-	/*if (rand() % 10 == 0)
+	if (_life <= 0)
 	{
 		_alive = false;
+	}
+
+	if (!_alive)
+	{
 		AnimKey(ANIM::DEATH);
-	}*/
+	}
+
 	Shooting();
 
 	for (auto &data : _shotObj)
@@ -113,6 +120,8 @@ bool Player::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	inputState = std::make_unique<KeyState>();
+
+	_life = 1;
 
 	return true;
 }

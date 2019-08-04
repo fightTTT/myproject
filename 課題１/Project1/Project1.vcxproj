@@ -135,6 +135,7 @@
     <ClCompile Include="SceneMng.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Shot.cpp" />
+    <ClCompile Include="StarScroll.cpp" />
     <ClCompile Include="unit\Enemy.cpp" />
     <ClCompile Include="common\ImageMng.cpp" />
     <ClCompile Include="main.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Shot.h" />
+    <ClInclude Include="StarScroll.h" />
     <ClInclude Include="unit\Enemy.h" />
     <ClInclude Include="common\ImageMng.h" />
     <ClInclude Include="unit\Obj.h" />

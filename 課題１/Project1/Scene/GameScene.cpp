@@ -160,8 +160,7 @@ bool GameScene::HitShot(void)
 					&& enem->Pos().x + (enem->Size().x / 2) >= shot->Pos().x - (shot->Size().x / 2)
 					&& enem->Pos().x - (enem->Size().x / 2) <= shot->Pos().x + (shot->Size().x / 2))
 				{
-					enem->IsAlive(false);
-					enem->AnimKey(ANIM::DEATH);
+					enem->Life(enem->Life() - 1);
 					shot->IsDeath(true);
 
 					return true;
