@@ -23,6 +23,15 @@ public:
 
 	void SetMove(void);
 
+	const Vector2Dbl GetPos(void) { return _pos; };
+	const float GetAngle(void) { return _angle; };
+
+
+private:
+	static bool enemGather;
+
+	// 敵の編隊のwait関数
+	void MoveWait(void);
 	// シグモイド曲線で動く
 	void MoveSigmoid(void);
 	// 回転
@@ -31,15 +40,9 @@ public:
 	void MoveLastTarget(void);
 	// 左右移動
 	void MoveLR(void);
-	// 敵の編隊のwait関数
-	void MoveWait(void);
 
-	const Vector2Dbl GetPos(void) { return _pos; };
-	const float GetAngle(void) { return _angle; };
-
-
-private:
-	static bool enemGather;
+	void MoveAttack(void);
+	
 
 	Vector2Dbl _pos;
 	Vector2Dbl _posOld;

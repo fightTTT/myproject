@@ -1,7 +1,7 @@
 #include <DxLib.h>
 #include <cmath>
 #include "EnemyMove.h"
-#include "common//Vector2.h"
+#include "common/Vector2.h"
 
 bool EnemyMove::enemGather = false;
 
@@ -86,6 +86,19 @@ void EnemyMove::MoveSigmoid(void)
 	_angle += 90 * (DX_PI / 180);
 }
 
+void EnemyMove::MoveWait(void)
+{
+	if (sigmoidStep > _enemCnt * 25)
+	{
+		sigmoidStep = 0.1;
+		move = &EnemyMove::MoveSigmoid;
+	}
+	else
+	{
+		sigmoidStep++;
+	}
+}
+
 void EnemyMove::MoveSpiral(void)
 {
 	if (leftFlag)
@@ -159,15 +172,7 @@ void EnemyMove::MoveLR(void)
 	}
 }
 
-void EnemyMove::MoveWait(void)
+void EnemyMove::MoveAttack(void)
 {
-	if (sigmoidStep > _enemCnt * 25)
-	{
-		sigmoidStep = 0.1;
-		move = &EnemyMove::MoveSigmoid;
-	}
-	else
-	{
-		sigmoidStep++;   
-	}
+	
 }

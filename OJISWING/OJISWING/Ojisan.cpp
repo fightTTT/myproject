@@ -128,7 +128,7 @@ Ojisan::FlyingPhase(){
 
 	_vy+=_g*0.25;//èdóÕâ¡ë¨
 
-	
+
 	DrawRotaGraph(_pos.x-_scroll.x,_pos.y-_scroll.y,1.0,-(_theta -3.14159265358979/2),_handle,true,false);
 }
 

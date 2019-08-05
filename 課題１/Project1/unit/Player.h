@@ -14,10 +14,13 @@ public:
 	void Draw(void) override;
 	UNIT GetUnit(void) override;
 	void SetMove(void);
-	std::vector<Shared_Obj> GetShotData();
+	std::vector<Shared_Obj> GetShotData() override;
 private:
 	bool Init(void);
+
+	// ©‹@’e‚Ì¶¬‚Æíœˆ—
 	bool Shooting(void);
+
 	std::unique_ptr<InputState> inputState;		// “ü—Íó‘Ôæ“¾
 	std::vector<Shared_Obj> _shotObj;
 };

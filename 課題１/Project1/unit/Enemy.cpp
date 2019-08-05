@@ -8,8 +8,6 @@
 #include "../SceneMng.h"
 #include "../EnemyMove.h"
 
-int Enemy::animCnt = 0;
-//bool Enemy::enemGather = false;
 
 Enemy::Enemy()
 {
@@ -40,7 +38,6 @@ bool Enemy::Init(void)
 	enemyAnimFrame = 60;
 
 	_animCnt = lpSceneMng.GetFrame() % enemyAnimFrame;
-
 
 	AnimVector data;
 
@@ -92,11 +89,9 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	speed = 0.1;
-	X = -10;
 	
 	step = 0.1;
 	_alive = true;
-	firstFlag = true;
 	waitCnt = 0;
 	
 
@@ -125,22 +120,10 @@ void Enemy::SetMove()
 
 	_posOld = _pos;
 
-
-	int color = 0x00ff00;
-	if (firstFlag == false)
-	{
-		color = 0xff0000;
-	}
-
-	
-	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
-
-
 	enemMoveData->SetMove();
 
 	_pos = enemMoveData->GetPos();
 	_angle = enemMoveData->GetAngle();
-	animCnt++;
 }
 
 std::vector<Shared_Obj> Enemy::GetShotData()

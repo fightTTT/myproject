@@ -6,6 +6,7 @@
 #include "../_DebugDispOut.h"
 #include "../Input/KeyState.h"
 #include "../Shot.h"
+#include "../SceneMng.h"
 
 Player::Player()
 {
@@ -28,6 +29,40 @@ Player::Player(const Vector2Dbl& pos, const Vector2Dbl& size)
 
 Player::~Player()
 {
+}
+
+bool Player::Init(void)
+{
+	AnimVector data;
+
+	data.reserve(2);
+
+	// ã‹L‚Ìpush_back‚Æ“¯‚¶ˆ—
+	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[0], 30);
+	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[1], 60);
+
+	SetAnim(ANIM::NORMAL, data);
+
+	data.reserve(1);
+	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[2], 60);
+	SetAnim(ANIM::EX, data);
+
+	data.reserve(4);
+	data.emplace_back(IMAGE_ID("PL”š”j")[0], 5);
+	data.emplace_back(IMAGE_ID("PL”š”j")[1], 15);
+	data.emplace_back(IMAGE_ID("PL”š”j")[2], 25);
+	data.emplace_back(IMAGE_ID("PL”š”j")[3], 35);
+	data.emplace_back(-1, 50);
+
+	SetAnim(ANIM::DEATH, data);
+
+	inputState = std::make_unique<KeyState>();
+
+	_life = 1;
+
+	speed = 4;
+
+	return true;
 }
 
 void Player::Draw(void)
@@ -71,59 +106,28 @@ void Player::SetMove(void)
 	inputState->Update();
 	if (inputState->state(INPUT_ID::LEFT).first)
 	{
-		_pos.x -= 2;
+		_pos.x = max(0 + _size.x / 2, _pos.x - speed);
+		
 	}
 	if (inputState->state(INPUT_ID::RIGHT).first)
 	{
-		_pos.x += 2;
+		_pos.x = min(lpSceneMng.gameScreenSize.x - _size.x / 2, _pos.x + speed);
 	}
-	if (inputState->state(INPUT_ID::UP).first)
-	{
-		_pos.y -= 2;
-	}
-	if (inputState->state(INPUT_ID::DOWN).first)
-	{
-		_pos.y += 2;
-	}
+	//if (inputState->state(INPUT_ID::UP).first)
+	//{
+	//	_pos.y -= 2;
+	//}
+	//if (inputState->state(INPUT_ID::DOWN).first)
+	//{
+	//	_pos.y += 2;
+	//}
 
-	_DbgDrawFormatString(0, 0, 0xff00ff, "playerPos:%d,%d", _pos.x,_pos.y);
+	//_DbgDrawFormatString(0, 0, 0xff00ff, "playerPos:%d,%d", _pos.x,_pos.y);
 }
 
 std::vector<Shared_Obj> Player::GetShotData()
 {
 	return _shotObj;
-}
-
-bool Player::Init(void)
-{
-	AnimVector data;
-
-	data.reserve(2);
-
-	// ã‹L‚Ìpush_back‚Æ“¯‚¶ˆ—
-	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[0], 30);
-	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[1], 60);
-
-	SetAnim(ANIM::NORMAL, data);
-
-	data.reserve(1);
-	data.emplace_back(IMAGE_ID("ƒLƒƒƒ‰")[2], 60);
-	SetAnim(ANIM::EX,data);
-
-	data.reserve(4);
-	data.emplace_back(IMAGE_ID("PL”š”j")[0],  5);
-	data.emplace_back(IMAGE_ID("PL”š”j")[1], 15);
-	data.emplace_back(IMAGE_ID("PL”š”j")[2], 25);
-	data.emplace_back(IMAGE_ID("PL”š”j")[3], 35);
-	data.emplace_back(-1, 50);
-
-	SetAnim(ANIM::DEATH, data);
-
-	inputState = std::make_unique<KeyState>();
-
-	_life = 1;
-
-	return true;
 }
 
 bool Player::Shooting(void)

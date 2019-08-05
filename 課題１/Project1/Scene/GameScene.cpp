@@ -5,6 +5,7 @@
 #include "../SceneMng.h"
 #include "../unit/Player.h"
 
+
 GameScene::GameScene()
 {
 	Init();
@@ -20,7 +21,7 @@ void GameScene::Init(void)
 	srand(1);
 
 	_objList.reserve(40);
-	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(100, 100), Vector2Dbl(30, 32)));
+	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(lpSceneMng.gameScreenSize.x / 2-15, 350), Vector2Dbl(30, 32)));
 
 	enemAppPos = { Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
 					Vector2Dbl(15 + lpSceneMng.gameScreenSize.x,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
@@ -42,6 +43,8 @@ void GameScene::Init(void)
 	enemNum[2] = { 4,14,5,15,3,13,6,16,2,12,7,17,1,11,8,18,0,10,9,19 };
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
+
+	star = std::make_unique<StarScroll>();
 }
 
 Unique_Base GameScene::UpDate(Unique_Base own)
@@ -57,6 +60,8 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	{
 		data->SetMove();
 	}
+
+	star->UpDate();
 
 	GetHitKeyStateAll(key);
 	
@@ -179,6 +184,8 @@ void GameScene::Draw(void)
 	SetDrawScreen(_ghGameScreen);
 
 	ClsDrawScreen();
+
+	star->DrawStar();
 
 	for (auto &data : _objList)
 	{

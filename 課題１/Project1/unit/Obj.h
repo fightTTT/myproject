@@ -65,11 +65,12 @@ protected:
 	const ANIM GetAnimKey(void) { return _animKey; };
 	Vector2Dbl _pos;		// 座標
 	Vector2Dbl _size;		// キャラの大きさ
+	double speed;			// 移動速度
 	bool _alive;		// 生きているか	true...生存　false...死亡
 	bool _death;	
 	float _angle;
 	int _animCnt;		// アニメーションカウンター
-	int _life;
+	int _life;			// 機体の残機
 	
 private:
 	ANIM _animKey;		// アニメーションタイプ

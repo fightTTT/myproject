@@ -28,6 +28,8 @@ void Shot::Init(void)
 	data.reserve(1);
 	data.emplace_back(IMAGE_ID("ƒVƒ‡ƒbƒg")[0], 120);
 	SetAnim(ANIM::NORMAL, data);
+
+	speed = 6.0;
 }
 
 void Shot::SetMove()
@@ -39,7 +41,7 @@ void Shot::SetMove()
 		_death = true;
 	}
 
-	_pos.y -= 3.0;
+	_pos.y -= speed;
 }
 
 UNIT Shot::GetUnit(void)

@@ -1,10 +1,12 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <memory>
 #include "BaseScene.h"
 #include "../unit/Obj.h"
 #include "../unit/Enemy.h"
 #include "../Input/InputState.h"
+#include "../StarScroll.h"
 
 
 using EnemLine = std::tuple<ENM_TYPE,Vector2Dbl,int,int>;		// 敵の種類、集合場所の左上座標、X軸機数、Y軸機数
@@ -27,11 +29,15 @@ public:
 protected:
 	void Init(void)override;
 private:
-	bool HitShot(void);
+
+	// shotの当たり判定
+	bool HitShot(void);		
 
 	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
 	int _ghGameScreen;
 	std::array<Vector2Dbl, 5> enemAppPos;	// 敵の出現座標
+
+	std::unique_ptr<StarScroll> star;
 
 	// デバッグ用
 	//--------------------
