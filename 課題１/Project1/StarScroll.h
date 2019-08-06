@@ -37,7 +37,9 @@ private:
 	// 自機がキャプチャされた時の星の動き
 	void UpStar(void);
 
-	std::vector<StarData> starDeath(std::vector<StarData> star);
+	// 画面外にいる星の要素を削除する関数
+	std::vector<StarData> starDeath(std::vector<StarData> star);			
+
 
 	std::array<std::vector<StarData>,static_cast<int>(STAR_TYPE::MAX)> _starData;
 
