@@ -21,11 +21,13 @@ World::Update(){
 	DxLib::GetHitKeyStateAll(keyBuff);
 
 	
-	if(keyBuff[KEY_INPUT_LEFT]){
+	if(keyBuff[KEY_INPUT_LEFT])
+	{
 		_angle-=1.0f;		
 		//‚±‚±‚ÉŒX‚«‚ÉŠñ‚é‰Á‘¬‚Ìˆ—‚ğ‘‚¢‚Ä‰º‚³‚¢
 	}
-	if(keyBuff[KEY_INPUT_RIGHT]){
+	if(keyBuff[KEY_INPUT_RIGHT])
+	{
 		_angle+=1.0f;
 		//‚±‚±‚ÉŒX‚«‚ÉŠñ‚é‰Á‘¬‚Ìˆ—‚ğ‘‚¢‚Ä‰º‚³‚¢
 	}

@@ -88,6 +88,11 @@ const Vector2Dbl Obj::Pos() const
 	return _pos;
 }
 
+const Vector2Dbl Obj::Size() const
+{
+	return _size;
+}
+
 bool Obj::IsAnimEnd()
 {
 	if (_animMap.find(_animKey) == _animMap.end())
@@ -124,14 +129,19 @@ void Obj::Pos(const Vector2Dbl &pos)
 	_pos = pos;
 }
 
-const void Obj::IsAlive(bool alive)
+void Obj::IsAlive(bool alive)
 {
 	_alive = alive;
 }
 
-const void Obj::IsDeath(bool Death)
+void Obj::IsDeath(bool Death)
 {
 	_death = Death;
+}
+
+void Obj::Life(int life)
+{
+	_life = life;
 }
 
 bool Obj::SetAnim(const ANIM key, AnimVector &data)

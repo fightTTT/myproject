@@ -32,6 +32,7 @@ public:
 	const Vector2 screenSize;			// 画面全体のサイズ
 	const Vector2 gameScreenSize;		// プレイ画面サイズ
 	const Vector2 gameScreenPos;		// 画面全体のサイズに対するプレイ画面サイズのoffSet値
+	const int GetFrame() { return frame; };
 
 private:
 	struct SceneMngDeleter
@@ -49,6 +50,8 @@ private:
 	Unique_Base _activeScene;
 	
 	std::vector<DrawQueT> drawList;		// スクリーンバッファを管理しているList
+
+	int frame;
 
 	bool Init(void);
 	void Draw(void);

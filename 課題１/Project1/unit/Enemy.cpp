@@ -5,9 +5,9 @@
 #include "../_DebugDispOut.h"
 #include "../_DebugConOut.h"
 #include "../common/ImageMng.h"
+#include "../SceneMng.h"
+#include "../EnemyMove.h"
 
-int Enemy::animCnt = 0;
-bool Enemy::enemGather = false;
 
 Enemy::Enemy()
 {
@@ -20,11 +20,13 @@ Enemy::Enemy(EnemyData& data)
 	_size = std::get<static_cast<int>(ENM_DATA::SIZE)>(data);
 	_type = std::get<static_cast<int>(ENM_DATA::TYPE)>(data);
 	_targetPos = std::get<static_cast<int>(ENM_DATA::TARGTPOS)>(data);
-	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
-	enemCounter = std::get<static_cast<int>(ENM_DATA::ENEMCNT)>(data);
+	_enemCnt = std::get<static_cast<int>(ENM_DATA::ENEMCNT)>(data);
+	enemNum = std::get<static_cast<int>(ENM_DATA::ENEMNUM)>(data);
 	Init();
 
-	debgPos = _pos;
+	InstancePos = _pos;
+
+	enemMoveData = std::make_unique<EnemyMove>(data);
 }
 
 Enemy::~Enemy()
@@ -33,6 +35,10 @@ Enemy::~Enemy()
 
 bool Enemy::Init(void)
 {
+	enemyAnimFrame = 60;
+
+	_animCnt = lpSceneMng.GetFrame() % enemyAnimFrame;
+
 	AnimVector data;
 
 	//data.push_back(std::make_pair(IMAGE_ID("キャラ")[0],30));
@@ -45,22 +51,32 @@ bool Enemy::Init(void)
 	switch (_type)
 	{
 	case ENM_TYPE::A:
-		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[11], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[31], enemyAnimFrame);
+		_life = 3;
 		break;
 	case ENM_TYPE::B:
 		data.emplace_back(IMAGE_ID("キャラ")[20], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[21], 60);
+		data.emplace_back(IMAGE_ID("キャラ")[21], enemyAnimFrame);
+		_life = 1;
 		break;
 	case ENM_TYPE::C:
-		data.emplace_back(IMAGE_ID("キャラ")[30], 30);
-		data.emplace_back(IMAGE_ID("キャラ")[31], 60);
+		
+		data.emplace_back(IMAGE_ID("キャラ")[10], 30);
+		data.emplace_back(IMAGE_ID("キャラ")[11], enemyAnimFrame);
+		_life = 1;
 		break;
 	default:
 		break;
 	}
 
 	SetAnim(ANIM::NORMAL, data);
+
+	data.reserve(2);
+	data.emplace_back(IMAGE_ID("キャラ")[34], 30);
+	data.emplace_back(IMAGE_ID("キャラ")[35], enemyAnimFrame);
+
+	SetAnim(ANIM::EX, data);
 
 	data.reserve(5);
 	data.emplace_back(IMAGE_ID("爆破")[0], 5);
@@ -72,28 +88,18 @@ bool Enemy::Init(void)
 
 	SetAnim(ANIM::DEATH, data);
 
-	moveData.reserve(static_cast<int>(MOVE_TYPE::MAX));
-	moveData.emplace_back(Vector2Dbl(100, 300), MOVE_TYPE::SIGMOID);
-	moveData.emplace_back(Vector2Dbl(250, 300), MOVE_TYPE::SPIRAL);
-	moveData.emplace_back(_targetPos, MOVE_TYPE::LR);
-
 	speed = 0.1;
-	X = -10;
 	
 	step = 0.1;
 	_alive = true;
-	firstFlag = true;
 	waitCnt = 0;
 	
-	move = &Enemy::MoveWait;
 
 	return true;
 }
 
-
 void Enemy::Draw(void)
 {
-	//DrawGraph(static_cast<int>(_pos.x), static_cast<int>(_pos.y), ImageMng::GetInstance().GetID("キャラ")[11], true);
 }
 
 UNIT Enemy::GetUnit(void)
@@ -103,43 +109,21 @@ UNIT Enemy::GetUnit(void)
 
 void Enemy::SetMove()
 {
-	//static int charCnt;
-	//static int animCnt = 0;
-
-
-
-
 	//死んだらtrueになる関数
 	if (DeathProc())
 	{
 		return;
 	}
 
-	if (!_alive)
-	{
-		AnimKey(ANIM::DEATH);
-	}
+	EnemDamage();
+
 
 	_posOld = _pos;
 
+	enemMoveData->SetMove();
 
-	int color = 0x00ff00;
-	if (firstFlag == false)
-	{
-		color = 0xff0000;
-	}
-
-	
-	_DbgDrawBox(static_cast<int>(_pos.x), static_cast<int>(_pos.y), static_cast<int>(_pos.x) + 32, static_cast<int>(_pos.y) + 32, color, true);
-
-	if (abs(std::get<0>(moveData[0]).x - _pos.x) < speed && abs(std::get<0>(moveData[0]).y - _pos.y) < speed && move == &Enemy::MoveSigmoid)
-	{
-		move = &Enemy::MoveSpiral;
-	}
-
-	(this->*move)();
-
-	animCnt++;
+	_pos = enemMoveData->GetPos();
+	_angle = enemMoveData->GetAngle();
 }
 
 std::vector<Shared_Obj> Enemy::GetShotData()
@@ -147,104 +131,29 @@ std::vector<Shared_Obj> Enemy::GetShotData()
 	return std::vector<Shared_Obj>();
 }
 
-void Enemy::MoveSigmoid(void)
+
+void Enemy::EnemDamage(void)
 {
-	auto sigmoid = [](double x) {return (1.0 / (1.0 + exp(x*-1.0))); };
-
-	Vector2Dbl oneTimepos;
-
-	oneTimepos.x = (X + 10)/20;
-	oneTimepos.y = sigmoid(X);
-
-	_pos.x = oneTimepos.x *(std::get<0>(moveData[0]).x-debgPos.x) + debgPos.x;
-	_pos.y = oneTimepos.y *(std::get<0>(moveData[0]).y - debgPos.y) + debgPos.y;
-
-	X += step;
-/*
-	if (X> 10)
+	if (_life <= 0)
 	{
-		step = 0;
-		move = &Enemy::MoveSpiral;
-	}*/
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-}
-
-void Enemy::MoveSpiral(void)
-{
-	_vel.x = cos(((DX_PI + (step / 120+3) * step) / 180)) * 2;
-	_vel.y = sin(((DX_PI + (step / 120+3) * step) / 180)) * 2;
-	if ((step / 120) > 2)
-	{
-		speed = 2;
-		move = &Enemy::MoveLastTraget;
-	}
-	_pos += -_vel;
-	step++;
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-}
-
-void Enemy::MoveLastTraget(void)
-{
-	float angle = atan2f(static_cast<float>(_targetPos.y - _pos.y), static_cast<float>(_targetPos.x - _pos.x));
-	_vel.x = cos(angle) * speed;
-	_vel.y = sin(angle) * speed;
-	_pos += _vel;
-
-	_angle = atan2f(_pos.y - _posOld.y, _pos.x - _posOld.x);
-	_angle += 90 * (DX_PI / 180);
-
-	if (abs(_targetPos.y - _pos.y) <= speed && abs(_targetPos.x - _pos.x) <= speed)
-	{
-		_pos = _targetPos;
-		_angle = 0.0f;
-		step = 0;
-		move = &Enemy::MoveLR;
-	}
-}
-
-void Enemy::MoveLR(void)
-{
+		_alive = false;
 	
-	if (enemGather)
-	{
-		float angle = atan2f(_pos.y - 0, _pos.x - 250);
-		_vel.x = cos(angle)*0.3;
-		_vel.y = sin(angle)*0.3;
+	}
 
-		if (static_cast<int>(step) / 120 % 2 == 0)
-		{
-			_pos += _vel;
-		}
-		else
-		{
-			_pos -= _vel;
-		}
-		
-		step++;
-	}
-	else
+	if (!_alive)
 	{
-		if (enemCounter == 40)
-		{
-			enemGather = true;
-		}
+		AnimKey(ANIM::DEATH);
+		return;
+	}
 
-	}
-	
-}
-void Enemy::MoveWait(void)
-{
-	if (step > _enemCnt * 25)
+
+	if (_type == ENM_TYPE::A && GetAnimKey() == ANIM::NORMAL)
 	{
-		step = 0.1;
-		move = &Enemy::MoveSigmoid;
+		if (_life <= 1)
+		{
+			AnimKey(ANIM::EX);
+			_animCnt = lpSceneMng.GetFrame() % enemyAnimFrame;
+		}
 	}
-	else
-	{
-		step++;
-	}
+
 }

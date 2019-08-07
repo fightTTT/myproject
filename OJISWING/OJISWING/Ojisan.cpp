@@ -41,7 +41,7 @@ Ojisan::FallingPhase(){
 	OnMove(_pos.x,_pos.y,_vx,_vy);
 	_vy+=_g;
 	DrawLine(_pos.x,_pos.y,_endPoint.x,0,0xffffffff,2);
-	DrawRotaGraph(_pos.x,_pos.y,1.0,0,_handle,true,false);
+	DrawRotaGraph(_pos.x,_pos.y,1.0, (-180 * (DX_PI / 180)),_handle,true,false);
 	SetStartPosition(_pos.x,_pos.y);
 	CheckGround();//地面衝突チェック＆地面衝突状態へ移行
 }
@@ -79,6 +79,8 @@ Ojisan::SwingPhase(){
 	float a = cos(_theta);//加速度計算
 	_v+=a;//速度へ加算
 
+	
+
 	float vx = -sin(_theta) * _v;//速度を分配(X方向)
 	float vy = cos(_theta) * _v;//速度を分配(Y方向)
 
@@ -91,12 +93,13 @@ Ojisan::SwingPhase(){
 		OnAdjust();
 	}
 	
+	
 
 	
 	if(!_isJumped){
 		DrawLine(_pos.x - _scroll.x,_pos.y,320 - _scroll.x,0,0xffffffff,2);
 	}
-	DrawRotaGraph(_pos.x - _scroll.x,_pos.y,1.0,-(_theta -3.14159265358979/2),_handle,true,false);
+	DrawRotaGraph(_pos.x - _scroll.x,_pos.y,1.0,(_theta-(-90*(DX_PI/180))),_handle,true,false);
 }
 void 
 Ojisan::FlyingPhase(){
@@ -108,21 +111,24 @@ Ojisan::FlyingPhase(){
 
 	char keyBuff[256];
 	DxLib::GetHitKeyStateAll(keyBuff);
-	if(keyBuff[KEY_INPUT_SPACE]){
-		//おじさんを初期状態に戻す
-		if(!_isPushJump){
-			ResetOjisan(_endPoint.x,_endPoint.y);
-			_scroll.x=0;
-			_scroll.y=0;
-		}
-		_isPushJump=true;
-	}else{
-		_isPushJump=false;
-	}
+	//if(keyBuff[KEY_INPUT_SPACE]){
+	//	//おじさんを初期状態に戻す
+	//	if(!_isPushJump){
+	//		ResetOjisan(_endPoint.x,_endPoint.y);
+	//		_scroll.x=10;
+	//		_scroll.y=0;
+	//	}
+	//	_isPushJump=true;
+	//}else{
+	//	_isPushJump=false;
+	//}
+	
+
 	OnMove(_pos.x, _pos.y, _vx, _vy);
 
-	_vy+=_g;//重力加速
-	
+	_vy+=_g*0.25;//重力加速
+
+
 	DrawRotaGraph(_pos.x-_scroll.x,_pos.y-_scroll.y,1.0,-(_theta -3.14159265358979/2),_handle,true,false);
 }
 
@@ -135,7 +141,6 @@ void Ojisan::CheckGround()
 		PlaySoundMem(_explosionSE, DX_PLAYTYPE_BACK);
 	}
 }
-
 
 void
 Ojisan::GroundPhase() {
