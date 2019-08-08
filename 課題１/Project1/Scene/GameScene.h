@@ -35,7 +35,7 @@ private:
 
 	std::vector<Shared_Obj> _objList;		// キャラクターを管理するList
 	int _ghGameScreen;
-	std::array<Vector2Dbl, 5> enemAppPos;	// 敵の出現座標
+	std::array<Vector2Dbl, 6> enemAppPos;	// 敵の出現座標
 
 	std::unique_ptr<StarScroll> star;
 

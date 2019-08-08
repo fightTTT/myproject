@@ -136,7 +136,7 @@ bool Player::Shooting(void)
 	auto deth_itr = std::remove_if(_shotObj.begin(), _shotObj.end(), [](std::shared_ptr<Obj> obj) {return obj->IsDeath(); });
 	_shotObj.erase(deth_itr, _shotObj.end());
 
-	if (inputState->state(INPUT_ID::BTN_1).first)
+	if (inputState->state(INPUT_ID::BTN_1).first && !(inputState->state(INPUT_ID::BTN_1).second))
 	{
 		if (_shotObj.size() < 2)
 		{

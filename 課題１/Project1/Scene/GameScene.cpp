@@ -23,11 +23,12 @@ void GameScene::Init(void)
 	_objList.reserve(40);
 	_objList.emplace_back(std::make_shared<Player>(Vector2Dbl(lpSceneMng.gameScreenSize.x / 2-15, 350), Vector2Dbl(30, 32)));
 
-	enemAppPos = { Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,16),
-					Vector2Dbl(15 + lpSceneMng.gameScreenSize.x,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
-					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y / 2),
-					Vector2Dbl(15,lpSceneMng.gameScreenSize.y - 16),
-					Vector2Dbl(lpSceneMng.gameScreenSize.x - 15,lpSceneMng.gameScreenSize.y - 16), 
+	enemAppPos = {  Vector2Dbl(-15,16),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x + 15,16),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x + 15,lpSceneMng.lpSceneMng.gameScreenSize.y / 2),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x + 15,lpSceneMng.gameScreenSize.y / 2),
+					Vector2Dbl(-15,lpSceneMng.gameScreenSize.y - 16),
+					Vector2Dbl(lpSceneMng.gameScreenSize.x + 15,lpSceneMng.gameScreenSize.y - 16), 
 				 };
 
 	enemLine.reserve(3);
