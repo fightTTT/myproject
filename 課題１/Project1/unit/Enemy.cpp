@@ -89,10 +89,8 @@ bool Enemy::Init(void)
 	SetAnim(ANIM::DEATH, data);
 
 	speed = 0.1;
-	
-	step = 0.1;
+
 	_alive = true;
-	waitCnt = 0;
 	
 
 	return true;

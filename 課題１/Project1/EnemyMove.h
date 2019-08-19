@@ -10,7 +10,7 @@ enum class MOVE_TYPE
 	MAX
 };
 
-using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;
+using MoveType = std::tuple<Vector2Dbl, MOVE_TYPE>;		// それぞれの移動の目標地点		移動方法
 
 class EnemyMove
 {
@@ -51,14 +51,14 @@ private:
 	Vector2Dbl _targetPos;
 	void (EnemyMove::*move)(void);	// メンバ関数ポインタ
 	float _angle;
-	std::vector<MoveType> moveData;
-	bool leftFlag;
+	std::vector<MoveType> moveData;	 // 移動方法と目標地点を格納するvector
+	bool leftFlag;					// 敵が左側から出現するとtrueにする
 	int _enemNum;
 	double speed;
 	int _enemCnt;
 
-	
-	
+	bool virtualMoveFlag;			// 攻撃時にtrueにするフラグ
+	Vector2Dbl virtualMovePos;		// 攻撃時の拡大縮小の自分の座標
 
 	double X;
 	double sigmoidStep;

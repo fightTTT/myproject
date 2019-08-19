@@ -39,6 +39,8 @@ private:
 
 	std::unique_ptr<StarScroll> star;
 
+	int GameSceneFrame;
+
 	// デバッグ用
 	//--------------------
 	char key[256];

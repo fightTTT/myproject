@@ -48,6 +48,9 @@ void EnemyMove::Init(void)
 	sigmoidStep = 0.1;
 	move = &EnemyMove::MoveWait;
 	enemGather = false;
+
+	virtualMoveFlag = false;
+	virtualMovePos = { 0.0,0.0 };
 }
 
 void EnemyMove::SetMove(void)
@@ -147,6 +150,8 @@ void EnemyMove::MoveLR(void)
 {
 	if (enemGather)
 	{
+		static int attackCnt = 0;		// “G‚ªUŒ‚‚·‚é‚½‚ß‚ÌƒJƒEƒ“ƒ^[
+		static int attackNum = 0;		// UŒ‚‚µ‚½“G‚Ì”
 		float angle = atan2f(_pos.y - 0, _pos.x - 200);
 		float len = hypot(200 - _pos.x, 0 - _pos.y);
 		_vel.x = cos(angle) * (len * 0.002);
@@ -161,13 +166,32 @@ void EnemyMove::MoveLR(void)
 			_pos -= _vel;
 		}
 
+		/*if (attackCnt % (60 * 5) == 0)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+
+			}
+			virtualMoveFlag = true;
+		}*/
+
+		attackCnt++;
 		sigmoidStep++;
 	}
 	else
 	{
+		
+
 		if (_enemNum == 40)
 		{
-			enemGather = true;
+			static int waitCnt = 0;
+			waitCnt++;
+
+			if (waitCnt % (60 * 2) == 0)
+			{
+				enemGather = true;
+			}
+		
 		}
 	}
 }

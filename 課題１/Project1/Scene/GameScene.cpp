@@ -45,6 +45,8 @@ void GameScene::Init(void)
 
 	_ghGameScreen = MakeScreen(lpSceneMng.gameScreenSize.x, lpSceneMng.gameScreenSize.y, true);
 
+	GameSceneFrame = 0;
+
 	star = std::make_unique<StarScroll>();
 }
 
@@ -96,7 +98,9 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	}
 
 
-	if (checkKey == 1 && checkKeyOld == 0)
+	/*if (checkKey == 1 && checkKeyOld == 0)
+	{*/
+	if (GameSceneFrame % (60 * 4) == 0)
 	{
 		int enemRand = rand();
 		for (int i = 0; i < 4;)
@@ -119,6 +123,7 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 			}
 		}
 	}
+	//}
 
 	HitShot();
 	
@@ -128,6 +133,8 @@ Unique_Base GameScene::UpDate(Unique_Base own)
 	_objList.erase(deth_itr, _objList.end());
 
 	Draw();
+
+	GameSceneFrame++;
 
 	return std::move(own);
 }

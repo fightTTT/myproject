@@ -49,13 +49,12 @@ private:
 	ENM_TYPE _type;				// í—Ş
 	Vector2Dbl _targetPos;		// •À‚ÔêŠ
 
-	int waitCnt;
+	
 	int _enemCnt;
 
 	Vector2Dbl _posOld;
 	int enemNum;
 	Vector2Dbl _vel;
-	double step;
 	bool leftFlag; 
 	int enemyAnimFrame;
 	std::unique_ptr<EnemyMove> enemMoveData;
